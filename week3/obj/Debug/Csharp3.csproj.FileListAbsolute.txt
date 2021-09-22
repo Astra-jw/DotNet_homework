@@ -1,0 +1,7 @@
+C:\Users\86173\source\repos\Csharp3\bin\Debug\Csharp3.exe.config
+C:\Users\86173\source\repos\Csharp3\bin\Debug\Csharp3.exe
+C:\Users\86173\source\repos\Csharp3\bin\Debug\Csharp3.pdb
+C:\Users\86173\source\repos\Csharp3\obj\Debug\Csharp3.csproj.AssemblyReference.cache
+C:\Users\86173\source\repos\Csharp3\obj\Debug\Csharp3.csproj.CoreCompileInputs.cache
+C:\Users\86173\source\repos\Csharp3\obj\Debug\Csharp3.exe
+C:\Users\86173\source\repos\Csharp3\obj\Debug\Csharp3.pdb

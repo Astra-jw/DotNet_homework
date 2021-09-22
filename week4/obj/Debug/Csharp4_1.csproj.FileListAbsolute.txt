@@ -1,0 +1,7 @@
+C:\Users\86173\source\repos\Csharp4\bin\Debug\Csharp4.exe.config
+C:\Users\86173\source\repos\Csharp4\bin\Debug\Csharp4.exe
+C:\Users\86173\source\repos\Csharp4\bin\Debug\Csharp4.pdb
+C:\Users\86173\source\repos\Csharp4\obj\Debug\Csharp4_1.csproj.AssemblyReference.cache
+C:\Users\86173\source\repos\Csharp4\obj\Debug\Csharp4_1.csproj.CoreCompileInputs.cache
+C:\Users\86173\source\repos\Csharp4\obj\Debug\Csharp4.exe
+C:\Users\86173\source\repos\Csharp4\obj\Debug\Csharp4.pdb
