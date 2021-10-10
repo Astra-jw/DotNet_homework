@@ -1,0 +1,511 @@
+﻿<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="referrer" content="origin" />
+    <meta property="og:description" content="随着团队越来越多，越来越大，需求更迭越来越快，每天提交的代码变更由原先的2位数，暴涨到3位数，每天几百次代码Check In，补丁提交，大量的代码审查消耗了大量的资源投入。 如何确保提交代码的质量和提" />
+    <meta http-equiv="Cache-Control" content="no-transform" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>.NET Core技术研究-通过Roslyn代码分析技术规范提升代码质量 - Eric zhou - 博客园</title>
+    
+    <link rel="stylesheet" href="/css/blog-common.min.css?v=KCO3_f2W_TC__-jZ7phSnmoFkQuWMJH2yAgA16eE3eY" />
+    <link id="MainCss" rel="stylesheet" href="/skins/simpleblue/bundle-simpleblue.min.css?v=A3b2aPJdyRz0wsOsfRnhl-bqaa45nYsYwvEqo53RYFs" />
+    
+    <link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="/skins/simpleblue/bundle-simpleblue-mobile.min.css?v=X7swQJ1TyCJAf6FMVjDPbYhUAiMdNFddEy1-m0_TbFQ" />
+    
+    <link type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/tianqing/rss" />
+    <link type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/tianqing/rsd.xml" />
+    <link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/tianqing/wlwmanifest.xml" />
+    <script src="https://common.cnblogs.com/scripts/jquery-2.2.0.min.js"></script>
+    <script src="/js/blog-common.min.js?v=98Fvfd6UZH20B_MF08daNaODjSu879MVR9RHmyvWAlg"></script>
+    <script>
+        var currentBlogId = 27084;
+        var currentBlogApp = 'tianqing';
+        var cb_enable_mathjax = false;
+        var isLogined = false;
+        var skinName = 'SimpleBlue';
+    </script>
+    
+    
+    
+</head>
+<body>
+    <a name="top"></a>
+    
+    <div id="home">
+    <div id="header">
+        <div id="blogTitle">
+            
+<div class="title"><a id="Header1_HeaderTitle" class="headermaintitle HeaderMainTitle" href="https://www.cnblogs.com/tianqing/">I love .net</a>
+</div>
+<div class="subtitle">
+
+</div>
+
+        </div>
+        <div id="navigator">
+            
+<ul id="navList">
+    <li id="nav_sitehome"><a id="blog_nav_sitehome" class="menu" href="https://www.cnblogs.com/">
+博客园</a>
+</li>
+    <li id="nav_myhome">
+<a id="blog_nav_myhome" class="menu" href="https://www.cnblogs.com/tianqing/">
+首页</a>
+</li>
+    <li id="nav_newpost">
+
+<a id="blog_nav_newpost" class="menu" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">
+新随笔</a>
+</li>
+    <li id="nav_contact">
+<a id="blog_nav_contact" class="menu" href="https://msg.cnblogs.com/send/Eric%20zhou">
+联系</a></li>
+    <li id="nav_rss">
+<a id="blog_nav_rss" class="menu" href="https://www.cnblogs.com/tianqing/rss/">
+订阅</a></li>
+    <li id="nav_admin">
+<a id="blog_nav_admin" class="menu" href="https://i.cnblogs.com/">
+管理</a>
+</li>
+</ul>
+
+            <div class="blogStats">
+                
+<span id="stats_post_count">随笔 - 
+102&nbsp;</span>
+<span id="stats_article_count">文章 - 
+0&nbsp;</span>
+<!-- <span id="stats-comment_count"></span> -->
+<span id="stats_comment_count">评论 - 
+426</span>
+            </div>
+        </div>
+    </div>
+    <div id="main">
+        <div id="mainContent">
+            <div class="forFlow">
+                <div id="post_detail">
+    <div id="topics">
+        <div class="post">
+            <h1 class="postTitle">
+                
+<a id="cb_post_title_url" class="postTitle2" href="https://www.cnblogs.com/tianqing/p/12815747.html">.NET Core技术研究-通过Roslyn代码分析技术规范提升代码质量</a>
+
+            </h1>
+            <div class="clear"></div>
+            <div class="postBody">
+                
+<div id="cnblogs_post_body" class="blogpost-body ">
+    <p>随着团队越来越多，越来越大，需求更迭越来越快，每天提交的代码变更由原先的2位数，暴涨到3位数，每天几百次代码Check In，补丁提交，大量的代码审查消耗了大量的资源投入。</p>
+<p>如何确保提交代码的质量和提测产品的质量，这两个是非常大的挑战。</p>
+<p>工欲善其事，必先利其器。在上述需求背景下，今年我们准备用工具和技术，全面把控并提升代码质量和产品提测质量。即：</p>
+<p><strong>1. 代码质量提升：</strong>通过自定义代码扫描规则，将有问题的代码、不符合编码规则的代码扫描出来，禁止签入</p>
+<p><strong>2. 产品提测质量：</strong>通过单元测试覆盖率和执行通过率，严控产品提交质量，覆盖率和通过率达不到标准，无法提交测试。</p>
+<p>准备用2篇文章，和大家分享我们是如何提升代码质量和产品提测质量的。今天分享第一篇：通过Roslyn代码分析全面提升代码质量。</p>
+<p><span style="font-size: 18pt;"><strong>一、什么是Roslyn</strong></span></p>
+<p>&nbsp; Roslyn 是微软开源的 .NET 编译平台(.NET Compiler Platform)。&nbsp; 编译平台支持 C# 和 Visual Basic 代码编译，并提供丰富的代码分析 API。</p>
+<p>&nbsp;&nbsp;利用Roslyn可以生成代码分析器和代码修补程序，从而发现和更正编码错误。&nbsp;</p>
+<p>&nbsp;&nbsp;分析器不仅理解代码的语法和结构，还能检测应更正的做法。 代码修补程序建议一处或多处修复，以修复分析器发现的编码错误。</p>
+<p>&nbsp; 我们写下面一堆代码，Roslyn编译器会有如下提示：&nbsp;</p>
+<p>&nbsp;&nbsp;<img src="https://img2020.cnblogs.com/blog/23525/202005/23525-20200502070311367-2098644613.jpg" alt=""></p>
+<p>&nbsp;通过编写分析器和代码修补程序，主要服务以下场景：&nbsp;&nbsp;</p>
+<ul>
+<li>强制执行团队编码标准（Local）</li>
+<li>提供库包方面的指导约束（Nuget）</li>
+<li>提供代码分析器相关的VSIX扩展插件（Visual Studio Marketplace）</li>
+</ul>
+<p>&nbsp;Roslyn是如何做到代码分析的呢？这背后依赖于一套强大的语法分析和API：</p>
+<p>&nbsp;<img src="https://img2020.cnblogs.com/blog/23525/202005/23525-20200502070658623-255351950.png" alt="" width="1017" height="514"></p>
+<p>&nbsp; 上图中：Language Service：语言层面的服务，可以简单理解为我们在VS中编码时,可以实现的语法高亮、查找所有引用、重命名、转到定义、格式化、抽取方法等操作</p>
+<p>&nbsp; Compiler API：编译器API，这里提供了Syntax Tree API代码语法树API，Symbol API代码符号API</p>
+<p>&nbsp; Binding and Flow Anllysis APIs绑定和流分析API（<a href="https://joshvarty.com/2015/02/05/learn-roslyn-now-part-8-data-flow-analysis/">https://joshvarty.com/2015/02/05/learn-roslyn-now-part-8-data-flow-analysis/</a>），</p>
+<p>&nbsp; Emit API编译反射发出API（<a href="https://joshvarty.com/2016/01/16/learn-roslyn-now-part-16-the-emit-api/">https://joshvarty.com/2016/01/16/learn-roslyn-now-part-16-the-emit-api/</a>）</p>
+<p>&nbsp; 这里我们详细看一下语法树、符号、语义模型、工作区：</p>
+<p>&nbsp; 1.&nbsp;<strong>语法树是一种由编译器 API 公开的基础数据结构。</strong> 这些树表示源代码的词法和语法结构。其包含：&nbsp;&nbsp;</p>
+<ul>
+<li>语法节点：是语法树的一个主要元素。 这些节点表示声明、语句、子句和表达式等语法构造。</li>
+<li>语法标记：表示代码的最小语法片段。 语法标记包含关键字、标识符、文本和标点。</li>
+<li>琐碎内容：对正常理解代码基本上没有意义的源文本部分，例如空格、注释和预处理器指令。</li>
+<li>范围：每个节点、标记或琐碎内容在源文本内的位置和包含的字符数。</li>
+<li>种类：标识节点、标记或琐碎内容所表示的确切语法元素。</li>
+<li>错误：表示源文本中包含的语法错误。</li>
+</ul>
+<p>&nbsp; &nbsp; &nbsp;看一张语法树的图：</p>
+<p>&nbsp;&nbsp;<img src="https://img2020.cnblogs.com/blog/23525/202005/23525-20200502071431277-1800488714.png" alt="" width="844" height="723"></p>
+<p>&nbsp;<strong> 2. 符号：</strong>符号表示源代码声明的不同元素，或作为元数据从程序集中导出。每个命名空间、类型、方法、属性、字段、事件、参数或局部变量都由符号表示。</p>
+<p><strong>&nbsp; 3. 语义模型</strong>：语义模型表示单个源文件的所有语义信息。 可使用语义模型查找到以下内容：&nbsp; &nbsp;</p>
+<ul>
+<li>在源中特定位置引用的符号。</li>
+<li>任何表达式的结果类型。</li>
+<li>所有诊断（错误和警告）。</li>
+<li>变量流入和流出源区域的方式。</li>
+<li>更多推理问题的答案。</li>
+</ul>
+<p><strong>&nbsp; 4. 工作区：工作区是对整个解决方案执行代码分析和重构的起点。相关的API可以实现：</strong></p>
+<p>&nbsp; &nbsp; &nbsp;将解决方案中项目的全部相关信息组织为单个对象模型，可让用户直接访问编译器层对象模型（如源文本、语法树、语义模型和编译），而无需分析文件、配置选项，或管理项目内依赖项。</p>
+<p>&nbsp; &nbsp;<img src="https://img2020.cnblogs.com/blog/23525/202005/23525-20200502071829502-1758566839.png" alt=""></p>
+<p>&nbsp; 了解了Roslyn的大致情况之后，我们开始基于Roslyn做一些&ldquo;不符合编程规范要求（团队自定义的）&rdquo;的代码分析。</p>
+<p><span style="font-size: 18pt;"><strong>二、基于Roslyn进行代码分析</strong></span></p>
+<p>&nbsp; 接下来讲通过Show case的方法，通过实际的场景和大家分享。在我们编写实际的代码分析器之前，我们先把开发环境准备好<strong>&nbsp; ：</strong></p>
+<p><strong>&nbsp; &nbsp; 使用VS2017创建一个Analyzer with Code Fix工程</strong></p>
+<p><strong>&nbsp; &nbsp; 因为我本机的VS2019找了好久没找到对应的工程，这个章节，使用VS2017吧</strong></p>
+<p><strong>&nbsp; &nbsp;&nbsp;<img src="https://img2020.cnblogs.com/blog/23525/202005/23525-20200502081551012-1511241433.png" alt=""></strong></p>
+<p>&nbsp; &nbsp; 创建完成会有两个工程：</p>
+<p>&nbsp; &nbsp;&nbsp;<img src="https://img2020.cnblogs.com/blog/23525/202005/23525-20200502081807148-827305611.jpg" alt=""></p>
+<p>&nbsp; &nbsp; 其中，TeldCodeAnalyzer.Vsix工程，主要用以生成VSIX扩展文件</p>
+<p>&nbsp; &nbsp;TeldCodeAnalyzer工程，主要用于编写代码分析器。</p>
+<p>&nbsp; &nbsp; 工程转换好之后，我们开始编码吧。</p>
+<p><strong>&nbsp;1. catch 吞掉异常场景</strong></p>
+<p>&nbsp; <strong>问题：</strong><span style="color: #ff0000;">catch吞掉异常后，线上很难排查问题，同时确定哪块代码有问题</span></p>
+<p>&nbsp; 示例代码：</p>
+<div class="cnblogs_Highlighter">
+<pre class="brush:csharp;gutter:true;">try
+{
+     var logService = HSFService.Proxy&lt;ILogService&gt;();
+     logService.SendMsg(new SysActionLog());
+}
+catch (Exception ex)
+{
+                
+}
+</pre>
+</div>
+<p>&nbsp; 需求：当开发人员在catch吞掉异常时，给与编程提示：异常吞掉时必须上报监控或者日志</p>
+<p>&nbsp; 明确了上述需要，我们开始编写Roslyn代码分析器。ExceptionCatchWithMonitorAnalyzer</p>
+<p>&nbsp;&nbsp;<img src="https://img2020.cnblogs.com/blog/23525/202005/23525-20200502082036672-1451191614.jpg" alt=""></p>
+<p>&nbsp; 我们详细解读一下：</p>
+<p>&nbsp; ①&nbsp;ExceptionCatchWithMonitorAnalyzer必须继承抽象类DiagnosticAnalyzer</p>
+<p>&nbsp; ② 重写方法SupportedDiagnostics，注册代码扫描规则：DiagnosticDescriptor&nbsp; &nbsp;&nbsp;</p>
+<div class="cnblogs_Highlighter">
+<pre class="brush:csharp;gutter:true;">internal static DiagnosticDescriptor Rule = new DiagnosticDescriptor(DiagnosticId, Title, MessageFormat, Category,
+            DiagnosticSeverity.Warning, isEnabledByDefault: true, description: Description);
+
+public override ImmutableArray&lt;DiagnosticDescriptor&gt; SupportedDiagnostics =&gt; ImmutableArray.Create(Rule);
+</pre>
+</div>
+<p>　③ 重写方法Initialize，注册Microsoft.CodeAnalysis.SyntaxNode完成Catch语句的语义分析后的事件Action</p>
+<div class="cnblogs_Highlighter">
+<pre class="brush:csharp;gutter:true;">public override void Initialize(AnalysisContext context)
+{           context.ConfigureGeneratedCodeAnalysis(GeneratedCodeAnalysisFlags.Analyze | GeneratedCodeAnalysisFlags.None);
+            context.EnableConcurrentExecution();
+            context.RegisterSyntaxNodeAction(AnalyzeDeclaration, SyntaxKind.CatchClause);
+}
+</pre>
+</div>
+<p>　④ 实现语法分析AnalyzeDeclaration，检查对catch语句中代码实现&nbsp; &nbsp;</p>
+<div class="cnblogs_Highlighter">
+<pre class="brush:csharp;gutter:true;">private void AnalyzeDeclaration(SyntaxNodeAnalysisContext context)
+{
+            var catchClause = (CatchClauseSyntax)context.Node;
+            var block = catchClause.Block;
+            foreach (var statement in block.Statements)
+            {
+                if (statement is ThrowStatementSyntax)
+                {
+                    return;
+                }
+            }
+
+
+            if (Common.IsReallyContains(block, "MonitorClient") == false)
+            {
+                context.ReportDiagnostic(Diagnostic.Create(Rule, block.GetLocation()));
+            }
+}</pre>
+</div>
+<p>　　补充一下Common.IsReallyContains方法：</p>
+<div class="cnblogs_Highlighter">
+<pre class="brush:csharp;gutter:true;">class Common
+    {
+        public static bool IsReallyContains(SyntaxNode node, string statement)
+        {
+            return node.ToString().Contains(statement) &amp;&amp; node.DescendantNodes().OfType&lt;LiteralExpressionSyntax&gt;().Count(p =&gt; p.ToString().Contains(statement)) ==0 ;
+        }
+    }
+</pre>
+</div>
+<p>　　</p>
+<p>&nbsp; &nbsp; &nbsp; &nbsp; 代码实现后的效果（直接调试VSIX工程即可）</p>
+<p style="margin-left: 30px;">&nbsp;&nbsp;<img src="https://img2020.cnblogs.com/blog/23525/202005/23525-20200502083022109-712054259.png" alt=""></p>
+<p style="margin-left: 30px;">代码编译后也有对应Warnning提示</p>
+<p><strong>&nbsp;2. 在For循环中进行服务调用</strong></p>
+<p><strong>&nbsp; 问题：</strong>for循环中调用RPC服务，每次访问都会发起一次RPC请求，如果循环次数太多，性能很差，建议使用批量处理的RPC方法</p>
+<p>&nbsp;<strong> 示例代码：</strong></p>
+<div class="cnblogs_Highlighter">
+<pre class="brush:csharp;gutter:true;">foreach (var item in items)
+{
+      var logService = HSFService.Proxy&lt;ILogService&gt;();
+      logService.SendMsg(new SysActionLog());
+}　　</pre>
+</div>
+<p>&nbsp;&nbsp;<strong>需求：</strong>当开发人员在For循环中调用HSF服务时，给与编程提示：不建议在循环中调用HSF服务, 建议调用批量处理方法.</p>
+<p>&nbsp; 明确了上述需要，我们开始编写Roslyn代码分析器。HSFForLoopAnalyzer&nbsp;&nbsp;</p>
+<div class="cnblogs_Highlighter">
+<pre class="brush:csharp;gutter:true;">    [DiagnosticAnalyzer(LanguageNames.CSharp)]
+    public sealed class HSFForLoopAnalyzer : DiagnosticAnalyzer
+    {
+        public const string DiagnosticId = "TA001";
+        internal const string Title = "增加循环中HSF服务调用检查";
+        public const string MessageFormat = "不建议在循环中调用HSF服务, 建议调用批量处理方法.";
+        internal const string Category = "CodeSmell";
+
+        internal static DiagnosticDescriptor Rule = new DiagnosticDescriptor(DiagnosticId, Title, MessageFormat, Category,
+            DiagnosticSeverity.Warning, isEnabledByDefault: true);
+
+        public override ImmutableArray&lt;DiagnosticDescriptor&gt; SupportedDiagnostics =&gt; ImmutableArray.Create(Rule);
+
+        public override void Initialize(AnalysisContext context)
+        {
+            context.RegisterSyntaxNodeAction(AnalyzeMethodForLoop, SyntaxKind.InvocationExpression);
+        }
+
+        private static void AnalyzeMethodForLoop(SyntaxNodeAnalysisContext context)
+        {
+            var expression = (InvocationExpressionSyntax)context.Node;
+            string exressionText = expression.ToString();
+            if (Common.IsReallyContains(expression, "HSFService.Proxy&lt;"))
+            {
+                var loop = expression.Ancestors().FirstOrDefault(p =&gt; p is ForStatementSyntax || p is ForEachStatementSyntax || p is DoStatementSyntax || p is WhileStatementSyntax);
+                if (loop != null)
+                {
+                    var diagnostic = Diagnostic.Create(Rule, expression.GetLocation());
+                    context.ReportDiagnostic(diagnostic);
+                    return;
+                }
+
+                if (Common.IsReallyContains(expression, "&gt;.") == false)
+                {
+                    var syntax = expression.Ancestors().FirstOrDefault(p =&gt; p is LocalDeclarationStatementSyntax);
+                    if (syntax != null)
+                    {
+                        var declaration = (LocalDeclarationStatementSyntax)syntax;
+                        var variable = declaration.Declaration.Variables.SingleOrDefault();
+                      
+
+                        var method = declaration.Ancestors().First(p =&gt; p is MethodDeclarationSyntax);
+                        var expresses = method.DescendantNodes().Where(p =&gt; p is InvocationExpressionSyntax);
+                        foreach (var express in expresses)
+                        {
+                            loop = express.Ancestors().FirstOrDefault(p =&gt; p is ForStatementSyntax || p is ForEachStatementSyntax || p is DoStatementSyntax || p is WhileStatementSyntax);
+                            if (loop != null)
+                            {
+                                var diagnostic = Diagnostic.Create(Rule, expression.GetLocation());
+                                context.ReportDiagnostic(diagnostic);
+                                return;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+</pre>
+</div>
+<p>　　基本的实现方式，和上一个差不多，唯一不同的逻辑是在实际的代码分析过程中，AnalyzeMethodForLoop。大家可以根据自己的需要写一下。</p>
+<p>&nbsp; &nbsp; &nbsp; &nbsp;实际的效果：</p>
+<p>&nbsp; &nbsp; &nbsp; &nbsp;<img src="https://img2020.cnblogs.com/blog/23525/202005/23525-20200502084130726-1466800280.jpg" alt=""></p>
+<p>&nbsp; &nbsp; &nbsp; &nbsp;还有几个代码检查场景，基本都是同样的实现思路，再次不一一罗列了。</p>
+<p>&nbsp; &nbsp; &nbsp; &nbsp;在这里还可以自动完成代理修补程序，这个地方我们还在研究中，可能每个业务代码的场景不同，很难给出一个通用的改进代码，所以这个地方等后续我们完成后，再和大家分享。</p>
+<p><strong><span style="font-size: 18pt;">三、通过Roslyn实现静态代码扫描</span></strong></p>
+<p>&nbsp; 线上很多代码已经写完了，发布上线了，对已有的代码进行代码扫描也是非常重要的。因此，我们对catch吞掉异常的代码进行了一次集中扫描和改进。</p>
+<p>&nbsp; 那么基于Roslyn如何实现静态代码扫描呢？主要的步骤有：</p>
+<p>&nbsp; ① 创建一个编译工作区MSBuildWorkspace.Create()</p>
+<p>&nbsp; ② 打开解决方案文件OpenSolutionAsync(slnPath);&nbsp;&nbsp;</p>
+<p>&nbsp; ③ 遍历Project中的Document</p>
+<p>&nbsp; ④ 拿到代码语法树、找到Catch语句CatchClauseSyntax</p>
+<p>&nbsp; ⑤ 判断是否有throw语句，如果没有，收集数据进行通知改进</p>
+<p>&nbsp; 看一下具体代码实现：</p>
+<p>&nbsp; 先看一下Nuget引用：</p>
+<p><strong>&nbsp;&nbsp;Microsoft.CodeAnalysis</strong></p>
+<p><strong>&nbsp;&nbsp;Microsoft.CodeAnalysis.Workspaces.MSBuild</strong></p>
+<p><strong>&nbsp;&nbsp;<img src="https://img2020.cnblogs.com/blog/23525/202005/23525-20200502085205392-358829189.jpg" alt="" width="1030" height="702"></strong></p>
+<p>&nbsp; 代码的具体实现：</p>
+<p>&nbsp;&nbsp;<img src="https://img2020.cnblogs.com/blog/23525/202005/23525-20200502084938090-804921634.jpg" alt="">&nbsp; &nbsp;&nbsp;</p>
+<div class="cnblogs_Highlighter">
+<pre class="brush:csharp;gutter:true;"> public async Task&lt;List&lt;CodeCheckResult&gt;&gt; CheckSln(string slnPath)
+        {
+            var slnFile = new FileInfo(slnPath);
+            var results = new List&lt;CodeCheckResult&gt;();          
+            var solution = await MSBuildWorkspace.Create().OpenSolutionAsync(slnPath);            
+
+            if (solution.Projects != null &amp;&amp; solution.Projects.Count() &gt; 0)
+            {
+                foreach (var project in solution.Projects.ToList())
+                {
+                    var documents = project.Documents.Where(x =&gt; x.Name.Contains(".cs"));
+
+                    foreach (var document in documents)
+                    {
+                        var tree = await document.GetSyntaxTreeAsync();
+                        var root = tree.GetCompilationUnitRoot();
+                        if (root.Members == null || root.Members.Count == 0) continue;
+                        //member
+                        var firstmember = root.Members[0];
+                        //命名空间Namespace
+                        var namespaceDeclaration = (NamespaceDeclarationSyntax)firstmember;
+
+                        foreach (var classDeclare in namespaceDeclaration.Members)
+                        {
+                            var programDeclaration = classDeclare as ClassDeclarationSyntax;
+
+                            foreach (var method in programDeclaration.Members)
+                            {
+
+                                //方法 Method
+                                var methodDeclaration = (MethodDeclarationSyntax)method;
+
+                                var catchNode = methodDeclaration.DescendantNodes().FirstOrDefault(i =&gt; i is CatchClauseSyntax);
+                                if (catchNode != null)
+                                {
+                                    var catchClause = catchNode as CatchClauseSyntax;
+                                    if (catchClause != null || catchClause.Declaration != null)
+                                    {
+                                        if (catchClause.DescendantNodes().OfType&lt;ThrowStatementSyntax&gt;().Count() == 0)
+                                        {
+                                            results.Add(new CodeCheckResult()
+                                            {
+                                                Sln = slnFile.Name,
+                                                ProjectName = project.Name,
+                                                ClassName = programDeclaration.Identifier.Text,
+                                                MethodName = methodDeclaration.Identifier.Text,
+                                            });
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            return results;
+        }　　</pre>
+</div>
+<p>&nbsp; &nbsp; &nbsp;以上是通过Roslyn代码分析全面提升代码质量的一些具体实践，分享给大家。</p>
+<p>&nbsp;</p>
+<p>周国庆</p>
+<p>2020/5/2</p>
+<p>&nbsp;</p>
+<p style="margin-left: 30px;">&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;&nbsp;</p>
+</div>
+<div id="MySignature"></div>
+<div class="clear"></div>
+<div id="blog_post_info_block">
+    <div id="blog_post_info"></div>
+    <div class="clear"></div>
+    <div id="post_next_prev"></div>
+</div>
+            </div>
+            <div class="postDesc">posted @ 
+<span id="post-date">2020-05-06 06:52</span>&nbsp;
+<a href="https://www.cnblogs.com/tianqing/">Eric zhou</a>&nbsp;
+阅读(<span id="post_view_count">...</span>)&nbsp;
+评论(<span id="post_comment_count">...</span>)&nbsp;
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=12815747" rel="nofollow">编辑</a>&nbsp;
+<a href="javascript:void(0)" onclick="AddToWz(12815747);return false;">收藏</a></div>
+        </div>
+<script src="https://common.cnblogs.com/highlight/9.12.0/highlight.min.js"></script>
+<script>markdown_highlight();</script>
+<script>
+    var allowComments = true, cb_blogId = 27084, cb_blogApp = 'tianqing', cb_blogUserGuid = 'ea753d0b-63cf-dd11-9e4d-001cf0cd104b';
+    var cb_entryId = 12815747, cb_entryCreatedDate = '2020-05-06 06:52', cb_postType = 1; 
+    loadViewCount(cb_entryId);
+    loadSideColumnAd();
+</script><a name="!comments"></a>
+<div id="blog-comments-placeholder"></div>
+<script>
+    var commentManager = new blogCommentManager();
+    commentManager.renderComments(0);
+</script>
+
+<div id="comment_form" class="commentform">
+    <a name="commentform"></a>
+    <div id="divCommentShow"></div>
+    <div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="#" onclick="return RefreshPage();">刷新页面</a><a href="#top">返回顶部</a></div>
+    <div id="comment_form_container"></div>
+    <div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+    <div id="ad_t2"></div>
+    <div id="opt_under_post"></div>
+    <script async="async" src="https://www.googletagservices.com/tag/js/gpt.js"></script>
+    <script>
+        var googletag = googletag || {};
+        googletag.cmd = googletag.cmd || [];
+    </script>
+    <script>
+        googletag.cmd.push(function () {
+            googletag.defineSlot("/1090369/C1", [300, 250], "div-gpt-ad-1546353474406-0").addService(googletag.pubads());
+            googletag.defineSlot("/1090369/C2", [468, 60], "div-gpt-ad-1539008685004-0").addService(googletag.pubads());
+            googletag.pubads().enableSingleRequest();
+            googletag.enableServices();
+        });
+    </script>
+    <div id="cnblogs_c1" class="c_ad_block">
+        <div id="div-gpt-ad-1546353474406-0" style="height:250px; width:300px;"></div>
+    </div>
+    <div id="under_post_news"></div>
+    <div id="cnblogs_c2" class="c_ad_block">
+        <div id="div-gpt-ad-1539008685004-0" style="height:60px; width:468px;">
+            <script>
+                if (new Date() >= new Date(2018, 9, 13)) {
+                    googletag.cmd.push(function () { googletag.display("div-gpt-ad-1539008685004-0"); });
+                }
+            </script>
+        </div>
+    </div>
+    <div id="under_post_kb"></div>
+    <div id="HistoryToday" class="c_ad_block"></div>
+    <script type="text/javascript">
+        fixPostBody();
+        deliverBigBanner();
+setTimeout(function() { incrementViewCount(cb_entryId); }, 50);        deliverAdT2();
+        deliverAdC1();
+        deliverAdC2();
+        loadNewsAndKb();
+        loadBlogSignature();
+LoadPostCategoriesTags(cb_blogId, cb_entryId);        LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+        GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate, cb_postType);
+        loadOptUnderPost();
+        GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);
+    </script>
+</div>    </div>
+</div>
+            </div>
+        </div>
+
+        <div id="sideBar">
+            <div id="sideBarMain">
+                
+<div id="sidebar_news" class="newsItem">
+            <script>loadBlogNews();</script>
+</div>
+
+<div id="sidebar_ad"></div>
+                <div id="calendar"><div id="blog-calendar" style="display:none"></div></div>                
+                <script>loadBlogDefaultCalendar();</script>
+                <div id="leftcontentcontainer">
+                    <!-- begin:SingleColumn -->
+                    <div id="blog-sidecolumn"></div>
+                    <script>loadBlogSideColumn();</script>
+                    <!-- end:  SingleColumn -->
+                </div>
+            </div>
+        </div>
+        <div class="clear"></div>
+    </div>
+    <div class="clear"></div>
+    <div id="footer">
+        <!--done-->
+Copyright &copy; 2020 Eric zhou
+<br /><span id="poweredby">Powered by .NET Core on Kubernetes</span>
+
+    </div>
+</div>
+
+    
+</body>
+</html>

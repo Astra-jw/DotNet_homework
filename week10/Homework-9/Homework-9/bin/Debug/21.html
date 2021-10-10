@@ -1,0 +1,421 @@
+﻿<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="referrer" content="origin" />
+    <meta property="og:description" content="面试被问了三次的http状态码 到底有什么 想想很多人面试都会有被问到http的状态码的经历，我也是经历了三面，每次都有提及这个问题。今天就来细致的讨论一下HTTP的状态码，如有不足，欢迎留言交流： " />
+    <meta http-equiv="Cache-Control" content="no-transform" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>面试被问了三次的http状态码到底有什么 - chenw1024 - 博客园</title>
+    
+    <link rel="stylesheet" href="/css/blog-common.min.css?v=KCO3_f2W_TC__-jZ7phSnmoFkQuWMJH2yAgA16eE3eY" />
+    <link id="MainCss" rel="stylesheet" href="/skins/codinglife/bundle-codinglife.min.css?v=UeHyLv1TT2WTz4TwfUOiMoKNmtFvLUjUnIhFE2UmZ7I" />
+    
+    <link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="/skins/codinglife/bundle-codinglife-mobile.min.css?v=XjHfryC9ctsatIZz1dHn7TsRIqmwz9c3aj_6SCfHSDM" />
+    
+    <link type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/chentang/rss" />
+    <link type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/chentang/rsd.xml" />
+    <link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/chentang/wlwmanifest.xml" />
+    <script src="https://common.cnblogs.com/scripts/jquery-2.2.0.min.js"></script>
+    <script src="/js/blog-common.min.js?v=98Fvfd6UZH20B_MF08daNaODjSu879MVR9RHmyvWAlg"></script>
+    <script>
+        var currentBlogId = 558356;
+        var currentBlogApp = 'chentang';
+        var cb_enable_mathjax = false;
+        var isLogined = false;
+        var skinName = 'CodingLife';
+    </script>
+    
+    
+    
+</head>
+<body>
+    <a name="top"></a>
+    
+    
+<!--done-->
+<div id="home">
+<div id="header">
+	<div id="blogTitle">
+        <a id="lnkBlogLogo" href="https://www.cnblogs.com/chentang/"><img id="blogLogo" src="/skins/custom/images/logo.gif" alt="返回主页" /></a>		
+		
+<!--done-->
+<h1><a id="Header1_HeaderTitle" class="headermaintitle HeaderMainTitle" href="https://www.cnblogs.com/chentang/">RookieAdvanced</a>
+</h1>
+<h2>
+
+</h2>
+
+
+
+
+		
+	</div><!--end: blogTitle 博客的标题和副标题 -->
+	<div id="navigator">
+		
+<ul id="navList">
+<li><a id="blog_nav_sitehome" class="menu" href="https://www.cnblogs.com/">
+博客园</a>
+</li>
+<li>
+<a id="blog_nav_myhome" class="menu" href="https://www.cnblogs.com/chentang/">
+首页</a>
+</li>
+<li>
+
+<a id="blog_nav_newpost" class="menu" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">
+新随笔</a>
+</li>
+<li>
+<a id="blog_nav_contact" class="menu" href="https://msg.cnblogs.com/send/chenw1024">
+联系</a></li>
+<li>
+<a id="blog_nav_rss" class="menu" href="https://www.cnblogs.com/chentang/rss/">
+订阅</a>
+<!--<partial name="./Shared/_XmlLink.cshtml" model="Model" /></li>--></li>
+<li>
+<a id="blog_nav_admin" class="menu" href="https://i.cnblogs.com/">
+管理</a>
+</li>
+</ul>
+
+
+		<div class="blogStats">
+			
+			<span id="stats_post_count">随笔 - 
+11&nbsp; </span>
+<span id="stats_article_count">文章 - 
+0&nbsp; </span>
+<span id="stats-comment_count">评论 - 
+3</span>
+
+			
+		</div><!--end: blogStats -->
+	</div><!--end: navigator 博客导航栏 -->
+</div><!--end: header 头部 -->
+
+<div id="main">
+	<div id="mainContent">
+	<div class="forFlow">
+		<div id="post_detail">
+    <!--done-->
+    <div id="topics">
+        <div class="post">
+            <h1 class = "postTitle">
+                
+<a id="cb_post_title_url" class="postTitle2" href="https://www.cnblogs.com/chentang/p/12845775.html">面试被问了三次的http状态码到底有什么</a>
+
+            </h1>
+            <div class="clear"></div>
+            <div class="postBody">
+                
+<div id="cnblogs_post_body" class="blogpost-body cnblogs-markdown">
+    <h1 id="面试被问了三次的http状态码到底有什么"><strong>面试被问了三次的http状态码</strong>到底有什么</h1>
+<p>想想很多人面试都会有被问到http的状态码的经历，我也是经历了三面，每次都有提及这个问题。今天就来细致的讨论一下HTTP的状态码，如有不足，欢迎留言交流：</p>
+<p><img src="https://img2020.cnblogs.com/blog/1842096/202005/1842096-20200507212738867-1066939412.png" alt=""></p>
+<h2 id="http状态码是什么">HTTP状态码是什么</h2>
+<p>是用以表示网页服务器超文本响应状态的3位数字代码，他的核心作用就是http状态码核心作用是Web Server<strong>服务器用来告诉客户端</strong>，当前的<strong>网页请求发生了什么事</strong>，或者说当前Web服务器的响应状态。所以HTTP状态码常用来判断和分析当前Web服务器的运行状况。</p>
+<h2 id="http状态码有那些">HTTP状态码有那些</h2>
+<p>一般情况下有5大类：信息响应(<code>100</code>–<code>199</code>)，成功响应(<code>200</code>–<code>299</code>)，重定向(<code>300</code>–<code>399</code>)，客户端错误(<code>400</code>–<code>499</code>)和服务器错误 (<code>500</code>–<code>599</code>)。</p>
+<h3 id="1xx消息">1XX消息</h3>
+<p>这一类型的状态码，代表请求已被接受，需要继续处理，这类响应是临时响应，只包含状态行和某些可选的响应头信息，并以空行结束，这一类型的状态码，代表请求已被接受，需要继续处理。这类响应是临时响应，只包含状态行和某些可选的响应头信息，并以空行结束。由于HTTP/1.0协议中没有定义任何1xx状态码，所以除非在某些试验条件下，服务器禁止向此类客户端发送1xx响应。这些状态码代表的响应都是信息性的，标示客户应该采取的其他行动。</p>
+<p>具体的状态码如下：</p>
+<h5 id="100">100</h5>
+<p>服务器已接受到请求头，并且客户端应继续发送请求主体（例如常用post请求中的请求体），或者如果请求已经完成，忽略这个响应。服务器必须在请求完成后向客户端发送一个最终的响应。</p>
+<p>要使服务器检查请求的头部，客户端必须在其初始请求中发送Except: 100-continue作为头部，并且在发文之前接收100  Continue状态代码。响应代码417期望失败表示请求不应该继续。</p>
+<h5 id="101-switching-protocols">101 Switching Protocols</h5>
+<p>服务器已经理解了客户端的请求，并将通过Upgrade消息头通知客户端采用不同的协议来完成这个请求。在发送完这个响应最后的空行后，服务器将会切换到在Upgrade消息头中定义的那些协议。</p>
+<h5 id="102-processing">102 Processing</h5>
+<p>WebDAV请求可能包含许多涉及文件操作的子请求，需要很长时间才能完成请求。该代码表示服务器已经收到并正在处理请求，但无响应可用。这样可以防止客户端超时，并假设请求丢失。</p>
+<p>注：webdav是引用网络中储存空间的一种办法。具体来说通过webdav可以将支持这个功能的网盘或者挂到网络上的硬盘接入到应用，从而作为这个应用的同步空间。</p>
+<h3 id="2xx成功">2XX成功</h3>
+<p>这一类型的状态码，代表 请求已成功被服务器接收，理解，并接受，也就是一次成功的响应。</p>
+<p>具体的状态码如下：</p>
+<h5 id="200-ok">200 OK</h5>
+<p>请求已经成功，请求希望的响应头或数据体将随之响应返回。实际的响应则取决于你请求的方法，就以GET和POST的请求为例，在GET的请求中，响应将包含与请求的资源相对应的实体。则在POST的请求中，响应将包含描述或操作结果的实体。</p>
+<h5 id="201-created">201 Created</h5>
+<p>请求已经被实现，而且有一个新的资源已经依据请求的需要而创建，并且URI已经随Location头信息返回。假如需要的资源无法及时创建的话，应当返回&quot;202 Accepted&quot;.</p>
+<h5 id="202-accepted">202 Accepted</h5>
+<p>服务器已经接受请求，但是尚未处理，最终该请求也可能不会被执行，并且可能在处理发生时被禁止。</p>
+<h5 id="203-non-authoritative-information（自http11-起）">203 Non-Authoritative Information（自HTTP/1.1 起）</h5>
+<p>服务器是一个转换代理服务器（transforming proxy，例如网络加速器，以<code>200 OK</code>状态码为起源，但回应了原始响应的修改版本。</p>
+<h5 id="204-no-content">204 No Content</h5>
+<p>服务器处理了请求，没有返回内容。。一般适用场景，在wife设备连接到需要进行Web认证的Wife接入点时，通过访问一个能在HTTP 204响应的网站，如果能正常接受204的响应，则代表无需Web认证，否则会弹出网页浏览器界面，显示出Web网页认证界面用于让用户进行登陆。</p>
+<h5 id="205-reset-content">205 Reset Content</h5>
+<p>服务器成功处理了请求，但没有返回任何内容。与204的区别就是，此响应要求请求者重置文档视图。</p>
+<p><strong>206 Partial Content</strong></p>
+<p>服务器已经成功处理了部分GET请求。典型的应用就是像迅雷这类的HTTP下载工具响应实现端点续传或者将一个大文档分解为多个下载段同时下载。</p>
+<p><strong>207 Multi-Status</strong></p>
+<p>代表之后的消息体将是一个XML消息，并且可能依照之前子请求数量的不同，包含一系列独立的响应代码。</p>
+<p><strong>208 Already Reported</strong></p>
+<p>DAV绑定的成员已经在（多状态）响应之前的部分被列举，且未被再次包含。</p>
+<p><strong>226 IM Used</strong></p>
+<p>服务器已经满足了对资源的请求，对实体请求的一个或多个实体操作的结果表示。</p>
+<h3 id="3xx重定向">3XX重定向</h3>
+<p>这类状态码代表需要客户端采取进一步的操作才能完成请求。通常，这些状态码用来重定向，后续的请求地址（重定向目标）在本次响应的Location域中指明。当且仅当后续的请求所使用的方法是GET或者HEAD时，用户浏览器才可以在没有用户介入的情况下自动提交所需要的后续请求。</p>
+<p><strong>300 Multiple Choices</strong></p>
+<p>被请求的资源有一系列可供选择的回馈信息，每个都有自己特定的地址和浏览器驱动的商议信息。用户或浏览器能够自行选择一个首选的地址进行重定向。</p>
+<p>除非这是一个HEAD请求，否则该响应应当包括一个资源特性及地址的列表的实体，以便用户或浏览器从中选择最合适的重定向地址。这个实体的格式由Content-Type定义的格式所决定。浏览器可能根据响应的格式以及浏览器自身能力，自动作出最合适的选择。当然，RFC 2616规范并没有规定这样的自动选择该如何进行。</p>
+<h5 id="注：-content-type-标头告诉客户端实际返回的内容的内容类型。一般在http的请求头进行设置。一般有以下的几种格式：">注： <strong>Content</strong>-<strong>Type</strong> 标头告诉客户端实际返回的内容的内容<strong>类型</strong>。一般在http的请求头进行设置。一般有以下的几种格式：</h5>
+<ul>
+<li>text/html: HTML 格式</li>
+<li>text/plain: 纯文本格式</li>
+<li>text/xml: XML 格式</li>
+<li>image/gif: gif图片格式</li>
+<li>image/jpeg: jpg图片格式</li>
+<li>image/png: png图片格式</li>
+</ul>
+<h5 id="301-moved-permanently">301 Moved Permanently</h5>
+<p>被请求的资源已永久移动到新位置，并且将来任何对此资源的引用都应该使用本响应返回的若干个URI之一。如果可能，拥有链接编辑功能的客户端应当自动把请求的地址修改为从服务器反馈回来的地址。除非额外指定，否则这个响应也是可缓存的。</p>
+<p>注意：对于某些使用HTTP/1.0协议的浏览器，当它们发送的POST请求得到了一个301响应的话，接下来的重定向请求将会变成GET方式。</p>
+<h5 id="302-found">302 Found</h5>
+<p>要求客户端执行临时重定向（原始描述短语为“Moved Temporarily”）,由于这样的重定向是临时的，客户端应当继续向原有地址发送以后的请求，只有在Cache-Control或Expires中进行了指定的情况下，这个响应才是可缓存的。</p>
+<p>注：Cache-Control是http响应头用来放置缓存信息的。</p>
+<h5 id="303-see-other">303 See Other</h5>
+<p>对应当前请求的响应可以在另一个URI上被找到，当响应于POST（或PUT / DELETE）接收到响应时，客户端应该假定服务器已经收到数据，并且应该使用单独的GET消息发出重定向.</p>
+<p>这个方法的存在主要是为了允许由脚本激活的POST请求输出重定向到一个新的资源。这个新的URI不是原始资源的替代引用。同时，303响应禁止被缓存。当然，第二个请求（重定向）可能被缓存。</p>
+<h5 id="304-not-modified">304 Not Modified</h5>
+<p>表示资源在由请求头中的if-Modified-Since 或 if-None-Match 参数指定的这一版本之后，未曾被修改。由于客户端仍然具有以前下载的副本，因此不需要重新传输资源。</p>
+<h5 id="305-use-proxy">305 Use Proxy</h5>
+<p>被请求的资源必须通过指定的代理才能被访问。Location域中将给出指定的代理所在的URI信息，接收者需要重复发送一个单独的请求，通过这个代理才能访问相应资源。只有原始服务器才能创建305响应。</p>
+<p><strong>306 Switch Proxy</strong></p>
+<p>在最新版的规范中，306状态码已经不再被使用。最初是指“后续请求应使用指定的代理”</p>
+<h5 id="307-temporary-redirect">307 Temporary Redirect</h5>
+<p>在这种情况下，请求应该与另一个URI重复，但后续的请求应仍使用原始的URI,与302相反，当重新发出原始请求时，不允许更改请求方法。 例如，应该使用另一个POST请求来重复POST请求。</p>
+<p><strong>308 Permanent Redirect</strong></p>
+<p>请求和所有将来的请求应该使用另一个URI重复。 307和308重复302和301的行为，但不允许HTTP方法更改。 例如，将表单提交给永久重定向的资源可能会顺利进行。</p>
+<h3 id="4xx客户端错误">4XX客户端错误</h3>
+<p>这类的状态码代表了客户端看起来可能发生了错误，妨碍了服务器的处理。除非响应的是一个HEAD请求，否则服务器就应该返回一个解释当前错误状况的实体，以及这是临时的还是永久性的状况。这些状态码适用于任何请求方法。浏览器应当向用户显示任何包含在此类错误响应中的实体内容。</p>
+<h5 id="400-bad-request">400 Bad Request</h5>
+<p>由于明显的客户端错误（例如，格式错误的请求语法，太大的大小，无效的请求消息或欺骗性路由请求），服务器不能或不会处理该请求。</p>
+<p><strong>401 Unauthorized</strong></p>
+<p>类似于403 Forbidden，401语义即&quot;未认证&quot;，即用户没有必要的凭据。该状态码表示当前需求需要用户验证。</p>
+<h5 id="402-payment-required">402 Payment Required</h5>
+<p>该状态码是为了将来可能的需求而预留的。该状态码最初的意图可能被用作某种形式的数字现金或在线支付方案的一部分，但几乎没有哪家服务商使用，而且这个状态码通常不被使用。</p>
+<p><strong>403 Forbidden</strong></p>
+<p>服务器已经理解请求，但是拒绝执行它。与401响应不同的是，身份验证并不能提供任何帮助，而且这个请求也不应该被重复提交。如果这不是一个HEAD请求，而且服务器希望能够讲清楚为何请求不能被执行，那么就应该在实体内描述拒绝的原因。当然服务器也可以返回一个404响应，假如它不希望让客户端获得任何信息。</p>
+<p><strong>404 Not Found</strong></p>
+<p>请求失败，请求所希望得到的资源未被在服务器上发现，但允许用户的后续请求。没有信息能够告诉用户这个状况到底是暂时的还是永久的。假如服务器知道情况的话，应当使用404状态码来告知旧资源因为某些内部的配置机制问题已经永久的不可用，而且没有任何可以跳转的地址。404这个状态码被广泛应用于当服务器不想揭示到底为何请求被拒绝或者没有其他适合的响应可用的情况。</p>
+<p><strong>405 Method Not Allowed</strong></p>
+<p>请求行中指定的请求方法不能被用于请求相应的资源。该响应必须返回一个Allow头信息用以表示出当前资源能够接受的请求方法的列表。例如，需要通过POST呈现数据的表单上的GET请求，或只读资源上的PUT请求。鉴于PUT，DELETE方法会对服务器上的资源进行写操作，因而绝大部分的网页服务器都不支持或者在默认的配置下不允许上述的请求方法，对于此类请求均会返回405错误。</p>
+<p><strong>406 Not Acceptable</strong></p>
+<p>请求的资源的内容特性无法满足请求头中的条件，因而无法生成响应实体，该请求不可接受。除非这是一个HEAD请求，否则该响应就应当返回一个包含可以让用户或者浏览器从中选择最合适的实体特性以及地址栏表的实体。实体的格式由Content-Type头中定义的媒体类型决定。浏览器可以根据格式及自身能力自行作出最佳选择。但是，规范中并没有定义任何作出此类自动选择的标准。</p>
+<p><strong>407 Proxy Authentication Required</strong></p>
+<p>与401的响应类似，不同的是客户端必须在代理服务器上进行身份验证。代理服务器必须返回一个Proxy-Authenticate用以进行身份询问。客户端可以返回一个Proxy-Authorization信息头用以验证。</p>
+<h5 id="408-request-timeout">408 Request Timeout</h5>
+<p>请求超时。根据HTTP规范，客户端没有在服务器预备等待的时间内完成一个请求的发送，客户端可以随时再次提交这一请求而无需进行任何更改。</p>
+<h5 id="409-conflict">409 Conflict</h5>
+<p>表示因为请求存在冲突无法处理该请求，例如多个同步更新之间的编辑冲突。</p>
+<p><strong>410 Gone</strong></p>
+<p>表示所请求的资源不再可用，将不再可用。当资源被有意地删除并且资源应被清除时，应该使用这个。在收到410状态码后，用户应停止再次请求资源。但大多数服务端不会使用此状态码，而是直接使用404状态码。</p>
+<h5 id="411-length-required">411 Length Required</h5>
+<p>服务器拒绝在没有定义Content-Length头的情况下接受请求。在添加了表明请求消息体长度的有效Content-Length头之后，客户端可以再次提交该请求。</p>
+<p><strong>412 Precondition Failed</strong></p>
+<p>服务器在验证在请求的头字段中给出先决条件时，没能满足其中的一个或多个。这个状态码允许客户端在获取资源时在请求的元信息（请求头字段数据）中设置先决条件，以此避免该请求方法被应用到其希望的内容以外的资源上。</p>
+<p><strong>413 Request Entity Too Large</strong></p>
+<p>表示服务器拒绝处理当前请求，因为该请求提交的实体数据大小超过了服务器愿意或者能够处理的范围。此种情况下，服务器可以关闭连接以免客户端继续发送此请求。如果这个状况是临时的，服务器应当返回一个Retry-After的响应头，以告知客户端可以在多少时间以后重新尝试。</p>
+<p><strong>414 Request-URI Too Long</strong></p>
+<p>表示请求的URI长度超过了服务器能够解释的长度，因此服务器拒绝对该请求提供服务。通常将太多数据的结果编码为GET请求的查询字符串，在这种情况下，应将其转换为POST请求。</p>
+<p>通常的情况包括：</p>
+<ul>
+<li>
+<p>本应使用POST方法的表单提交变成了GET方法，导致查询字符串过长</p>
+</li>
+<li>
+<p>重定向URI“黑洞”，例如每次重定向把旧的URI作为新的URI的一部分，导致在若干次重定向后URI超长。</p>
+</li>
+<li>
+<p>客户端正在尝试利用某些服务器中存在的安全漏洞攻击服务器，这类服务器使用固定长度的缓冲读取或操作请求的URI，当GET后的参数超过某个数值后，可能会产生缓冲区溢出，导致任意代码被执行，没有此类漏洞的服务器，应当返回414状态码。</p>
+</li>
+</ul>
+<p><strong>415 Unsupported Media Type</strong></p>
+<p>对于当前请求的方法和所请求的资源，请求中提交的互联网媒体类型并不是服务器中所支持的格式，因此请求被拒绝。例如。客户端将图像的格式上传为svg,但服务器要求图像使用上传格式为jpg。</p>
+<p><strong>416 Requested Range Not Satisfiable</strong></p>
+<p>客户端已经要求文件的一部分，但服务器不能提供该部分。例如，如果客户端要求文件的一部分超出文件尾端。</p>
+<p><strong>417 Expectation Failed</strong></p>
+<p>在请求头Expect中指定的预期内容无法被服务器满足，或者这个服务器是一个代理服显的证据证明在当前路由的下一个节点上，Expect的内容无法被满足。</p>
+<p><strong>421 Misdirected Request</strong></p>
+<p>该请求针对的是无法产生响应的服务器（例如因为连接重用）。</p>
+<p><strong>422 Unprocessable Entity</strong></p>
+<p>请求格式正确，但是由于含有语义错误，无法响应。</p>
+<p><strong>423 Locked</strong></p>
+<p>当前的资源被锁定，</p>
+<p><strong>424 Failed Dependency</strong></p>
+<p>由于之前的某个请求发生错误，导致当前的请求失败。</p>
+<p><strong>425 Too Early</strong></p>
+<p>服务器拒绝处理在Early Data中的请求，以规避可能的重放攻击。</p>
+<p><strong>重放攻击</strong>（Replay attack，或称作<strong>重送攻击</strong>）是一种网络攻击，通过恶意的欺诈性地重复或拖延正常的数据传输而实施。因工作原理如同重放歌曲一样而得名。</p>
+<p><strong>426 Upgrade Required</strong></p>
+<p>原服务器要求该请求满足一定条件。这是为了防止“未更新”问题，即客户端读取（GET）一个资源的状态，更改它，并将它写（PUT）回服务器，但这期间第三方已经在服务器上更改了该资源的状态，因此导致了冲突。</p>
+<p><strong>429 Too Many Requests</strong></p>
+<p>用户在给定的时间内发送了太多的请求。旨在用于网络限速。</p>
+<p><strong>431 Request Header Fields Too Large</strong></p>
+<p>服务器不愿处理请求，因为一个或多个头字段过大。</p>
+<p><strong>451 Unavailable For Legal Reasons</strong></p>
+<p>该访问因法律的要求而被拒绝。</p>
+<h3 id="5xx服务器错误">5XX服务器错误</h3>
+<p>表示服务器无法完成明显有效的请求。这类状态码代表了服务器在处理请求的过程中有错误或者异常状态发生，也有可能是服务器意识到以当前的软硬件资源无法完成对请求的处理。除非这是一个HEAD请求，否则服务器应当包含一个解释当前错误状态以及这个状况是临时的还是永久的解释信息实体。浏览器应当向用户展示任何在当前响应中被包含的实体。这些状态码适用于任何响应方法。</p>
+<p>具体的状态码如下：</p>
+<h5 id="500-internal-server-error">500 Internal Server Error</h5>
+<p>通用错误消息，服务器遇到了一个未曾预料的状况，导致了它无法完成对请求的处理。没有给出具体错误信息。</p>
+<h5 id="501-not-implemented">501 Not Implemented</h5>
+<p>服务器不支持当前请求所需要的某个功能。当服务器无法识别请求的方法，并且无法支持其对任何资源的请求。</p>
+<p><strong>502 Bad Gateway</strong></p>
+<p>作为网关或者代理工作服务器尝试执行请求时，从上游服务器收到无效的响应。</p>
+<p><strong>503 Service Unavailable</strong></p>
+<p>由于临时的服务器维护或者过载，服务器无法处理请求。这个状况时暂时的，且在一段时间后就会恢复。</p>
+<h5 id="504-gateway-timeout">504 Gateway Timeout</h5>
+<p>作为网关或者代理工作的服务器尝试执行请求时，未能及时从上游服务器（URI标识出的服务器，例如HTTP,FTP,LDAP)或者辅助服务器(例如DNS)收到的响应。</p>
+<p>注意： 某些代理服务器在DNS查询超时时会返回400或者500的错误。</p>
+<p><strong>505 HTTP Version Not Supported</strong></p>
+<p>服务器不支持，或者拒绝支持在请求中使用的HTTP版本。这暗示着服务器不能或不愿使用与客户端相同的版本。响应中应当包含一个描述了为何版本不被支持以及服务器支持哪些协议的实体。</p>
+<p><strong>506 Variant Also Negotiates</strong></p>
+<p>代表服务器存在内部配置错误，被请求的协商变元资源被配置为在透明内容协商中使用自己，因此在一个协商处理中不是一个合适的重点。</p>
+<p><strong>507 Insufficient Storage</strong></p>
+<p>服务器无法存储完成请求所必须的内容。这个状况被认为是临时的。</p>
+<p><strong>508 Loop Detected</strong></p>
+<p>服务器在处理请求时陷入死循环。</p>
+<p><strong>510 Not Extended</strong></p>
+<p>获取资源所需要的策略并没有被满足。</p>
+<p><strong>511 Network Authentication Required</strong></p>
+<p>客户端需要进行身份验证才能获得网络访问权限，旨在限制用户群访问特定网络。</p>
+<h2 id="http的状态码在哪看">HTTP的状态码在哪看</h2>
+<h4 id="1使用浏览器查看">1.使用浏览器查看</h4>
+<p>以谷歌浏览器为例：  访问网址 ——&gt; F12 —&gt; network ——&gt;All 就可以看到相应的状态码。如下图所示。</p>
+<p><img src="https://img2020.cnblogs.com/blog/1842096/202005/1842096-20200507212804827-1715414345.png" alt=""></p>
+<h4 id="2-使用站长工具来测试。">2. 使用<a href="https://www.dute.org/httpstatus">站长工具</a>来测试。</h4>
+<p>测试效果：</p>
+<p><img src="https://img2020.cnblogs.com/blog/1842096/202005/1842096-20200507212817328-1488379825.png" alt=""></p>
+<p>当然还有很多的工具，自行百度。</p>
+<h6 id="码字不易，点个赞呗">码字不易，点个赞呗</h6>
+<h6 id="码字不易，点个赞呗-2">码字不易，点个赞呗</h6>
+<h6 id="码字不易，点个赞呗-3">码字不易，点个赞呗</h6>
+<h4 id="追本溯源，方能阔步前行。">追本溯源，方能阔步前行。</h4>
+<h5 id="参考文献">参考文献</h5>
+<p><a href="%5Bhttps://zh.wikipedia.org/wiki/HTTP%E7%8A%B6%E6%80%81%E7%A0%81#cite_note-13%5D(https://zh.wikipedia.org/wiki/HTTP%E7%8A%B6%E6%80%81%E7%A0%81#cite_note-13)">维基百科</a></p>
+<p><a href="https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Status">https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Status</a></p>
+
+</div>
+<div id="MySignature"></div>
+<div class="clear"></div>
+<div id="blog_post_info_block">
+    <div id="blog_post_info"></div>
+    <div class="clear"></div>
+    <div id="post_next_prev"></div>
+</div>
+            </div>
+            <div class="postDesc">posted @ 
+<span id="post-date">2020-05-07 21:30</span>&nbsp;
+<a href="https://www.cnblogs.com/chentang/">chenw1024</a>&nbsp;
+阅读(<span id="post_view_count">...</span>)&nbsp;
+评论(<span id="post_comment_count">...</span>)&nbsp;
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=12845775" rel="nofollow">编辑</a>&nbsp;
+<a href="javascript:void(0)" onclick="AddToWz(12845775);return false;">收藏</a></div>
+        </div>
+	    
+	    
+    </div><!--end: topics 文章、评论容器-->
+</div>
+<script src="https://common.cnblogs.com/highlight/9.12.0/highlight.min.js"></script>
+<script>markdown_highlight();</script>
+<script>
+    var allowComments = true, cb_blogId = 558356, cb_blogApp = 'chentang', cb_blogUserGuid = '4261c02c-c266-44f1-974c-08d753a8c051';
+    var cb_entryId = 12845775, cb_entryCreatedDate = '2020-05-07 21:30', cb_postType = 1; 
+    loadViewCount(cb_entryId);
+    loadSideColumnAd();
+</script><a name="!comments"></a>
+<div id="blog-comments-placeholder"></div>
+<script>
+    var commentManager = new blogCommentManager();
+    commentManager.renderComments(0);
+</script>
+
+<div id="comment_form" class="commentform">
+    <a name="commentform"></a>
+    <div id="divCommentShow"></div>
+    <div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="#" onclick="return RefreshPage();">刷新页面</a><a href="#top">返回顶部</a></div>
+    <div id="comment_form_container"></div>
+    <div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+    <div id="ad_t2"></div>
+    <div id="opt_under_post"></div>
+    <script async="async" src="https://www.googletagservices.com/tag/js/gpt.js"></script>
+    <script>
+        var googletag = googletag || {};
+        googletag.cmd = googletag.cmd || [];
+    </script>
+    <script>
+        googletag.cmd.push(function () {
+            googletag.defineSlot("/1090369/C1", [300, 250], "div-gpt-ad-1546353474406-0").addService(googletag.pubads());
+            googletag.defineSlot("/1090369/C2", [468, 60], "div-gpt-ad-1539008685004-0").addService(googletag.pubads());
+            googletag.pubads().enableSingleRequest();
+            googletag.enableServices();
+        });
+    </script>
+    <div id="cnblogs_c1" class="c_ad_block">
+        <div id="div-gpt-ad-1546353474406-0" style="height:250px; width:300px;"></div>
+    </div>
+    <div id="under_post_news"></div>
+    <div id="cnblogs_c2" class="c_ad_block">
+        <div id="div-gpt-ad-1539008685004-0" style="height:60px; width:468px;">
+            <script>
+                if (new Date() >= new Date(2018, 9, 13)) {
+                    googletag.cmd.push(function () { googletag.display("div-gpt-ad-1539008685004-0"); });
+                }
+            </script>
+        </div>
+    </div>
+    <div id="under_post_kb"></div>
+    <div id="HistoryToday" class="c_ad_block"></div>
+    <script type="text/javascript">
+        fixPostBody();
+        deliverBigBanner();
+setTimeout(function() { incrementViewCount(cb_entryId); }, 50);        deliverAdT2();
+        deliverAdC1();
+        deliverAdC2();
+        loadNewsAndKb();
+        loadBlogSignature();
+LoadPostCategoriesTags(cb_blogId, cb_entryId);        LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+        GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate, cb_postType);
+        loadOptUnderPost();
+        GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);
+    </script>
+</div>
+	</div><!--end: forFlow -->
+	</div><!--end: mainContent 主体内容容器-->
+
+	<div id="sideBar">
+		<div id="sideBarMain">
+			
+<div id="sidebar_news" class="newsItem">
+            <script>loadBlogNews();</script>
+</div>
+
+<div id="sidebar_ad"></div>
+			<div id="blog-calendar" style="display:none"></div><script>loadBlogDefaultCalendar();</script>
+			
+			<div id="leftcontentcontainer">
+				<div id="blog-sidecolumn"></div>
+                    <script>loadBlogSideColumn();</script>
+			</div>
+			
+		</div><!--end: sideBarMain -->
+	</div><!--end: sideBar 侧边栏容器 -->
+	<div class="clear"></div>
+	</div><!--end: main -->
+	<div class="clear"></div>
+	<div id="footer">
+		<!--done-->
+Copyright &copy; 2020 chenw1024
+<br /><span id="poweredby">Powered by .NET Core on Kubernetes</span>
+
+
+
+	</div><!--end: footer -->
+</div><!--end: home 自定义的最大容器 -->
+
+
+    
+</body>
+</html>

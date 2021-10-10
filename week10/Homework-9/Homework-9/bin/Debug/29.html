@@ -1,0 +1,412 @@
+﻿<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="referrer" content="origin" />
+    <meta property="og:description" content="加打印语句，将请求参数打印出来。后面想想，以后可能还会遇到这样的情况，如果每次遇到，我都去对应的方法中加日志打印，就变成重复工作。并且日志打印跟我们的业务本身没有任何关系。 记录日志网上主要有三种方法" />
+    <meta http-equiv="Cache-Control" content="no-transform" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>【实践】切面打印请求参数 - 猫咪大王_lkb - 博客园</title>
+    
+    <link rel="stylesheet" href="/css/blog-common.min.css?v=KCO3_f2W_TC__-jZ7phSnmoFkQuWMJH2yAgA16eE3eY" />
+    <link id="MainCss" rel="stylesheet" href="/skins/lessismoreright/bundle-lessismoreright.min.css?v=aar1eIg4zz9tL2uCrzOGDur190sJi2DazF273FikoL4" />
+    
+    <link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="/skins/lessismoreright/bundle-lessismoreright-mobile.min.css?v=FJjyQba01xzuYKRyPpSwE1bMq69pRjxrz5wp2oZZGLY" />
+    
+    <link type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/catlkb/rss" />
+    <link type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/catlkb/rsd.xml" />
+    <link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/catlkb/wlwmanifest.xml" />
+    <script src="https://common.cnblogs.com/scripts/jquery-2.2.0.min.js"></script>
+    <script src="/js/blog-common.min.js?v=98Fvfd6UZH20B_MF08daNaODjSu879MVR9RHmyvWAlg"></script>
+    <script>
+        var currentBlogId = 519101;
+        var currentBlogApp = 'catlkb';
+        var cb_enable_mathjax = false;
+        var isLogined = false;
+        var skinName = 'LessIsMoreRight';
+    </script>
+    
+    
+    
+</head>
+<body>
+    <a name="top"></a>
+    
+    <div id="home">
+    <div id="header">
+        <div id="blogTitle">
+            
+<div class="title"><a id="Header1_HeaderTitle" class="headermaintitle HeaderMainTitle" href="https://www.cnblogs.com/catlkb/">猫咪大王_lkb</a>
+</div>
+<div class="subtitle">
+
+</div>
+
+        </div>
+        <div id="navigator">
+            
+<ul id="navList">
+    <li id="nav_sitehome"><a id="blog_nav_sitehome" class="menu" href="https://www.cnblogs.com/">
+博客园</a>
+</li>
+    <li id="nav_myhome">
+<a id="blog_nav_myhome" class="menu" href="https://www.cnblogs.com/catlkb/">
+首页</a>
+</li>
+    <li id="nav_newpost">
+
+<a id="blog_nav_newpost" class="menu" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">
+新随笔</a>
+</li>
+    <li id="nav_contact">
+<a id="blog_nav_contact" class="menu" href="https://msg.cnblogs.com/send/%E7%8C%AB%E5%92%AA%E5%A4%A7%E7%8E%8B_lkb">
+联系</a></li>
+    <li id="nav_rss">
+<a id="blog_nav_rss" class="menu" href="https://www.cnblogs.com/catlkb/rss/">
+订阅</a></li>
+    <li id="nav_admin">
+<a id="blog_nav_admin" class="menu" href="https://i.cnblogs.com/">
+管理</a>
+</li>
+</ul>
+
+            <div class="blogStats">
+                
+<span id="stats_post_count">随笔 - 
+22&nbsp;</span>
+<span id="stats_article_count">文章 - 
+0&nbsp;</span>
+<!-- <span id="stats-comment_count"></span> -->
+<span id="stats_comment_count">评论 - 
+0</span>
+            </div>
+        </div>
+    </div>
+    <div id="main">
+        <div id="mainContent">
+            <div class="forFlow">
+                <div id="post_detail">
+    <div id="topics">
+        <div class="post">
+            <h1 class="postTitle">
+                
+<a id="cb_post_title_url" class="postTitle2" href="https://www.cnblogs.com/catlkb/p/12845607.html">【实践】切面打印请求参数</a>
+
+            </h1>
+            <div class="clear"></div>
+            <div class="postBody">
+                
+<div id="cnblogs_post_body" class="blogpost-body ">
+    <p>加打印语句，将请求参数打印出来。后面想想，以后可能还会遇到这样的情况，如果每次遇到，我都去对应的方法中加日志打印，就变成重复工作。并且日志打印跟我们的业务本身没有任何关系。</p>
+<p>记录日志网上主要有三种方法：</p>
+<ol>
+<li>aop</li>
+<li>filter</li>
+<li>interceptor</li>
+</ol>
+<p>我选择了filter。为什么选择它，因为我觉得它相对于定义切点，然后切点前后处理来说，更加方便；相对于 interceptor， 我更加熟悉这种方式。</p>
+<p>&nbsp;</p>
+<h1>定义Filter</h1>
+<p>定义一个 <strong>LogFilter</strong>&nbsp; 。 里面对 HttpServletRequest&nbsp; 进行拦截，根据对应的 content-type 解析请求参数。主要代码如下</p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">/**</span><span style="color: #008000;">
+ * 功能描述: 打印请求参数
+ * </span><span style="color: #808080;">@author</span><span style="color: #008000;"> lkb
+ * @date 2020/5/6
+ * </span><span style="color: #808080;">@param</span><span style="color: #008000;">
+ * </span><span style="color: #808080;">@return</span>
+ <span style="color: #008000;">*/</span><span style="color: #000000;">
+@Slf4j
+</span><span style="color: #0000ff;">public</span> <span style="color: #0000ff;">class</span> LogFilter <span style="color: #0000ff;">extends</span><span style="color: #000000;"> OncePerRequestFilter {
+
+    @Override
+    </span><span style="color: #0000ff;">protected</span> <span style="color: #0000ff;">void</span><span style="color: #000000;"> doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+        </span><span style="color: #0000ff;">throws</span><span style="color: #000000;"> ServletException, IOException {
+
+        </span><span style="color: #008000;">//</span><span style="color: #008000;">日志</span>
+<span style="color: #000000;">        doLog(request, response);
+
+        </span><span style="color: #008000;">//</span><span style="color: #008000;"> 将request 传到下一个Filter</span>
+<span style="color: #000000;">        filterChain.doFilter(request, response);
+    }
+
+
+    </span><span style="color: #0000ff;">private</span> <span style="color: #0000ff;">void</span><span style="color: #000000;"> doLog(HttpServletRequest request,  HttpServletResponse response){
+        </span><span style="color: #008000;">//</span><span style="color: #008000;"> 输出请求体</span>
+        log.info("request. uri = {}, method = {}, requestParam = {}"<span style="color: #000000;">, request.getRequestURI(), request.getMethod(), getRequestParam(request));
+        </span><span style="color: #008000;">//</span><span style="color: #008000;">todo 返回结果也可以进行处理</span>
+<span style="color: #000000;">    }
+
+
+    </span><span style="color: #0000ff;">private</span><span style="color: #000000;"> String getRequestParam(HttpServletRequest request){
+        String requestParam </span>= ""<span style="color: #000000;">;
+
+        String requestContentType </span>=<span style="color: #000000;"> request.getHeader(HttpHeaders.CONTENT_TYPE);
+        </span><span style="color: #0000ff;">try</span><span style="color: #000000;"> {
+            </span><span style="color: #0000ff;">if</span><span style="color: #000000;">(StringUtils.isNotEmpty(requestContentType)){
+                </span><span style="color: #0000ff;">if</span><span style="color: #000000;"> (requestContentType.startsWith(MediaType.APPLICATION_JSON_VALUE)
+                        </span>||<span style="color: #000000;"> requestContentType.startsWith(MediaType.APPLICATION_XML_VALUE)) {
+                    </span><span style="color: #008000;">//</span><span style="color: #008000;"> xml json</span>
+                    requestParam =<span style="color: #000000;"> getRequestBody(request);
+                }
+                </span><span style="color: #0000ff;">else</span> <span style="color: #0000ff;">if</span><span style="color: #000000;"> (requestContentType.startsWith(MediaType.MULTIPART_FORM_DATA_VALUE)) {
+                    </span><span style="color: #008000;">//</span><span style="color: #008000;"> 文件表单提交</span>
+                    requestParam =<span style="color: #000000;"> getFormParam(request);
+                }</span><span style="color: #0000ff;">else</span> <span style="color: #0000ff;">if</span><span style="color: #000000;">(requestContentType.startsWith(MediaType.APPLICATION_FORM_URLENCODED_VALUE)){
+                    </span><span style="color: #008000;">//</span><span style="color: #008000;"> 普通表单提交</span>
+                    requestParam =<span style="color: #000000;"> toJson(request.getParameterMap());
+                }
+            }</span><span style="color: #0000ff;">else</span><span style="color: #000000;">{
+                </span><span style="color: #008000;">//</span><span style="color: #008000;"> 默认普通表单提交</span>
+                requestParam =<span style="color: #000000;"> toJson(request.getParameterMap());
+            }
+        }</span><span style="color: #0000ff;">catch</span><span style="color: #000000;"> (Exception e){
+            log.error(</span>"getRequestParam error"<span style="color: #000000;">);
+            log.error(e.getMessage(),e);
+        }
+        </span><span style="color: #0000ff;">return</span><span style="color: #000000;"> requestParam;
+    }
+    
+    ...
+}</span></pre>
+</div>
+<p>&nbsp;</p>
+<p>然后，注册这个filter</p>
+<div class="cnblogs_code">
+<pre><span style="color: #000000;">@Configuration
+</span><span style="color: #0000ff;">public</span> <span style="color: #0000ff;">class</span><span style="color: #000000;"> FilterConfig {
+
+    @Bean
+    </span><span style="color: #0000ff;">public</span><span style="color: #000000;"> FilterRegistrationBean logFilter() {
+        </span><span style="color: #0000ff;">final</span> FilterRegistrationBean filterRegistrationBean = <span style="color: #0000ff;">new</span><span style="color: #000000;"> FilterRegistrationBean();
+        </span><span style="color: #0000ff;">final</span> LogFilter logFilter = <span style="color: #0000ff;">new</span><span style="color: #000000;"> LogFilter();
+        filterRegistrationBean.setFilter(logFilter);
+        </span><span style="color: #0000ff;">return</span><span style="color: #000000;"> filterRegistrationBean;
+    }
+
+}</span></pre>
+</div>
+<p>&nbsp;</p>
+<p>上面两步之后，重启项目，可以看到请求过来后会打印出请求的uri、method、param 。</p>
+<p>&nbsp;</p>
+<h1>InputStream 只能读取一次</h1>
+<p>本来以为这样就万事大吉了。但是事实并不是如此。加上上面代码后会发现，再controller 加上的 @requestBody 没有效果，取不到任何数据，并抛出异常，告诉我们请求已经被读取过。 为什么呢？</p>
+<p>&nbsp;</p>
+<p>原因很简单。因为在 doLog 中获取请求参数的时候，我们已经将请求的 inputStream 给读取了。读取inputStream 时有一个offset，它表示你从哪里开始读取输入流。因为我们读取了一遍 inputStream，所以offset已经在流的最末端了。我们再去读取，就会发现没有东西可以读了。如果想重复读取 inputStream 就需要每次读取后重置 offset 的值。</p>
+<p>&nbsp;</p>
+<p>当然为了方便，我并没有去重新inputStream 中的reset 方法。而是选择，在读取请求后，将请求缓存起来。</p>
+<p>&nbsp;</p>
+<p>首先，BufferedServletInputStream 继承自 ServletInputStream。</p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff;">public</span> <span style="color: #0000ff;">class</span> BufferedServletInputStream <span style="color: #0000ff;">extends</span><span style="color: #000000;"> ServletInputStream {
+
+    </span><span style="color: #0000ff;">private</span><span style="color: #000000;"> ByteArrayInputStream inputStream;
+
+    </span><span style="color: #0000ff;">public</span> BufferedServletInputStream(<span style="color: #0000ff;">byte</span><span style="color: #000000;">[] buffer) {
+        </span><span style="color: #0000ff;">this</span>.inputStream = <span style="color: #0000ff;">new</span><span style="color: #000000;"> ByteArrayInputStream( buffer );
+    }
+
+    @Override
+    </span><span style="color: #0000ff;">public</span> <span style="color: #0000ff;">int</span><span style="color: #000000;"> available(){
+        </span><span style="color: #0000ff;">return</span><span style="color: #000000;"> inputStream.available();
+    }
+
+    @Override
+    </span><span style="color: #0000ff;">public</span> <span style="color: #0000ff;">int</span><span style="color: #000000;"> read(){
+        </span><span style="color: #0000ff;">return</span><span style="color: #000000;"> inputStream.read();
+    }
+
+    @Override
+    </span><span style="color: #0000ff;">public</span> <span style="color: #0000ff;">int</span> readLine(<span style="color: #0000ff;">byte</span>[] b, <span style="color: #0000ff;">int</span> off, <span style="color: #0000ff;">int</span><span style="color: #000000;"> len){
+        </span><span style="color: #0000ff;">return</span><span style="color: #000000;"> inputStream.read( b, off, len );
+    }
+
+    @Override
+    </span><span style="color: #0000ff;">public</span> <span style="color: #0000ff;">boolean</span><span style="color: #000000;"> isFinished() {
+        </span><span style="color: #0000ff;">return</span> <span style="color: #0000ff;">false</span><span style="color: #000000;">;
+    }
+
+    @Override
+    </span><span style="color: #0000ff;">public</span> <span style="color: #0000ff;">boolean</span><span style="color: #000000;"> isReady() {
+        </span><span style="color: #0000ff;">return</span> <span style="color: #0000ff;">false</span><span style="color: #000000;">;
+    }
+
+    @Override
+    </span><span style="color: #0000ff;">public</span> <span style="color: #0000ff;">void</span><span style="color: #000000;"> setReadListener(ReadListener readListener) {
+
+    }
+}</span></pre>
+</div>
+<p>&nbsp;</p>
+<p>然后，BufferedServletRequestWrapper 继承 HttpServletRequestWrapper。</p>
+<div class="cnblogs_code">
+<pre><span style="color: #000000;">@Slf4j
+</span><span style="color: #0000ff;">public</span> <span style="color: #0000ff;">class</span> BufferedServletRequestWrapper <span style="color: #0000ff;">extends</span><span style="color: #000000;"> HttpServletRequestWrapper {
+
+    </span><span style="color: #0000ff;">private</span> <span style="color: #0000ff;">byte</span><span style="color: #000000;">[] buffer;
+
+    </span><span style="color: #0000ff;">public</span> BufferedServletRequestWrapper(HttpServletRequest request) <span style="color: #0000ff;">throws</span><span style="color: #000000;"> IOException {
+        </span><span style="color: #0000ff;">super</span><span style="color: #000000;">(request);
+        InputStream is </span>=<span style="color: #000000;"> request.getInputStream();
+        ByteArrayOutputStream baos </span>= <span style="color: #0000ff;">new</span><span style="color: #000000;"> ByteArrayOutputStream();
+        </span><span style="color: #0000ff;">byte</span> buff[] = <span style="color: #0000ff;">new</span> <span style="color: #0000ff;">byte</span>[1024<span style="color: #000000;">];
+        </span><span style="color: #0000ff;">int</span><span style="color: #000000;"> read;
+        </span><span style="color: #0000ff;">while</span> ((read = is.read(buff)) &gt; 0<span style="color: #000000;">) {
+            baos.write(buff, </span>0<span style="color: #000000;">, read);
+        }
+        </span><span style="color: #0000ff;">this</span>.buffer =<span style="color: #000000;"> baos.toByteArray();
+    }
+
+    @Override
+    </span><span style="color: #0000ff;">public</span><span style="color: #000000;"> ServletInputStream getInputStream() {
+        </span><span style="color: #0000ff;">return</span> <span style="color: #0000ff;">new</span> BufferedServletInputStream(<span style="color: #0000ff;">this</span><span style="color: #000000;">.buffer);
+    }
+}</span></pre>
+</div>
+<p>里面使用一个 byte[] buffer 数组将请求缓存起来。</p>
+<p>&nbsp;</p>
+<p>最后，在 LogFilter 中 doLog 前，对请求进行包装。</p>
+<div class="cnblogs_code">
+<pre><span style="color: #000000;">@Override
+</span><span style="color: #0000ff;">protected</span> <span style="color: #0000ff;">void</span><span style="color: #000000;"> doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+    </span><span style="color: #0000ff;">throws</span><span style="color: #000000;"> ServletException, IOException {
+    </span><span style="color: #008000;">//</span><span style="color: #008000;"> 备份HttpServletRequest</span>
+    request = <span style="color: #0000ff;">new</span><span style="color: #000000;"> BufferedServletRequestWrapper(request);
+
+    </span><span style="color: #008000;">//</span><span style="color: #008000;">日志</span>
+<span style="color: #000000;">    doLog(request, response);
+
+    </span><span style="color: #008000;">//</span><span style="color: #008000;"> 将request 传到下一个Filter</span>
+<span style="color: #000000;">    filterChain.doFilter(request, response);
+}</span></pre>
+</div>
+<p>经过上诉处理，我们就可以愉快地用日志记录请求参数了。</p>
+<p>&nbsp;</p>
+<h1>总结</h1>
+<p>最后总结一下：</p>
+<p>1. 记录请求参数日志的方式最好采用切面的思想</p>
+<p>2. inputStream 默认只能读取一次，多次读取要重新处理inputStream</p>
+<p>3. @requestBody 的原理可以了解一下</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><img id="uploading_image_82721" src="https://common.cnblogs.com/images/loading.gif" alt=""></p>
+<p>&nbsp;</p>
+</div>
+<div id="MySignature"></div>
+<div class="clear"></div>
+<div id="blog_post_info_block">
+    <div id="blog_post_info"></div>
+    <div class="clear"></div>
+    <div id="post_next_prev"></div>
+</div>
+            </div>
+            <div class="postDesc">posted @ 
+<span id="post-date">2020-05-07 21:03</span>&nbsp;
+<a href="https://www.cnblogs.com/catlkb/">猫咪大王_lkb</a>&nbsp;
+阅读(<span id="post_view_count">...</span>)&nbsp;
+评论(<span id="post_comment_count">...</span>)&nbsp;
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=12845607" rel="nofollow">编辑</a>&nbsp;
+<a href="javascript:void(0)" onclick="AddToWz(12845607);return false;">收藏</a></div>
+        </div>
+<script src="https://common.cnblogs.com/highlight/9.12.0/highlight.min.js"></script>
+<script>markdown_highlight();</script>
+<script>
+    var allowComments = true, cb_blogId = 519101, cb_blogApp = 'catlkb', cb_blogUserGuid = '5fe0506c-acd5-4e68-8f88-08d6e63e80ac';
+    var cb_entryId = 12845607, cb_entryCreatedDate = '2020-05-07 21:03', cb_postType = 1; 
+    loadViewCount(cb_entryId);
+    loadSideColumnAd();
+</script><a name="!comments"></a>
+<div id="blog-comments-placeholder"></div>
+<script>
+    var commentManager = new blogCommentManager();
+    commentManager.renderComments(0);
+</script>
+
+<div id="comment_form" class="commentform">
+    <a name="commentform"></a>
+    <div id="divCommentShow"></div>
+    <div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="#" onclick="return RefreshPage();">刷新页面</a><a href="#top">返回顶部</a></div>
+    <div id="comment_form_container"></div>
+    <div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+    <div id="ad_t2"></div>
+    <div id="opt_under_post"></div>
+    <script async="async" src="https://www.googletagservices.com/tag/js/gpt.js"></script>
+    <script>
+        var googletag = googletag || {};
+        googletag.cmd = googletag.cmd || [];
+    </script>
+    <script>
+        googletag.cmd.push(function () {
+            googletag.defineSlot("/1090369/C1", [300, 250], "div-gpt-ad-1546353474406-0").addService(googletag.pubads());
+            googletag.defineSlot("/1090369/C2", [468, 60], "div-gpt-ad-1539008685004-0").addService(googletag.pubads());
+            googletag.pubads().enableSingleRequest();
+            googletag.enableServices();
+        });
+    </script>
+    <div id="cnblogs_c1" class="c_ad_block">
+        <div id="div-gpt-ad-1546353474406-0" style="height:250px; width:300px;"></div>
+    </div>
+    <div id="under_post_news"></div>
+    <div id="cnblogs_c2" class="c_ad_block">
+        <div id="div-gpt-ad-1539008685004-0" style="height:60px; width:468px;">
+            <script>
+                if (new Date() >= new Date(2018, 9, 13)) {
+                    googletag.cmd.push(function () { googletag.display("div-gpt-ad-1539008685004-0"); });
+                }
+            </script>
+        </div>
+    </div>
+    <div id="under_post_kb"></div>
+    <div id="HistoryToday" class="c_ad_block"></div>
+    <script type="text/javascript">
+        fixPostBody();
+        deliverBigBanner();
+setTimeout(function() { incrementViewCount(cb_entryId); }, 50);        deliverAdT2();
+        deliverAdC1();
+        deliverAdC2();
+        loadNewsAndKb();
+        loadBlogSignature();
+LoadPostCategoriesTags(cb_blogId, cb_entryId);        LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+        GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate, cb_postType);
+        loadOptUnderPost();
+        GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);
+    </script>
+</div>    </div>
+</div>
+            </div>
+        </div>
+
+        <div id="sideBar">
+            <div id="sideBarMain">
+                
+<div id="sidebar_news" class="newsItem">
+            <script>loadBlogNews();</script>
+</div>
+
+<div id="sidebar_ad"></div>
+                <div id="calendar"><div id="blog-calendar" style="display:none"></div></div>                
+                <script>loadBlogDefaultCalendar();</script>
+                <div id="leftcontentcontainer">
+                    <!-- begin:SingleColumn -->
+                    <div id="blog-sidecolumn"></div>
+                    <script>loadBlogSideColumn();</script>
+                    <!-- end:  SingleColumn -->
+                </div>
+            </div>
+        </div>
+        <div class="clear"></div>
+    </div>
+    <div class="clear"></div>
+    <div id="footer">
+        <!--done-->
+Copyright &copy; 2020 猫咪大王_lkb
+<br /><span id="poweredby">Powered by .NET Core on Kubernetes</span>
+
+    </div>
+</div>
+
+    
+</body>
+</html>

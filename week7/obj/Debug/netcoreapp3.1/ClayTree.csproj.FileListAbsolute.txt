@@ -1,0 +1,16 @@
+C:\Users\86173\source\repos\ClayTree\bin\Debug\netcoreapp3.1\ClayTree.exe
+C:\Users\86173\source\repos\ClayTree\bin\Debug\netcoreapp3.1\ClayTree.deps.json
+C:\Users\86173\source\repos\ClayTree\bin\Debug\netcoreapp3.1\ClayTree.runtimeconfig.json
+C:\Users\86173\source\repos\ClayTree\bin\Debug\netcoreapp3.1\ClayTree.runtimeconfig.dev.json
+C:\Users\86173\source\repos\ClayTree\bin\Debug\netcoreapp3.1\ClayTree.dll
+C:\Users\86173\source\repos\ClayTree\bin\Debug\netcoreapp3.1\ClayTree.pdb
+C:\Users\86173\source\repos\ClayTree\obj\Debug\netcoreapp3.1\ClayTree.csproj.AssemblyReference.cache
+C:\Users\86173\source\repos\ClayTree\obj\Debug\netcoreapp3.1\ClayTree.csproj.GenerateResource.cache
+C:\Users\86173\source\repos\ClayTree\obj\Debug\netcoreapp3.1\ClayTree.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\86173\source\repos\ClayTree\obj\Debug\netcoreapp3.1\ClayTree.AssemblyInfoInputs.cache
+C:\Users\86173\source\repos\ClayTree\obj\Debug\netcoreapp3.1\ClayTree.AssemblyInfo.cs
+C:\Users\86173\source\repos\ClayTree\obj\Debug\netcoreapp3.1\ClayTree.csproj.CoreCompileInputs.cache
+C:\Users\86173\source\repos\ClayTree\obj\Debug\netcoreapp3.1\ClayTree.dll
+C:\Users\86173\source\repos\ClayTree\obj\Debug\netcoreapp3.1\ClayTree.pdb
+C:\Users\86173\source\repos\ClayTree\obj\Debug\netcoreapp3.1\ClayTree.genruntimeconfig.cache
+C:\Users\86173\source\repos\ClayTree\obj\Debug\netcoreapp3.1\ClayTree.clayTree.resources

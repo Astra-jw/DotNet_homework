@@ -1,0 +1,347 @@
+﻿<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="referrer" content="never" />
+    <meta property="og:description" content="Flutter 1.17 是2020年的第一个稳定版本，此版本包括iOS平台Metal支持（性能更快），新的Material组件，新的Network跟踪工具等等！ 对所有人来说，今年是充满挑战的一年。" />
+    <meta http-equiv="Cache-Control" content="no-transform" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Flutter 1.17版本重磅发布 - 老孟Flutter - 博客园</title>
+    
+    <link rel="stylesheet" href="/css/blog-common.min.css?v=KCO3_f2W_TC__-jZ7phSnmoFkQuWMJH2yAgA16eE3eY" />
+    <link id="MainCss" rel="stylesheet" href="/skins/book/bundle-book.min.css?v=Yr9TGmN8ri6FBY9Rkzqw6l-UX-n2toh8YHB85y4FqJ0" />
+    
+    <link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="/skins/book/bundle-book-mobile.min.css?v=9mAu4TwtRDzYz0p44sAVkFWE9nZCxO_rGCjvQ8nF6I0" />
+    
+    <link type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/mengqd/rss" />
+    <link type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/mengqd/rsd.xml" />
+    <link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/mengqd/wlwmanifest.xml" />
+    <script src="https://common.cnblogs.com/scripts/jquery-2.2.0.min.js"></script>
+    <script src="/js/blog-common.min.js?v=98Fvfd6UZH20B_MF08daNaODjSu879MVR9RHmyvWAlg"></script>
+    <script>
+        var currentBlogId = 141280;
+        var currentBlogApp = 'mengqd';
+        var cb_enable_mathjax = false;
+        var isLogined = false;
+        var skinName = 'BOOK';
+    </script>
+    
+    
+    
+</head>
+<body>
+    <a name="top"></a>
+    
+    <script type="text/javascript">
+	try {
+		if (screen.availWidth > 1200) {
+			document.getElementById("MainCss").href = '/skins/book/bundle-book-2.min.css';
+		}
+	} catch (e) { }
+</script>
+
+<div id="header">
+<div id="HeaderTitle">
+<div id="Title">
+<a id="Header1_HeaderTitle" class="headermaintitle HeaderMainTitle" href="https://www.cnblogs.com/mengqd/">meng5619</a>
+
+</div>
+<div id="subTitle">
+
+</div>
+</div>
+</div>
+
+
+<div id="main">
+	<div id="post_detail">
+    <div class="post">
+        <h2>
+            
+<a id="cb_post_title_url" class="postTitle2" href="https://www.cnblogs.com/mengqd/p/12845812.html">Flutter 1.17版本重磅发布</a>
+
+        </h2>
+        
+<div id="cnblogs_post_body" class="blogpost-body cnblogs-markdown">
+    <p><img src="https://img2020.cnblogs.com/other/467322/202005/467322-20200507213544996-950080840.png" alt=""></p>
+<p>Flutter 1.17 是2020年的第一个稳定版本，此版本包括iOS平台Metal支持（性能更快），新的Material组件，新的Network跟踪工具等等！</p>
+<p>对所有人来说，今年是充满挑战的一年。我们的目标是按季度节奏发布稳定的发行版；但是，此版本花费了更长的时间，因为我们一直在为新的发布过程重新调整基础架构。我们继续将质量作为第一要务，并相信新的发布模型将提高我们提供服务的能力。</p>
+<p>自1.12稳定版本以来已关闭了前所未有的6,339个问题。这种增长的很大一部分归功于我们与<a href="https://blog.codemagic.io/flutter-and-codemagic-join-forces-on-github/">Nevercode</a>的合作关系，这使我们在响应客户问题方面的响应速度有所提高。今年到目前为止，我们今年关闭的错误比打开的错误多，导致净减少了约800个问题。我们从231位贡献者那里合并了3,164个PR，从而修复了许多错误。这些都是庞大的数字，在此充满挑战的时刻，我们由衷的感谢大家的辛勤工作和不断的贡献。</p>
+<p>如果您对我们在此版本中合并的PR的完整列表感兴趣，则可以在<a href="https://flutter.dev/docs/development/tools/sdk/release-notes/changelogs/changelog-1.17.0">flutter.dev</a>网站上查看。除了质量改进之外，我们还在此版本中增加了一些新功能，包括iOS上的Metal支持，新的Material组件，新的Network跟踪工具等等！此版本还包括Dart 2.8，您可以在Dart博客上阅读有关Dart 2.8的<a href="https://medium.com/dartlang/announcing-dart-2-8-7750918db0a">更多信息</a>。</p>
+<h2 id="移动性能和尺寸改进">移动性能和尺寸改进</h2>
+<p>此版本的主要重点是在性能和内存方面进行改进。只需将您的应用程序升级到此版本，就会看到更快的动画，更小的应用程序和更低的内存利用率。在此版本中，默认导航情况（不透明的不透明路线）的速度将提高20％-37％。对于简单的iOS动画，您还将看到最多减少40％的CPU / GPU使用率，具体取决于硬件（在<a href="https://github.com/flutter/engine/pull/14104">PR 14104</a>和<a href="https://github.com/flutter/engine/pull/13976">PR 13976</a>中有详细说明）。</p>
+<p>该版本还显著的减少了应用程序的大小。例如，Android的Flutter Gallery示例在2019年底为9.6MB，现在为8.1MB，减少了18.5％。</p>
+<p>对于内存使用，此版本将快速滚动浏览大图像时减少了70％的内存，具体取决于设备的内存量，提高了性能。</p>
+<p><img src="https://img2020.cnblogs.com/other/467322/202005/467322-20200507213547964-223357735.png" alt="img"></p>
+<p>但是，最广泛的性能改进是iOS中对Metal的支持。</p>
+<h2 id="metal支持将ios的性能提高50％">Metal支持将iOS的性能提高50％</h2>
+<p>苹果公司在iOS上对Metal的支持几乎可以直接访问底层GPU，并且是苹果公司推荐的图形API。在完全支持Metal的iOS设备上，Flutter默认情况下使用它，从而使您的Flutter应用程序大多数时候运行得更快，平均使渲染速度提高约50％（取决于您的工作量）。</p>
+<p><img src="https://img2020.cnblogs.com/other/467322/202005/467322-20200507213549081-1856609798.png" alt="img"></p>
+<p>对于不完全支持Metal的设备（A7处理器之前的版本或运行10之前的iOS版本的设备），Flutter会像过去一样使用OpenGL，从而为较旧的设备提供原生渲染速度。有关更多详细信息，请在Flutter Wiki上查看iOS上的<a href="https://github.com/flutter/flutter/wiki/Metal-on-iOS-FAQ">Metal常见问题</a>。</p>
+<h2 id="material控件：navigationrail，datepicker等">Material控件：NavigationRail，DatePicker等</h2>
+<p>我们会根据内部和外部客户的反馈，继续改进和改进Flutter中Material设计系统。在此版本中，我们添加了NavigationRail，这是一个提供响应式应用程序导航模型的新小部件。它是由Google Material Design团队设计和实施的。 NavigationRail非常适合可以在移动和台式机尺寸之间切换的应用程序，因为随着应用程序屏幕尺寸的增加，它很容易换成BottomNavigator。</p>
+<p><img src="https://img2020.cnblogs.com/other/467322/202005/467322-20200507213550722-220439114.gif" alt="img"></p>
+<p>要查看正在运行的NavigationRail，请在<a href="https://github.com/flutter/samples/tree/master/experimental/web_dashboard">web_dashboard</a>示例或在DartPad上尝试。</p>
+<p>除了新的小部件之外，此版本还包括对Material DatePicker和文本选择溢出小部件的更新。</p>
+<p><img src="https://img2020.cnblogs.com/other/467322/202005/467322-20200507213555441-1557051376.gif" alt="img"></p>
+<p>此DatePicker版本包含新的视觉效果，以匹配更新的Material准则以及新的文本输入模式。 您可以在<a href="https://docs.google.com/document/d/1AGKjBvO7EL2PuJGcwaa2PoCusjtTAvpYO7i_3A2vVpc/edit#heading=h.pub7jnop54q0">“Material Date Picker Redesign”</a>规范中阅读有关详细信息。</p>
+<p><img src="https://img2020.cnblogs.com/other/467322/202005/467322-20200507213556888-823560102.gif" alt="img"></p>
+<p><img src="https://img2020.cnblogs.com/other/467322/202005/467322-20200507213557456-22319340.gif" alt="img"></p>
+<p>现在，当按钮的长度比没有溢出时可以显示的时间长时，文本选择菜单可提高Android和iOS的保真度。 这在菜单项单词可能更长的语言环境中尤其明显。</p>
+<p>在Flutter 1.17中，还增加了新的Animations软件包，该软件包提供了实现新的<a href="https://material.io/design/motion/the-motion-system.html">Material motion</a>规范的预构建动画。</p>
+<p><img src="https://img2020.cnblogs.com/other/467322/202005/467322-20200507213611762-1495797512.gif" alt="img"></p>
+<p>在<a href="https://medium.com/google-design/implementing-motion-9f2839002016">“Implementing Motion”</a>博客文章中，Material设计团队定义了四个过渡模式，用于描述组件和全屏视图之间的动画：容器变换，共享轴，淡入和淡入。尽管这些动画在Flutter中始终可用，但是Animations软件包使实现它们变得相当容易。将它们放到您的应用中，让您的用户满意！</p>
+<h2 id="material文本比例：使flutter文本主题现代化">Material文本比例：使Flutter文本主题现代化</h2>
+<p>在此版本中，Flutter团队完成了2018 Material Design规范的<a href="https://material.io/design/typography/the-type-system.html#type-scale">Type Scale</a>部分的实现，同时没有破坏现有的Flutter应用程序。 2018年10月的<a href="https://github.com/flutter/flutter/pull/22330">PR 22330</a>中增加了对新配置的选择加入支持，但不对新名称提供支持。现有的文本样式名称未更改，因为这样做是一个重大的API更改，可能会影响大多数应用程序。 此版本更新了TextTheme API以匹配当前的Material规范，但保留了旧名称，以使您的代码不会中断。 但是，旧名称已被弃用，因此您将收到警告，以鼓励您采用新名称。</p>
+<p>下表总结了2018 Material TextStyle的名称和配置。</p>
+<p><img src="https://img2020.cnblogs.com/other/467322/202005/467322-20200507213619167-853805326.png" alt="img"></p>
+<p>请注意，“Material设计”规范中称为<code>body1</code>和<code>body2</code>的TextStyles在Flutter TextTheme API中称为<code>bodyText1</code>和<code>bodyText2</code>。 同样，规范中称为<code>H1-H6</code>的TextStyles在TextTheme API中称为<code>headline1-headline6</code>。</p>
+<h2 id="google字体">Google字体</h2>
+<p>如果您对新的Material Text Scale实现感到兴奋，那么您可能也会对新的Flutter v1.0版本Google字体感到兴奋。</p>
+<p><img src="https://img2020.cnblogs.com/other/467322/202005/467322-20200507213619988-534891911.gif" alt="img"></p>
+<p>Google字体允许开发人员在其应用中轻松地尝试和使用fonts.google.com中的任何字体。 当应用准备发布时，开发人员将决定用户是否通过从API下载字体来接收字体，或者将其与应用包预先捆绑在一起。</p>
+<h2 id="可访问性和国际化">可访问性和国际化</h2>
+<p>最后，可访问性是我们持续关注的一个重要领域，因为我们认为Flutter应用程序对尽可能广泛的用户可用是一个优先事项。 在此版本中，我们已完成了全部工作，包括滚动，文本字段和其他输入小部件的辅助功能修复。 您将在<a href="%5Bhttps://github.com/flutter/flutter/issues?q=is%3Aclosed+is%3Aissue+label%3A%22a%3A+accessibility%22+closed%3A2019-11-25..2020-04-02%5D(https://github.com/flutter/flutter/issues?q=is%3Aclosed+is%3Aissue+label%3A%22a%3A+accessibility%22+closed%3A2019-11-25..2020-04-02)">GitHub</a>上看到此发行版中关闭的可访问性问题的完整列表。 我们鼓励您测试自己的应用程序的可访问性，并且还通过一些建议的最佳实践更新了此版本中的文档。</p>
+<p>在国际化方面，我们一直在研究一些影响三星键盘输入法的问题，这些问题影响了各种东亚语言的文本输入。 我们很高兴地报告，我们已经完成了这项工作，尤其是韩国开发人员应该在此版本中找到很多值得庆祝的东西。</p>
+<h2 id="工具：将dart-devtools端口移植到flutter，android快速入门等">工具：将Dart DevTools端口移植到Flutter，Android快速入门等</h2>
+<p>此版本使我们非常接近将Dart DevTools的当前版本与新的Flutter版本交换。 如果您想尝试一下，请启动DevTools并单击DevTools右上角的“烧杯”图标。</p>
+<p><img src="https://img2020.cnblogs.com/other/467322/202005/467322-20200507213620483-2037652378.png" alt="img"></p>
+<p>当您使用Flutter实现的Dart DevTools的预发布版本时，您可能会注意到各种改进，但最大的改进是新的“网络”标签。</p>
+<p><img src="https://img2020.cnblogs.com/other/467322/202005/467322-20200507213621967-335873981.png" alt="img"></p>
+<p>如果您没有在Dart DevTools的预发行版中看到“网络”标签（例如，如果从命令行运行它），则可以使用以下命令手动进行更新：</p>
+<pre><code>$ pub global activate devtools
+</code></pre>
+<p>按下“记录”按钮后，“网络”选项卡将显示Flutter应用程序的网络流量。 此外，如果您想从启动应用程序时立即开始捕获网络流量，则可以在main（）方法中包含以下代码行：</p>
+<pre><code>void main() {
+  // enable network traffic logging
+  HttpClient.enableTimelineLogging = true;
+  runApp(MyApp());
+}
+</code></pre>
+<p>除了更新的Dart DevTools，此版本还增加了对实验性“快速启动”选项的支持，该功能使您在定位Android时可以将Flutter应用程序的调试速度提高70％。 您可以通过</p>
+<pre><code>flutter run --fast-start -d &lt;您的Android设备&gt;
+</code></pre>
+<p>访问此选项。 此选项将安装仅取决于您的插件代码（不包括任何Dart代码）的通用Android应用。 由于对Dart代码或素材资源的更改无需重新构建APK，因此可以使重复的flutter运行命令更快地启动。 此选项将您的应用程序捆绑到实际上并未在您的设备上安装的通用Android“包装器”中，这与我们正常的启动选项不同。 此外，在某些情况下，例如， 当您使用访问后台执行的插件时。 如果您的Android调试启动时间让您失望，请尝试一下。</p>
+<p>如果您以Android为目标，则需要注意的另一个变化是，当创建新的Flutter项目时，AndroidX是唯一的选择。 AndroidX库提供了称为Android Jetpack的高级Android功能。 在上一个版本中，我们弃用了原始的Android支持库，并将其移至AndroidX作为所有新项目的默认设置。 在此版本中，-flux创建的--androidx标志现在是唯一可用的选项。 虽然可以继续使用Flutter编译不使用AndroidX的现有应用程序，但现在是迁移到新库的绝佳时机。</p>
+<p>如果您是Android Studio或IntelliJ用户，则会发现“热重装”功能更具弹性。 进行此更改之前，如果您遇到任何分析错误，“热重装”将不会重装您的代码。 如果分析错误不会影响您当前正在运行的代码（例如在单元测试中），那么这可能会令人沮丧。 进行此更改后，分析错误不足以阻止Hot Reload正常运行，而取决于VM的编译器错误。</p>
+<p>如果您希望在Android Studio或IntelliJ的Flutter插件中更早地访问此类更改，我们现在为IntelliJ插件提供了一个开发通道，您可以选择该通道以更快地进行更新。 开发通道的目标是在我们将它们广泛发布之前，从Flutter开发人员那里收集有关IDE集成新功能的反馈。 如果您喜欢冒险，并希望向Flutter工具团队提供早期反馈，请<a href="https://groups.google.com/forum/m/#!topic/flutter-announce/tTgQcTgqrKg">立即注册</a>！</p>
+<p>对于Visual Studio Code用户，我们建议使用新的Dart：运行新的“pub outdated”命令。</p>
+<p><img src="https://img2020.cnblogs.com/other/467322/202005/467322-20200507213622710-1541659637.png" alt="img"></p>
+<p>此命令旨在帮助您跟踪依赖项中的版本控制问题。</p>
+<p>最后但并非最不重要的一点是，如果您发现自己发生Flutter崩溃，则工具会提示您提交该错误。</p>
+<p><img src="https://img2020.cnblogs.com/other/467322/202005/467322-20200507213623175-404450830.png" alt="img"></p>
+<p>团队会密切关注这些错误报告的严重性和频率，因此请在出现提示时进行记录。</p>
+<h2 id="customer-shoutout-mgm-and-superformula">Customer Shoutout: MGM and Superformula</h2>
+<p>Flutter的存在是为了实现美丽的应用程序体验。 数字代理机构做得令人惊奇的事情之一就是<a href="https://superformula.com/flutter/">Superformula</a>，该公司最近与MGM Resorts合作，对其移动应用程序进行了重大更新，并已在Flutter中对其进行了完全重建。 他们报告说：“将Flutter添加到我们的核心产品中，可以释放出更高的速度和灵活性，这对于我们的客户及其用户而言，都可以转化为真实的，可衡量的价值。”</p>
+<p><img src="/Users/mengqingdong/Downloads/11/1.17.assets/0*nT-kBS1YB0XqZE4C.png" alt="img"></p>
+<p>Superformula与MGM Resorts设计团队合作，为所有主要的网络，移动和信息亭体验创建了一种新的MGM设计语言。 通过较小的团队和全新的Flutter代码库，他们能够比以前更快地重建应用并交付到两个应用商店，从而使MGM的预订转换率提高了9％。</p>
+<h2 id="重大变化">重大变化</h2>
+<p>与往常一样，我们尝试在每个Flutter的新版本中尽量减少重大更改的数量，同时仍在平衡我们的能力，以确保Flutter提供直观，灵活的API来支持新平台上的新用法。 在去年的用户调查中，您告诉我们，您可以容忍经过仔细考虑的，可以改进框架的重大更改。 因此，我们将继续逐步改进API。 这些是此版本中的重大更改。</p>
+<ul>
+<li>42100使用pushReplacement（…时，运行先前路线的辅助动画</li>
+<li><a href="https://github.com/flutter/flutter/pull/45940">45940</a>弃用UpdateLiveRegionEvent</li>
+<li><a href="https://github.com/flutter/flutter/pull/49389">49389</a>快速滚动时延迟图像解码</li>
+<li><a href="https://github.com/flutter/flutter/pull/49391">49391</a>文本选择溢出（Android）</li>
+<li><a href="https://github.com/flutter/flutter/pull/49771">49771</a>未为空画笔设置断言缓存提示</li>
+<li><a href="https://github.com/flutter/flutter/pull/50318">50318</a>实时图像缓存</li>
+<li><a href="https://github.com/flutter/flutter/pull/50354">50354</a>使用支杆盒高度计算选择矩形，以确保它们保持在可见范围内</li>
+<li><a href="https://github.com/flutter/flutter/pull/50733">50733</a>在gen_l10n中生成消息查找</li>
+<li><a href="https://github.com/flutter/flutter/pull/51435">51435</a>从RouteSettings移除isinitialroute</li>
+<li><a href="https://github.com/flutter/flutter/pull/52781">52781</a>将mouse_tracking.dart移至渲染</li>
+</ul>
+<h2 id="结论">结论</h2>
+<p>随着我们的移动支持不断成熟，同时我们使网络更加接近生产质量，Flutter带来了解决我们这个行业数十年来一直困扰的问题的希望：如何从一个跨多个源的单一源代码构建出色的应用程序 平台？ 凭借Flutter提供的所有功能，我们认为我们正在很好地回答这一问题。</p>
+<h2 id="交流">交流</h2>
+<p>老孟Flutter博客地址（近200个控件用法）：<a href="http://laomengit.com">http://laomengit.com</a></p>
+<p>欢迎加入Flutter交流群（微信：laomengit）、关注公众号【老孟Flutter】：</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><img src="https://img2020.cnblogs.com/other/467322/202005/467322-20200507213623736-733680086.png" alt=""></td>
+<td><img src="https://img2020.cnblogs.com/other/467322/202005/467322-20200507213624175-744291875.png" alt=""></td>
+</tr>
+</tbody>
+</table>
+
+</div>
+<div id="MySignature"></div>
+<div class="clear"></div>
+<div id="blog_post_info_block">
+    <div id="blog_post_info"></div>
+    <div class="clear"></div>
+    <div id="post_next_prev"></div>
+</div>
+        <p class="postfoot">
+            posted on 
+<span id="post-date">2020-05-07 21:36</span>&nbsp;
+<a href="https://www.cnblogs.com/mengqd/">老孟Flutter</a>&nbsp;
+阅读(<span id="post_view_count">...</span>)&nbsp;
+评论(<span id="post_comment_count">...</span>)&nbsp;
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=12845812" rel="nofollow">编辑</a>&nbsp;
+<a href="javascript:void(0)" onclick="AddToWz(12845812);return false;">收藏</a>
+        </p>
+    </div>
+</div>
+
+
+<script src="https://common.cnblogs.com/highlight/9.12.0/highlight.min.js"></script>
+<script>markdown_highlight();</script>
+<script>
+    var allowComments = true, cb_blogId = 141280, cb_blogApp = 'mengqd', cb_blogUserGuid = 'c138f17a-a42c-e211-aa8f-842b2b196315';
+    var cb_entryId = 12845812, cb_entryCreatedDate = '2020-05-07 21:36', cb_postType = 1; 
+    loadViewCount(cb_entryId);
+    loadSideColumnAd();
+</script><a name="!comments"></a>
+<div id="blog-comments-placeholder"></div>
+<script>
+    var commentManager = new blogCommentManager();
+    commentManager.renderComments(0);
+</script>
+
+<div id="comment_form" class="commentform">
+    <a name="commentform"></a>
+    <div id="divCommentShow"></div>
+    <div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="#" onclick="return RefreshPage();">刷新页面</a><a href="#top">返回顶部</a></div>
+    <div id="comment_form_container"></div>
+    <div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+    <div id="ad_t2"></div>
+    <div id="opt_under_post"></div>
+    <script async="async" src="https://www.googletagservices.com/tag/js/gpt.js"></script>
+    <script>
+        var googletag = googletag || {};
+        googletag.cmd = googletag.cmd || [];
+    </script>
+    <script>
+        googletag.cmd.push(function () {
+            googletag.defineSlot("/1090369/C1", [300, 250], "div-gpt-ad-1546353474406-0").addService(googletag.pubads());
+            googletag.defineSlot("/1090369/C2", [468, 60], "div-gpt-ad-1539008685004-0").addService(googletag.pubads());
+            googletag.pubads().enableSingleRequest();
+            googletag.enableServices();
+        });
+    </script>
+    <div id="cnblogs_c1" class="c_ad_block">
+        <div id="div-gpt-ad-1546353474406-0" style="height:250px; width:300px;"></div>
+    </div>
+    <div id="under_post_news"></div>
+    <div id="cnblogs_c2" class="c_ad_block">
+        <div id="div-gpt-ad-1539008685004-0" style="height:60px; width:468px;">
+            <script>
+                if (new Date() >= new Date(2018, 9, 13)) {
+                    googletag.cmd.push(function () { googletag.display("div-gpt-ad-1539008685004-0"); });
+                }
+            </script>
+        </div>
+    </div>
+    <div id="under_post_kb"></div>
+    <div id="HistoryToday" class="c_ad_block"></div>
+    <script type="text/javascript">
+        fixPostBody();
+        deliverBigBanner();
+setTimeout(function() { incrementViewCount(cb_entryId); }, 50);        deliverAdT2();
+        deliverAdC1();
+        deliverAdC2();
+        loadNewsAndKb();
+        loadBlogSignature();
+LoadPostCategoriesTags(cb_blogId, cb_entryId);        LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+        GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate, cb_postType);
+        loadOptUnderPost();
+        GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);
+    </script>
+</div>
+
+	<p id="footer">
+	Powered by: 
+	<br />
+	
+	<a href="https://www.cnblogs.com/" id="footer_site_link">博客园</a>
+	<br />
+	Copyright &copy; 2020 老孟Flutter
+<br /><span id="poweredby">Powered by .NET Core on Kubernetes</span>
+
+</p>
+
+
+</div>
+<div id="rightmenu">
+	
+		<div id="blog-calendar" style="display:none"></div><script>loadBlogDefaultCalendar();</script>
+		
+<h3>导航</h3>
+<ul>
+			<li><a id="blog_nav_sitehome" class="menu" href="https://www.cnblogs.com/">
+博客园</a>
+</li>
+			<li>
+<a id="blog_nav_myhome" class="menu" href="https://www.cnblogs.com/mengqd/">
+首页</a>
+</li>
+			<li>
+
+<a id="blog_nav_newpost" class="menu" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">
+新随笔</a>
+</li>
+			<li>
+<a id="blog_nav_contact" class="menu" href="https://msg.cnblogs.com/send/%E8%80%81%E5%AD%9FFlutter">
+联系</a></li>
+			<li>
+<a id="blog_nav_rss" class="menu" href="https://www.cnblogs.com/mengqd/rss/">
+订阅</a>
+<a id="blog_nav_rss_image" href="https://www.cnblogs.com/mengqd/rss/">
+    <img src="/skins/book/images/xml.gif" alt="订阅" />
+</a></li>
+			<li>
+<a id="blog_nav_admin" class="menu" href="https://i.cnblogs.com/">
+管理</a>
+</li>
+</ul>
+
+
+		
+<h3>统计</h3>
+<ul>
+    <li>随笔 - 
+46</li>
+    <li>文章 - 
+2</li>
+    <li>评论 - 
+21</li>
+    <li>
+        引用 - 
+0
+    </li>
+</ul>
+
+
+		
+<div id="sidebar_news" class="newsItem">
+            <script>loadBlogNews();</script>
+</div>
+
+<div id="sidebar_ad"></div>
+		<div id="blog-sidecolumn"></div>
+                    <script>loadBlogSideColumn();</script>
+	
+</div>
+			
+			
+			
+			
+			 
+
+	
+
+
+    <div id="page_end_html">
+        
+
+    </div>
+</body>
+</html>

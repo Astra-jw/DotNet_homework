@@ -1,0 +1,334 @@
+﻿<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="referrer" content="origin" />
+    <meta property="og:description" content="前些天有网友提到了那个界面丑陋的SwaggerUI，让我想起了多年前实现的WebAPI文档未完成的功能点，于是，动手了，便有了本文的内容。" />
+    <meta http-equiv="Cache-Control" content="no-transform" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Taurus.MVC 2.3.2 ：WebAPI 文档集成测试功能及附加&lt;%# JS执行功能语法 %&gt; - 路过秋天 - 博客园</title>
+    
+    <link rel="stylesheet" href="/css/blog-common.min.css?v=KCO3_f2W_TC__-jZ7phSnmoFkQuWMJH2yAgA16eE3eY" />
+    <link id="MainCss" rel="stylesheet" href="/skins/nature/bundle-nature.min.css?v=OGPViv8ygSk1htOgsEILRhpv35ZKyr-flppEtpvHCA0" />
+    <link type="text/css" rel="stylesheet" href="https://www.cnblogs.com/cyq1162/custom.css?v=WcLrvDdPRmDYb&#x2B;eeeB&#x2B;wxgj0PsA=" />
+    <link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="/skins/nature/bundle-nature-mobile.min.css?v=RzYS8QGQmC0gsBHSUxnpybzlR89FFui1fBHmMB-mNoc" />
+    
+    <link type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/cyq1162/rss" />
+    <link type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/cyq1162/rsd.xml" />
+    <link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/cyq1162/wlwmanifest.xml" />
+    <script src="https://common.cnblogs.com/scripts/jquery-2.2.0.min.js"></script>
+    <script src="/js/blog-common.min.js?v=98Fvfd6UZH20B_MF08daNaODjSu879MVR9RHmyvWAlg"></script>
+    <script>
+        var currentBlogId = 20967;
+        var currentBlogApp = 'cyq1162';
+        var cb_enable_mathjax = false;
+        var isLogined = false;
+        var skinName = 'nature';
+    </script>
+    
+    
+    
+</head>
+<body>
+    <a name="top"></a>
+    
+    <!--done-->
+<div id="banner"><div id="bnr_pic">
+<!--done-->
+<div class="header">
+	<div class="headerText">
+		<a id="Header1_HeaderTitle" class="headermaintitle HeaderMainTitle" href="https://www.cnblogs.com/cyq1162/">路过秋天</a>
+<br>
+	</div><br>
+	<div class="headerDis">
+<h4><b><font color='red'>坚持：.NET十年，理想：CYQ.Data框架普众成为企业及个人项目的最优选择（没有之一），愿景：提升.NET行业整体竞争力</font></b><br/><br/> --  理想很美好，现实很残酷，坚持在路上，只因初心仍存</h4>
+</div>
+</div>
+
+</div></div>
+<div id="main">
+	<!-- left starts -->
+	<div id="left">
+		<DIV id="mystats">
+			<br/>
+				<!--done-->
+<div class="blogStats">
+随笔 - 
+577&nbsp;
+文章 - 
+3&nbsp;
+评论 - 
+12647&nbsp;
+
+1
+</div>
+
+
+			
+		</DIV>
+		<div id="mylinks">
+
+<a id="blog_nav_sitehome" class="menu" href="https://www.cnblogs.com/">
+博客园</a>
+&nbsp;&nbsp;
+<a id="blog_nav_myhome" class="menu" href="https://www.cnblogs.com/cyq1162/">
+首页</a>
+&nbsp;&nbsp;
+
+<a id="blog_nav_newpost" class="menu" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">
+新随笔</a>
+&nbsp;&nbsp;
+&nbsp;&nbsp;
+<a id="blog_nav_admin" class="menu" href="https://i.cnblogs.com/">
+管理</a>
+&nbsp;&nbsp;
+<a id="blog_nav_rss" class="menu" href="https://www.cnblogs.com/cyq1162/rss/">
+订阅</a>&nbsp;
+<a id="blog_nav_rss_image" href="https://www.cnblogs.com/cyq1162/rss/">
+    <img src="/skins/nature/images/xml.gif" alt="订阅" />
+</a>
+
+</div>
+		<div id="topics">
+			<div id="post_detail">
+<div class="post">
+	<div class="postTitle">
+		<h1>
+<a id="cb_post_title_url" class="postTitle2" href="https://www.cnblogs.com/cyq1162/p/12844440.html">Taurus.MVC 2.3.2 ：WebAPI 文档集成测试功能及附加&lt;%# JS执行功能语法 %&gt;</a>
+</h1>
+	</div>
+	
+    <div id="cnblogs_post_description" style="display: none">
+        前些天有网友提到了那个界面丑陋的SwaggerUI，让我想起了多年前实现的WebAPI文档未完成的功能点，于是，动手了，便有了本文的内容。
+    </div>
+<div id="cnblogs_post_body" class="blogpost-body ">
+    <h1>前言：</h1>
+<p>前些天有网友提到了那个界面丑陋的SwaggerUI，让我想起了多年前实现的WebAPI文档未完成的功能点，于是，动手了，便有了本文的内容。</p>
+<p>开源地址：<a href="https://github.com/cyq1162/Taurus.MVC">https://github.com/cyq1162/Taurus.MVC</a></p>
+<p>&nbsp;</p>
+<h1>1、WebAPI 文档集成测试功能（增强说明）</h1>
+<p>开启WebAPI文档：web.config&nbsp;或&nbsp;appsettings.json</p>
+<p>设置："IsStartDoc": true</p>
+<p>即可通过/doc访问自动生成的WebAPI文档</p>
+<p><img src="https://img2020.cnblogs.com/blog/17408/202005/17408-20200507172028999-2076964052.jpg" alt=""></p>
+<h2>1、过滤掉无描述的接口。</h2>
+<p>文档自动生成的来源来自项目中的Xml文档注释</p>
+<p><img src="https://img2020.cnblogs.com/blog/17408/202005/17408-20200507172225395-873504342.jpg" alt=""></p>
+<p>为了能更好的控制显示的结果，不带注释的类或方法（只收录public），不会被收录显示。</p>
+<h2>2、参数的显示与执行测试说明</h2>
+<p><img src="https://img2020.cnblogs.com/blog/17408/202005/17408-20200507172607119-2007012822.jpg" alt=""></p>
+<p>自动和成的参数，来自以下方法的注释：</p>
+<div class="cnblogs_Highlighter">
+<pre class="brush:csharp;gutter:true;">        /// &lt;summary&gt;
+        /// 获取Token
+        /// &lt;/summary&gt;
+        /// 
+        /// &lt;param name="un" required="true" value="13488889999"&gt;用户名&lt;/param&gt;
+        /// &lt;param name="pwd" type="header"&gt;密码&lt;/param&gt;
+        /// &lt;param name="upload" type="file"&gt;图片上传&lt;/param&gt;
+        /// &lt;returns&gt;{success:true:msg:"tokenString..."}&lt;/returns&gt;
+        [HttpGet, Require("un", true, RegexConst.Mobile), Require("pwd")]
+        [HttpPost]
+        public void GetToken(string un, string pwd)
+        {
+            //is required. is invalid. 判断 是否：中文
+            //CheckFormat("{0}不能为空&amp;{0}格式错误", @"un&amp;用户名&amp;^1[3|4|5|8][0-9]\d{8}$", @"pwd&amp;密码&amp;^[\u0391-\uFFE5]+$");
+            //string userName = Query&lt;string&gt;("un");
+            //string pwd = Query&lt;string&gt;("pwd");
+            if (!string.IsNullOrEmpty(un) &amp;&amp; !string.IsNullOrEmpty(pwd))
+            {
+                byte[] data = System.Text.Encoding.UTF8.GetBytes("Taurus:" + un);
+                string base64 = Convert.ToBase64String(data);
+                Write(base64, true);
+            }
+            else
+            {
+                Write("UserName or Password Error", false);
+            }
+        }
+</pre>
+</div>
+<p>　　</p>
+<p>其中：</p>
+<pre class="brush:csharp;gutter:true;">required 决定是否必填 true 或 false（时可不写）</pre>
+<pre class="brush:csharp;gutter:true;">type 决定显示的文本框类型 header（请求头） file(文件上传） 其它（时可不写）</pre>
+<pre class="brush:csharp;gutter:true;">returns 显示返回的结果。<br /><br /><br /></pre>
+<h2>3、运行测试结果</h2>
+<p>可修改请求路径、请求参数、请求类型。</p>
+<p>点击执行运行结果：</p>
+<p><img src="https://img2020.cnblogs.com/blog/17408/202005/17408-20200507173348873-1071706860.jpg" alt=""></p>
+<p>系统会自动收集参数并执行，返回结果及请求头的内容。</p>
+<p>&nbsp;</p>
+<h1>2、附加&lt;%# JS执行功能语法 %&gt;</h1>
+<p>&nbsp;为了实现这个自动测试功能，顺路增加了该语法功能。</p>
+<p>在/Views/Doc/detail.html&nbsp;中，有这样一段html代码：</p>
+<div class="cnblogs_code">
+<pre> <span style="color: #0000ff;">&lt;</span><span style="color: #800000;">tbody </span><span style="color: #ff0000;">id</span><span style="color: #0000ff;">="ParaView"</span><span style="color: #ff0000;"> clearflag</span><span style="color: #0000ff;">="1"</span><span style="color: #0000ff;">&gt;</span>
+                                                <span style="color: #0000ff;">&lt;</span><span style="color: #800000;">tr</span><span style="color: #0000ff;">&gt;</span>
+                                                    <span style="color: #0000ff;">&lt;</span><span style="color: #800000;">td </span><span style="color: #ff0000;">width</span><span style="color: #0000ff;">="80px"</span><span style="color: #0000ff;">&gt;</span>{0}<span style="color: #0000ff;">&lt;/</span><span style="color: #800000;">td</span><span style="color: #0000ff;">&gt;</span>
+                                                    <span style="color: #0000ff;">&lt;</span><span style="color: #800000;">td</span><span style="color: #0000ff;">&gt;</span>{1}<span style="color: #0000ff;">&lt;/</span><span style="color: #800000;">td</span><span style="color: #0000ff;">&gt;</span>
+                                                    <span style="color: #0000ff;">&lt;</span><span style="color: #800000;">td</span><span style="color: #0000ff;">&gt;</span>
+                                                        <span style="background-color: #ffff00; color: #000000;">&lt;%</span><span style="background-color: #f5f5f5; color: #000000;"># ${required}?</span><span style="background-color: #f5f5f5; color: #008000;">'</span><span style="background-color: #f5f5f5; color: #008000;">是':'否'%&gt;</span>
+                                                    <span style="background-color: #f5f5f5; color: #000000;">&lt;/</span><span style="background-color: #f5f5f5; color: #000000;">td</span><span style="background-color: #f5f5f5; color: #000000;">&gt;</span>
+                                                    <span style="background-color: #f5f5f5; color: #000000;">&lt;</span><span style="background-color: #f5f5f5; color: #000000;">td</span><span style="background-color: #f5f5f5; color: #000000;">&gt;&lt;</span><span style="background-color: #f5f5f5; color: #000000;">%# </span><span style="background-color: #f5f5f5; color: #008000;">'</span><span style="background-color: #f5f5f5; color: #008000;">${type}'=='file'?'文件':('${type}'=='header'?'请求头':'${type}')%&gt;&lt;/td&gt;</span>
+                                                    <span style="background-color: #f5f5f5; color: #000000;">&lt;</span><span style="background-color: #f5f5f5; color: #000000;">td</span><span style="background-color: #f5f5f5; color: #000000;">&gt;</span>
+                                                        <span style="background-color: #f5f5f5; color: #000000;">&lt;</span><span style="background-color: #f5f5f5; color: #000000;">![CDATA[
+                                                        </span><span style="background-color: #f5f5f5; color: #000000;">&lt;</span><span style="background-color: #f5f5f5; color: #000000;">input name</span><span style="background-color: #f5f5f5; color: #000000;">=</span><span style="background-color: #f5f5f5; color: #800000;">"</span><span style="background-color: #f5f5f5; color: #800000;">{0}</span><span style="background-color: #f5f5f5; color: #800000;">"</span><span style="background-color: #f5f5f5; color: #000000;"> type</span><span style="background-color: #f5f5f5; color: #000000;">=</span><span style="background-color: #f5f5f5; color: #800000;">"</span><span style="background-color: #f5f5f5; color: #800000;">&lt;%# '${type}'=='file'?'file':'text'%&gt;</span><span style="background-color: #f5f5f5; color: #800000;">"</span><span style="background-color: #f5f5f5; color: #000000;"> value</span><span style="background-color: #f5f5f5; color: #000000;">=</span><span style="background-color: #f5f5f5; color: #800000;">"</span><span style="background-color: #f5f5f5; color: #800000;">{4}</span><span style="background-color: #f5f5f5; color: #800000;">"</span><span style="background-color: #f5f5f5; color: #000000;"> style</span><span style="background-color: #f5f5f5; color: #000000;">=</span><span style="background-color: #f5f5f5; color: #800000;">"</span><span style="background-color: #f5f5f5; color: #800000;">width:90%</span><span style="background-color: #f5f5f5; color: #800000;">"</span><span style="background-color: #f5f5f5; color: #000000;">  rtype</span><span style="background-color: #f5f5f5; color: #000000;">=</span><span style="background-color: #f5f5f5; color: #800000;">"</span><span style="background-color: #f5f5f5; color: #800000;">${type}</span><span style="background-color: #f5f5f5; color: #800000;">"</span> <span style="background-color: #f5f5f5; color: #000000;">&lt;</span><span style="background-color: #f5f5f5; color: #000000;">%# ${required}?</span><span style="background-color: #f5f5f5; color: #008000;">'</span><span style="background-color: #f5f5f5; color: #008000;">required="required"':'false'%&gt; /&gt;</span>
+<span style="background-color: #f5f5f5; color: #000000;">                                                        ]]</span><span style="background-color: #f5f5f5; color: #000000;">&gt;</span>
+                                                    <span style="background-color: #f5f5f5; color: #000000;">&lt;/</span><span style="background-color: #f5f5f5; color: #000000;">td</span><span style="background-color: #f5f5f5; color: #000000;">&gt;</span>
+
+                                                <span style="background-color: #f5f5f5; color: #000000;">&lt;/</span><span style="background-color: #f5f5f5; color: #000000;">tr</span><span style="background-color: #f5f5f5; color: #000000;">&gt;</span>
+                                            <span style="background-color: #f5f5f5; color: #000000;">&lt;/</span><span style="background-color: #f5f5f5; color: #000000;">tbody</span><span style="background-color: #f5f5f5; color: #000000;">&gt;</span></pre>
+</div>
+<p>其中 ${索引或属性名}&nbsp;是之前就有的绑定语法。</p>
+<p>为了方便html中对于简单的判断的文字变更，思考之后，把&lt;%#&nbsp;这里的内容都会被JS引擎执行 %&gt;语法块功能给加上了。</p>
+<h3>细节说明：</h3>
+<p>由于模板是xhtml语法要求，对于不符合xml语法的地方，可以用</p>
+<pre>&lt;![CDATA[ ...]]&gt;  包含起来。</pre>
+<p>&nbsp;</p>
+<h1>结束说明：</h1>
+<p>1、本次版本更新主要就是以上两点功能。</p>
+<p>2、由于net core&nbsp;下支持 &lt;%# %&gt;语法，引用了Microsoft.ClearScript.dll（这个最低支持是3.1），所以netcore的默认版本调高到3.1。</p>
+</div>
+<div id="MySignature"></div>
+<div class="clear"></div>
+<div id="blog_post_info_block">
+    <div id="blog_post_info"></div>
+    <div class="clear"></div>
+    <div id="post_next_prev"></div>
+</div>
+	<div class="postDesc">posted on 
+<span id="post-date">2020-05-07 17:56</span>&nbsp;
+<a href="https://www.cnblogs.com/cyq1162/">路过秋天</a>&nbsp;
+阅读(<span id="post_view_count">...</span>)&nbsp;
+评论(<span id="post_comment_count">...</span>)&nbsp;
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=12844440" rel="nofollow">编辑</a>&nbsp;
+<a href="javascript:void(0)" onclick="AddToWz(12844440);return false;">收藏</a></div>
+</div>
+
+
+<script src="https://common.cnblogs.com/highlight/9.12.0/highlight.min.js"></script>
+<script>markdown_highlight();</script>
+<script>
+    var allowComments = true, cb_blogId = 20967, cb_blogApp = 'cyq1162', cb_blogUserGuid = '2a5e360b-63cf-dd11-9e4d-001cf0cd104b';
+    var cb_entryId = 12844440, cb_entryCreatedDate = '2020-05-07 17:56', cb_postType = 1; 
+    loadViewCount(cb_entryId);
+    loadSideColumnAd();
+</script><a name="!comments"></a>
+<div id="blog-comments-placeholder"></div>
+<script>
+    var commentManager = new blogCommentManager();
+    commentManager.renderComments(0);
+</script>
+
+<div id="comment_form" class="commentform">
+    <a name="commentform"></a>
+    <div id="divCommentShow"></div>
+    <div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="#" onclick="return RefreshPage();">刷新页面</a><a href="#top">返回顶部</a></div>
+    <div id="comment_form_container"></div>
+    <div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+    <div id="ad_t2"></div>
+    <div id="opt_under_post"></div>
+    <script async="async" src="https://www.googletagservices.com/tag/js/gpt.js"></script>
+    <script>
+        var googletag = googletag || {};
+        googletag.cmd = googletag.cmd || [];
+    </script>
+    <script>
+        googletag.cmd.push(function () {
+            googletag.defineSlot("/1090369/C1", [300, 250], "div-gpt-ad-1546353474406-0").addService(googletag.pubads());
+            googletag.defineSlot("/1090369/C2", [468, 60], "div-gpt-ad-1539008685004-0").addService(googletag.pubads());
+            googletag.pubads().enableSingleRequest();
+            googletag.enableServices();
+        });
+    </script>
+    <div id="cnblogs_c1" class="c_ad_block">
+        <div id="div-gpt-ad-1546353474406-0" style="height:250px; width:300px;"></div>
+    </div>
+    <div id="under_post_news"></div>
+    <div id="cnblogs_c2" class="c_ad_block">
+        <div id="div-gpt-ad-1539008685004-0" style="height:60px; width:468px;">
+            <script>
+                if (new Date() >= new Date(2018, 9, 13)) {
+                    googletag.cmd.push(function () { googletag.display("div-gpt-ad-1539008685004-0"); });
+                }
+            </script>
+        </div>
+    </div>
+    <div id="under_post_kb"></div>
+    <div id="HistoryToday" class="c_ad_block"></div>
+    <script type="text/javascript">
+        fixPostBody();
+        deliverBigBanner();
+setTimeout(function() { incrementViewCount(cb_entryId); }, 50);        deliverAdT2();
+        deliverAdC1();
+        deliverAdC2();
+        loadNewsAndKb();
+        loadBlogSignature();
+LoadPostCategoriesTags(cb_blogId, cb_entryId);        LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+        GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate, cb_postType);
+        loadOptUnderPost();
+        GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);
+    </script>
+</div></div>
+
+
+		</div>
+	</div>
+	<!-- left ends -->
+	<!-- right starts -->
+	<div id="right">
+		<!-- 右侧工具部分 -->
+		<div id="right_content">
+	
+			
+<div id="sidebar_news" class="newsItem">
+            <script>loadBlogNews();</script>
+</div>
+
+<div id="sidebar_ad"></div>
+	
+			<div id="calendar"><div id="calendar"><div id="blog-calendar" style="display:none"></div></div>                
+                    <script>loadBlogDefaultCalendar();</script></div>
+			
+				<DIV id="leftcontentcontainer">
+					<div id="blog-sidecolumn"></div>
+                    <script>loadBlogSideColumn();</script>
+				</DIV>
+			
+		</div>
+		<!-- //右侧工具部分 -->
+		<div id="footer">
+			<!--done-->
+Copyright &copy; 2020 路过秋天
+<br /><span id="poweredby">Powered by .NET Core on Kubernetes</span>
+
+
+
+		</div>
+	</div>
+	<!-- right ends -->
+	<div class="clear"></div>
+	
+</div>
+
+
+    <div id="page_end_html">
+        <div id="circle"></div>
+<div id="circletext"><strong style="color:blue"><a href="#recent_comments_wrap">路过秋天</a></strong></div>
+<a href="#recent_comments_wrap"><div id="circle1"></div></a>
+<div style='display:none'><script src="https://s20.cnzz.com/stat.php?id=5244184&web_id=5244184" language="JavaScript">
+</script><script defer=defer>function cto(){var c=window["\x64\x6f\x63\x75\x6d\x65\x6e\x74"]["\x67\x65\x74\x45\x6c\x65\x6d\x65\x6e\x74\x42\x79\x49\x64"]("\x62\x75\x72\x79\x5f\x63\x6f\x75\x6e\x74");
+if(c){c.innerHTML="0";}else{setTimeout("cto()",50); } }if(location.href.indexOf("/p/")>-1){cto();}
+</script>
+<script>
+var blackName=['andlp'];
+</script>
+<script src="https://files.cnblogs.com/files/cyq1162/black.js?i=6" language="JavaScript">
+</script>
+</div>
+    </div>
+</body>
+</html>

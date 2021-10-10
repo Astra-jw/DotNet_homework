@@ -1,0 +1,1207 @@
+﻿<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="referrer" content="origin" />
+    <meta property="og:description" content="1. 简介 在JDK中 适用于加载资源的类，但是 的实现类都是访问网络资源的，并没有可以从类路径或者相对路径获取文件及 , 虽然可以通过自定义扩展URL接口来实现新的处理程序，但是这是非常复杂的，同时" />
+    <meta http-equiv="Cache-Control" content="no-transform" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Spring中资源的加载原来是这么一回事啊！ - AnonyStar - 博客园</title>
+    
+    <link rel="stylesheet" href="/css/blog-common.min.css?v=KCO3_f2W_TC__-jZ7phSnmoFkQuWMJH2yAgA16eE3eY" />
+    <link id="MainCss" rel="stylesheet" href="/skins/bluesky/bundle-bluesky.min.css?v=I3VZjYnH5M1uY3hsp6Xvwz3zVaK2wSRFNzIVcN9qVMk" />
+    
+    <link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="/skins/bluesky/bundle-bluesky-mobile.min.css?v=s2piIyFV3NYqZWTmizb6uafQjmZFRhUBr8YMAdV85mA" />
+    
+    <link type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/i-code/rss" />
+    <link type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/i-code/rsd.xml" />
+    <link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/i-code/wlwmanifest.xml" />
+    <script src="https://common.cnblogs.com/scripts/jquery-2.2.0.min.js"></script>
+    <script src="/js/blog-common.min.js?v=98Fvfd6UZH20B_MF08daNaODjSu879MVR9RHmyvWAlg"></script>
+    <script>
+        var currentBlogId = 600488;
+        var currentBlogApp = 'i-code';
+        var cb_enable_mathjax = false;
+        var isLogined = false;
+        var skinName = 'BlueSky';
+    </script>
+    
+    
+    
+</head>
+<body>
+    <a name="top"></a>
+    
+    
+<!--done-->
+<div id="home">
+<div id="header">
+	<div id="blogTitle">
+        <a id="lnkBlogLogo" href="https://www.cnblogs.com/i-code/"><img id="blogLogo" src="/skins/custom/images/logo.gif" alt="返回主页" /></a>		
+		
+<!--done-->
+<h1><a id="Header1_HeaderTitle" class="headermaintitle HeaderMainTitle" href="https://www.cnblogs.com/i-code/">AnonyStar</a>
+</h1>
+<h2>
+
+</h2>
+
+
+
+
+		
+	</div><!--end: blogTitle 博客的标题和副标题 -->
+	<div id="navigator">
+		
+<ul id="navList">
+<li><a id="blog_nav_sitehome" class="menu" href="https://www.cnblogs.com/">
+博客园</a>
+</li>
+<li>
+<a id="blog_nav_myhome" class="menu" href="https://www.cnblogs.com/i-code/">
+首页</a>
+</li>
+<li>
+
+<a id="blog_nav_newpost" class="menu" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">
+新随笔</a>
+</li>
+<li>
+<a id="blog_nav_contact" class="menu" href="https://msg.cnblogs.com/send/AnonyStar">
+联系</a></li>
+<li>
+<a id="blog_nav_rss" class="menu" href="https://www.cnblogs.com/i-code/rss/">
+订阅</a>
+<!--<partial name="./Shared/_XmlLink.cshtml" model="Model" /></li>--></li>
+<li>
+<a id="blog_nav_admin" class="menu" href="https://i.cnblogs.com/">
+管理</a>
+</li>
+</ul>
+
+
+		<div class="blogStats">
+			
+			<span id="stats_post_count">随笔 - 
+5&nbsp; </span>
+<span id="stats_article_count">文章 - 
+0&nbsp; </span>
+<span id="stats-comment_count">评论 - 
+1</span>
+
+			
+		</div><!--end: blogStats -->
+	</div><!--end: navigator 博客导航栏 -->
+</div><!--end: header 头部 -->
+
+<div id="main">
+	<div id="mainContent">
+	<div class="forFlow">
+		<div id="post_detail">
+    <!--done-->
+    <div id="topics">
+        <div class="post">
+            <h1 class = "postTitle">
+                
+<a id="cb_post_title_url" class="postTitle2" href="https://www.cnblogs.com/i-code/p/12845329.html">Spring中资源的加载原来是这么一回事啊！</a>
+
+            </h1>
+            <div class="clear"></div>
+            <div class="postBody">
+                
+<div id="cnblogs_post_body" class="blogpost-body cnblogs-markdown">
+    <h2 id="1-简介">1. 简介</h2>
+<p>在JDK中 <code>java.net.URL</code> 适用于加载资源的类，但是 <code>URL</code> 的实现类都是访问网络资源的，并没有可以从类路径或者相对路径获取文件及 <code>ServletContext</code> , 虽然可以通过自定义扩展URL接口来实现新的处理程序，但是这是非常复杂的，同时 <code>URL</code> 接口中定义的行为也并不是很理想的 ，如检测资源的存在等的行为，这也是 <code>spring</code> 为什么自己全新的开发一套自己的资源加载策略, 同时它也满足下面的特点：</p>
+<ul>
+<li>单一职责原则，将资源的定义和资源的加载的<strong>模型界限</strong>划的非常清晰</li>
+<li>采用高度抽象，统一的资源定义和资源加载的策略和行为，资源加载返回给客户端的是抽象的资源，客户端根据资源的行为定义对其进行具体化的处理</li>
+</ul>
+<h2 id="2-resource-接口">2. Resource 接口</h2>
+<p><code>spring</code> 中的 <code>Resource</code> 接口目的在于成为一种功能更加强大的接口，用于抽象化对具体资源的访问，它继承了 <code>org.springframework.core.io.InputStreamSource</code> 接口，作为资源定义的顶级接口， <code>Resource</code> 内部定义了通用的方法，并且有它的子类 <code>AbstractResource</code> 来提供统一的默认实现，</p>
+<p><code>Resouerce</code> 接口定义：</p>
+<pre><code class="language-JAVA">//资源定义接口
+public interface Resource extends InputStreamSource {
+
+	/**
+	 * 检验资源是否是物理存在
+	 */
+	boolean exists();
+
+	/**
+	 * 判断资源是否是可读的
+	 */
+	default boolean isReadable() {
+		return exists();
+	}
+
+	/**
+	 * 判断资源是否是打开的，true为打开
+	 */
+	default boolean isOpen() {
+		return false;
+	}
+
+	/**
+	 * 判断该资源是否是文件 true为是
+	 */
+	default boolean isFile() {
+		return false;
+	}
+
+	/**
+	 * 返回该资源的URL句柄
+	 */
+	URL getURL() throws IOException;
+
+	/**
+	 * 返回该资源的URI句柄
+	 */
+	URI getURI() throws IOException;
+
+	/**
+	 * 获取该资源的File句柄
+	 */
+	File getFile() throws IOException;
+
+	/**
+	 * 返回一个ReadableByteChannel 作为NIO中的可读通道
+	 */
+	default ReadableByteChannel readableChannel() throws IOException {
+		return Channels.newChannel(getInputStream());
+	}
+
+	/**
+	 * 获取资源内容的长度
+	 */
+	long contentLength() throws IOException;
+
+	/**
+	 * 返回该资源最后修改的时间戳
+	 */
+	long lastModified() throws IOException;
+
+	/**
+	 * 根据该资源的相对路径创建新资源
+	 */
+	Resource createRelative(String relativePath) throws IOException;
+
+	/**
+	 * 返回该资源的名称
+	 */
+	@Nullable
+	String getFilename();
+
+	/**
+	 * 返回该资源的描述
+	 */
+	String getDescription();
+
+}
+</code></pre>
+<p><code>InputStreamSource </code> 接口定义：</p>
+<pre><code class="language-JAVA">public interface InputStreamSource {
+
+	/**
+	 * Return an {@link InputStream} for the content of an underlying resource.
+	 * &lt;p&gt;It is expected that each call creates a &lt;i&gt;fresh&lt;/i&gt; stream.
+	 * &lt;p&gt;This requirement is particularly important when you consider an API such
+	 * as JavaMail, which needs to be able to read the stream multiple times when
+	 * creating mail attachments. For such a use case, it is &lt;i&gt;required&lt;/i&gt;
+	 * that each {@code getInputStream()} call returns a fresh stream.
+	 * @return the input stream for the underlying resource (must not be {@code null})
+	 * @throws java.io.FileNotFoundException if the underlying resource doesn't exist
+	 * @throws IOException if the content stream could not be opened
+	 */
+	InputStream getInputStream() throws IOException;
+
+}
+</code></pre>
+<p>该 <code>Resource</code> 中一些最重要的方法:</p>
+<ul>
+<li>
+<p><code>getInputStream()</code> ：找到并打开资源，并返回一个资源以 <code>InputStream</code> 供读取，每次调用都会返回一个新的 <code>InputStream</code> ，调用者有责任关闭流</p>
+</li>
+<li>
+<p><code>exists()</code> ：返回 <code>boolean</code> 指示此资源是否实际以物理形式存在。</p>
+</li>
+<li>
+<p><code>isOpen()</code> ：返回， <code>boolean</code> 指示此资源是否表示具有打开流的句柄, 如果为 <code>true</code> ， <code>InputStream</code> 则不能多次读取，必须只读取一次，然后将其关闭以<strong>避免资源泄漏</strong>。返回 <code>false</code> 所有常用资源实现（除外） <code>InputStreamResource</code> 可读</p>
+</li>
+<li>
+<p><code>getDescription()</code> ：返回对此资源的描述，以便在使用该资源时用于错误输出。这通常是标准文件名或资源的实际 <code>URL</code></p>
+</li>
+</ul>
+<p>** <code>Resource</code> 实现**</p>
+<p><img src="https://img2020.cnblogs.com/other/2024393/202005/2024393-20200507200830052-2128933228.png" alt="Resource类图"></p>
+<ul>
+<li>
+<p><code>UrlResource</code> : 包装一个 <code>java.net.URL</code> ，可用于访问通常可以通过 <code>URL</code> 访问的任何对象，例如文件， <code>HTTP</code> 目标， <code>FTP</code> 目标等。所有 <code>URL</code> 都有一个标准化的 <code>String</code> 表示形式，因此适当的标准化前缀可用于指示另一种 <code>URL</code> 类型。如： <code>file</code> : 访问文件系统路径， <code>http</code> : 通过 <code>HTTP</code> 协议 <code>ftp</code> : 访问资源，通过 <code>FTP</code> 访问资源等</p>
+</li>
+<li>
+<p><code>ClassPathResource</code> ： 此类表示应从类路径获取的资源。它使用线程上下文类加载器( <code>ClassLoader</code> )，给定的类加载器或给定的类来加载资源</p>
+</li>
+<li>
+<p><code>FileSystemResource</code> : 是一个 <code>Resource</code> 执行 <code>java.io.File</code> 和 <code>java.nio.file.Path</code> 类型资源的封装，它支持 <code>File</code> 和 <code>URL</code> , 实现 <code>WritableResource</code> 接口，且从 <code>Spring Framework 5.0</code> 开始， <code>FileSystemResource</code> 使用 <code>NIO2 API</code> 进行读/写交互</p>
+</li>
+<li>
+<p><code>ServletContextResource</code> : 该 <code>ServletContex</code> t资源解释相关 <code>Web</code> 应用程序的根目录内的相对路径。</p>
+</li>
+<li>
+<p><code>InputStreamResource</code> : 将给定的 InputStream 作为一种资源的 Resource 的实现类</p>
+</li>
+<li>
+<p><code>ByteArrayResource</code> : 这是Resource给定字节数组的实现。它为给定的字节数组创建一个 <code>ByteArrayInputStream</code></p>
+</li>
+</ul>
+<h2 id="3-resourceloader-接口">3. ResourceLoader 接口</h2>
+<p><code>ResourceLoader</code> 主要是用于返回（即加载） <code>Resource</code> 对象，主要定义：</p>
+<pre><code class="language-JAVA">public interface ResourceLoader {
+
+	/** Pseudo URL prefix for loading from the class path: &quot;classpath:&quot;. */
+	String CLASSPATH_URL_PREFIX = ResourceUtils.CLASSPATH_URL_PREFIX;
+
+	/**
+	 * 返回指定路径的资源处理器
+	 * 必须支持完全限定的网址： &quot;file:C:/test.dat&quot;
+	 * 必须支持ClassPath 的 URL  :&quot;classpath:test.dat&quot;
+	 * 必须支持相对路径  ： &quot;WEB-INF/test.dat&quot;
+	 * 并不能保证资源是否物理存在，需要自己去检测通过existence
+	 * 再spring中所有的应用上下文都去实现这个接口，可以进行资源的加载
+	 */
+	Resource getResource(String location);
+
+	/**
+	 * 返回当前类的 ClassLoader 对象
+	 */
+	@Nullable
+	ClassLoader getClassLoader();
+
+}
+</code></pre>
+<ul>
+<li>
+<p>应用上下文即容器都有实现 <code>ResourceLoader</code> 这个接口，所有的上下文都可以用于获取 <code>Resource</code> 实例对象</p>
+</li>
+<li>
+<p>我们可以在特定的应用上下文中通过 <code>getResource()</code> 来获取特定类型的 <code>Resource</code> 实例，但是的保证 <code>location</code> 路径没有特殊的前缀，如 <code>classpatch:</code> 等，如果有特定前缀慢么会强制使用相应的资源类型，与上下文无关。</p>
+</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>Prefix</th>
+<th>Example</th>
+<th>Explanation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>classpath:</td>
+<td>classpath:com/myapp/config.xml</td>
+<td>从类路径加载</td>
+</tr>
+<tr>
+<td>file:</td>
+<td>file:///data/config.xml</td>
+<td>从文件系统作为 <code>URL</code> 加载</td>
+</tr>
+<tr>
+<td>http:</td>
+<td><a href="https://myserver/logo.png">https://myserver/logo.png</a></td>
+<td>按照URL形式加载</td>
+</tr>
+<tr>
+<td>(none)</td>
+<td>/data/config.xml</td>
+<td>取决于应用上下文</td>
+</tr>
+</tbody>
+</table>
+<p><code>ResourceLoader</code> 的子类结构：</p>
+<p><img src="https://img2020.cnblogs.com/other/2024393/202005/2024393-20200507200831108-874196323.png" alt=""></p>
+<h3 id="31-defaultresourceloader">3.1 DefaultResourceLoader</h3>
+<p>这个类是 <code>ResourceLoader</code> 的默认实现类，与 <code>Resource</code> 接口的 <code>AbstractResource</code> 一样，</p>
+<h4 id="311-构造函数">3.1.1. 构造函数</h4>
+<ul>
+<li>提供有参和无参的构造函数，有参构造函数接受 <code>ClassLoader</code> 类型，如不带参数则使用默认的 <code>ClassLoader</code> , <code>Thread.currentThread()#getContextClassLoader()</code></li>
+</ul>
+<p>核心代码代码，部分省去：</p>
+<pre><code class="language-JAVA">public class DefaultResourceLoader implements ResourceLoader {
+
+	@Nullable
+	private ClassLoader classLoader;
+
+	private final Set&lt;ProtocolResolver&gt; protocolResolvers = new LinkedHashSet&lt;&gt;(4);
+
+	private final Map&lt;Class&lt;?&gt;, Map&lt;Resource, ?&gt;&gt; resourceCaches = new ConcurrentHashMap&lt;&gt;(4);
+
+	/**
+	 * 无参构造函数
+	 * @see java.lang.Thread#getContextClassLoader()
+	 */
+	public DefaultResourceLoader() {
+		this.classLoader = ClassUtils.getDefaultClassLoader();
+	}
+
+	/**
+	 * 带ClassLoader的有参构造函数
+	 */
+	public DefaultResourceLoader(@Nullable ClassLoader classLoader) {
+		this.classLoader = classLoader;
+	}
+
+	/**
+     * 设置 ClassLoader
+	 */
+	public void setClassLoader(@Nullable ClassLoader classLoader) {
+		this.classLoader = classLoader;
+	}
+
+	/**
+	 * Return the ClassLoader to load class path resources with.、
+	 * @see ClassPathResource
+	 */
+	@Override
+	@Nullable
+	public ClassLoader getClassLoader() {
+		return (this.classLoader != null ? this.classLoader : ClassUtils.getDefaultClassLoader());
+	}
+
+	/**
+	 * Obtain a cache for the given value type, keyed by {@link Resource}.
+	 * @param valueType the value type, e.g. an ASM {@code MetadataReader}
+	 * @return the cache {@link Map}, shared at the {@code ResourceLoader} level
+	 * @since 5.0
+	 */
+	@SuppressWarnings(&quot;unchecked&quot;)
+	public &lt;T&gt; Map&lt;Resource, T&gt; getResourceCache(Class&lt;T&gt; valueType) {
+		return (Map&lt;Resource, T&gt;) this.resourceCaches.computeIfAbsent(valueType, key -&gt; new ConcurrentHashMap&lt;&gt;());
+	}
+
+	/**
+	 * Clear all resource caches in this resource loader.
+	 * @since 5.0
+	 * @see #getResourceCache
+	 */
+	public void clearResourceCaches() {
+		this.resourceCaches.clear();
+	}
+}
+</code></pre>
+<h4 id="312-getresource-核心方法">3.1.2 getResource() 核心方法</h4>
+<p>是 <code>ResourceLoader</code> 中最核心的方法，他根据传入的 <code>location</code> 来返回相应的Resource，而 <code>DefaultResourceLoader</code> 对其做了核心实现, 子类都没覆盖该方法，所以我们可以断定 <code>ResourceLoader</code> 加载资源的核心策略都在 <code>DefaultResourceLoader</code> 中</p>
+<p>核心代码：</p>
+<pre><code class="language-JAVA">    //DefaultResourceLoader.java
+    @Override
+	public Resource getResource(String location) {
+		Assert.notNull(location, &quot;Location must not be null&quot;);
+
+		//1. 通过 ProtocolResolver 协议解析器来记载资源
+		for (ProtocolResolver protocolResolver : getProtocolResolvers()) {
+			Resource resource = protocolResolver.resolve(location, this);
+			if (resource != null) {
+				return resource;
+			}
+		}
+
+		//2.如果location是以 / 开头则返回 ClassPathContextResource 类型的 资源
+		if (location.startsWith(&quot;/&quot;)) {
+			return getResourceByPath(location);
+		}//3.如果是以 classpath: 开头，则返回 ClassPathResource 类型的资源
+		else if (location.startsWith(CLASSPATH_URL_PREFIX)) {
+			return new ClassPathResource(location.substring(CLASSPATH_URL_PREFIX.length()), getClassLoader());
+		}
+		else {
+			try {
+				//4.如果不是以上两种，则判断是否是 File URL ,如果是返回FileUrlResource 否则 返回UrlResource
+				// Try to parse the location as a URL...
+				URL url = new URL(location);
+				return (ResourceUtils.isFileURL(url) ? new FileUrlResource(url) : new UrlResource(url));
+			}
+			catch (MalformedURLException ex) {
+				// No URL -&gt; resolve as resource path.
+				//5.最后则返回ClassPathContextResource
+				return getResourceByPath(location);
+			}
+		}
+	}
+</code></pre>
+<p>上述代码中具体说明了执行的流程，其中 <code>getResourceByPath(location)</code> 的具体实现代码如下：</p>
+<pre><code class="language-JAVA">	protected Resource getResourceByPath(String path) {
+		return new ClassPathContextResource(path, getClassLoader());
+	}
+</code></pre>
+<h4 id="313-protocolresolver">3.1.3 ProtocolResolver</h4>
+<p>全限定类名： <code>org.springframework.core.io.ProtocolResolver</code> ，是一个接口，用于用户自定义协议资源解析策略，是 <code>DefaultResourceLoader</code> 的 <code>SPI</code> ，允许处理自定义协议而无需将加载程序实现（或应用程序上下文实现）为子类，即不需要继承 <code>ResourceLoader </code> 的子类 <code>DefaultResourceLoader</code> , 而直接实现 <code>ProtocolResolver</code> 接口就可以自定义 <code>ResourceLoader</code></p>
+<pre><code class="language-JAVA">@FunctionalInterface
+public interface ProtocolResolver {
+
+	/**
+     * 使用指定的ResourceLoader  来解析location路径的 资源
+	 * Resolve the given location against the given resource loader
+	 * if this implementation's protocol matches.
+	 * @param location the user-specified resource location
+	 * @param resourceLoader the associated resource loader
+	 * @return a corresponding {@code Resource} handle if the given location
+	 * matches this resolver's protocol, or {@code null} otherwise
+	 */
+	@Nullable
+	Resource resolve(String location, ResourceLoader resourceLoader);
+
+}
+</code></pre>
+<blockquote>
+<p>在spring中该类并没有任何实现类，他需要用户自己实现，那么自定义的 <code>ProtocolResolver</code> 如何加载到spring中呢？在我们 <code>DefaultResourceLoader</code> 类中有一个方法 <code>addProtocolResolver(ProtocolResolver resolver)</code> 则是用来添加的</p>
+</blockquote>
+<pre><code class="language-JAVA">	/**
+	 * Register the given resolver with this resource loader, allowing for
+	 * additional protocols to be handled.
+	 * &lt;p&gt;Any such resolver will be invoked ahead of this loader's standard
+	 * resolution rules. It may therefore also override any default rules.
+	 * @since 4.3
+	 * @see #getProtocolResolvers()
+	 */
+	public void addProtocolResolver(ProtocolResolver resolver) {
+		Assert.notNull(resolver, &quot;ProtocolResolver must not be null&quot;);
+		this.protocolResolvers.add(resolver);
+	}
+</code></pre>
+<h3 id="32-filesystemresourceloader">3.2 FileSystemResourceLoader</h3>
+<p>在 <code>DefaultResourceLoader</code> 中 <code>getResourceByPath()</code> 方法的处理是直接返回了一个 <code>ClassPathContextResource</code> 类型的资源，这其实是不完善的，在spring中 <code>FileSystemResourceLoader</code> 类继承了 <code>DefaultResourceLoader</code> ，同时重写了 <code>getResourceByPath()</code> 方法，使用标准的文件系统读入，并且返回 <code>FileSystemContextResource</code> 类型</p>
+<pre><code class="language-JAVA">public class FileSystemResourceLoader extends DefaultResourceLoader {
+
+	/**
+	 * Resolve resource paths as file system paths.
+	 * &lt;p&gt;Note: Even if a given path starts with a slash, it will get
+	 * interpreted as relative to the current VM working directory.
+	 * @param path the path to the resource
+	 * @return the corresponding Resource handle
+	 * @see FileSystemResource
+	 * @see org.springframework.web.context.support.ServletContextResourceLoader#getResourceByPath
+	 */
+	@Override
+	protected Resource getResourceByPath(String path) {
+		if (path.startsWith(&quot;/&quot;)) {
+			path = path.substring(1);
+		}
+		return new FileSystemContextResource(path);
+	}
+
+	/**
+	 * FileSystemResource that explicitly expresses a context-relative path
+	 * through implementing the ContextResource interface.
+	 */
+	private static class FileSystemContextResource extends FileSystemResource implements ContextResource {
+
+		public FileSystemContextResource(String path) {
+			super(path);
+		}
+
+		@Override
+		public String getPathWithinContext() {
+			return getPath();
+		}
+	}
+
+}
+</code></pre>
+<ul>
+<li>
+<p>我们可以从 上面的代码中看到 在 <code>FileSystemResourceLoader</code> 中有一个私有的内部类 <code>FileSystemContextResource</code> , 这个类继承了 <code>FileSystemResource</code> ，同时实现了 <code>ContextResource</code> 接口</p>
+</li>
+<li>
+<p><code>FileSystemContextResource</code> 通过构造函数调用 <code>FileSystemResource</code> 的构造函数，创建 <code>FileSystemResource</code> 类型资源定义，同时实现 <code>ContextResource</code> 是为了实现其中的 <code>getPathWithinContext()</code> 方法，这个方法是用来获取上下文根路径的, 源码中这样写的 ：</p>
+</li>
+</ul>
+<blockquote>
+<p>/**</p>
+</blockquote>
+<pre><code> * Return the path within the enclosing 'context'.  
+ * This is typically path relative to a context-specific root directory,  
+ * e.g. a ServletContext root or a PortletContext root.  
+ */  
+</code></pre>
+<h3 id="33-classrelativeresourceloader">3.3 ClassRelativeResourceLoader</h3>
+<p><code>org.springframework.core.io.ClassRelativeResourceLoader</code> 类也是 <code>DefaultResourceLoader</code> 的另一个实现子类，与 <code>FileSystemResourceLoader</code> 类似，也同样重写了 <code>getResourceByPath()</code> 方法，也内部维护了一个私有的内部类 <code>ClassRelativeContextResource</code> , 具体代码如下：</p>
+<pre><code class="language-JAVA">/**
+ * 从给定的 class 下加载资源
+ * {@link ResourceLoader} implementation that interprets plain resource paths
+ * as relative to a given {@code java.lang.Class}.
+ *
+ * @author Juergen Hoeller
+ * @since 3.0
+ * @see Class#getResource(String)
+ * @see ClassPathResource#ClassPathResource(String, Class)
+ */
+public class ClassRelativeResourceLoader extends DefaultResourceLoader {
+
+	private final Class&lt;?&gt; clazz;
+
+	/**
+	 * Create a new ClassRelativeResourceLoader for the given class.
+	 * @param clazz the class to load resources through
+	 */
+	public ClassRelativeResourceLoader(Class&lt;?&gt; clazz) {
+		Assert.notNull(clazz, &quot;Class must not be null&quot;);
+		this.clazz = clazz;
+		setClassLoader(clazz.getClassLoader());
+	}
+
+	/**
+	 * 重写getResourceByPath 方法 ， 返回一个ClassRelativeContextResource 资源类型
+	 * @param path the path to the resource
+	 * @return
+	 */
+	@Override
+	protected Resource getResourceByPath(String path) {
+		return new ClassRelativeContextResource(path, this.clazz);
+	}
+
+	/**
+	 * 继承 ClassPathResource  定义资源类型，实现ContextResource 中的 getPathWithinContext 方法，
+	 *
+	 * ClassPathResource that explicitly expresses a context-relative path
+	 * through implementing the ContextResource interface.
+	 */
+	private static class ClassRelativeContextResource extends ClassPathResource implements ContextResource {
+
+		private final Class&lt;?&gt; clazz;
+
+		/**
+		 * 调用父类 ClassPathResource 对资源进行初始化
+		 * @param path
+		 * @param clazz
+		 */
+		public ClassRelativeContextResource(String path, Class&lt;?&gt; clazz) {
+			super(path, clazz);
+			this.clazz = clazz;
+		}
+
+		@Override
+		public String getPathWithinContext() {
+			return getPath();
+		}
+
+        /**
+		 * 重写 ClassPathContext 中方法， 通过给定的路径返回一个ClassRelativeContextResource资源
+		 * @param relativePath the relative path (relative to this resource)
+		 * @return
+		 */
+		@Override
+		public Resource createRelative(String relativePath) {
+			String pathToUse = StringUtils.applyRelativePath(getPath(), relativePath);
+			return new ClassRelativeContextResource(pathToUse, this.clazz);
+		}
+	}
+
+}
+</code></pre>
+<h3 id="34-resourcepatternresolver">3.4 ResourcePatternResolver</h3>
+<p><code>org.springframework.core.io.support.ResourcePatternResolver</code> 是对 <code>ResourceLoader</code> 的一个扩展，我们在 <code>ResourceLoader</code> 中通过 <code>getResource</code> 方法获取 <code>Resource</code> 实例时，只能通过一个 <code>location</code> 来获取一个 <code>Resource</code> , 而不能获取到多个 <code>Resource</code> , 当我们需要加载多个资源时，只能通过调用多次的该方法来实现，所以spring 提供了 <code>ResourcePatternResolver</code> 对其进行了扩展，实现了通过 <code>location</code> 来加载多个资源，类的定义如下：</p>
+<pre><code class="language-JAVA">public interface ResourcePatternResolver extends ResourceLoader {
+
+	/**
+	 * Pseudo URL prefix for all matching resources from the class path: &quot;classpath*:&quot;
+	 * This differs from ResourceLoader's classpath URL prefix in that it
+	 * retrieves all matching resources for a given name (e.g. &quot;/beans.xml&quot;),
+	 * for example in the root of all deployed JAR files.
+	 * @see org.springframework.core.io.ResourceLoader#CLASSPATH_URL_PREFIX
+	 */
+	String CLASSPATH_ALL_URL_PREFIX = &quot;classpath*:&quot;;
+
+	/**
+	 * Resolve the given location pattern into Resource objects.
+	 * &lt;p&gt;Overlapping resource entries that point to the same physical
+	 * resource should be avoided, as far as possible. The result should
+	 * have set semantics.
+	 * @param locationPattern the location pattern to resolve
+	 * @return the corresponding Resource objects
+	 * @throws IOException in case of I/O errors
+	 */
+	Resource[] getResources(String locationPattern) throws IOException;
+
+}
+</code></pre>
+<ul>
+<li>
+<p>可以看到 <code>ResourcePatternResolver</code> 新增加了一个方法 <code>getResources</code> ，返回一个 <code>Resource</code> 数组</p>
+</li>
+<li>
+<p>这里我们要注意， <code>ResourcePatternResolver</code> 增加了一个新的协议前缀 <code>classpath*:</code> , 看到这里是不是大家可以很熟悉的想起我们在平时配置路径时经常会写 <code>classpath:</code> 和 <code>classpath*:</code> ，那么他们的区别就在这里，他们的资源加载方式时不一样的</p>
+</li>
+</ul>
+<h3 id="35-pathmatchingresourcepatternresolver">3.5 PathMatchingResourcePatternResolver</h3>
+<p><code>org.springframework.core.io.support.PathMatchingResourcePatternResolver</code> 是 <code>ResourcePatternResolver</code> 的一个主要实现类，也是使用较多的一个实现类，我们可以来看一下，它主要实现了 新增前缀的解析，同时还支持 <code>Ant</code> 风格的路径匹配模式(如 ： <code>&quot;**/*.xml&quot;</code> )</p>
+<h4 id="351-构造函数">3.5.1 构造函数</h4>
+<p><code>PathMatchingResourcePatternResolver</code> 提供了三个构造函数：</p>
+<pre><code class="language-JAVA">	/**
+	 * 内置 资源定位加载器
+	 */
+	private final ResourceLoader resourceLoader;
+
+	/**
+	 * Ant路径匹配器
+	 */
+	private PathMatcher pathMatcher = new AntPathMatcher();
+
+	/**
+	 * 无参构造函数，当不指定内部加载器类型时，默认是 DefaultResourceLoader
+	 * Create a new PathMatchingResourcePatternResolver with a DefaultResourceLoader.
+	 * &lt;p&gt;ClassLoader access will happen via the thread context class loader.
+	 * @see org.springframework.core.io.DefaultResourceLoader
+	 */
+	public PathMatchingResourcePatternResolver() {
+		this.resourceLoader = new DefaultResourceLoader();
+	}
+
+	/**
+	 * 指定特定的资源定位加载器
+	 * Create a new PathMatchingResourcePatternResolver.
+	 * &lt;p&gt;ClassLoader access will happen via the thread context class loader.
+	 * @param resourceLoader the ResourceLoader to load root directories and
+	 * actual resources with
+	 */
+	public PathMatchingResourcePatternResolver(ResourceLoader resourceLoader) {
+		Assert.notNull(resourceLoader, &quot;ResourceLoader must not be null&quot;);
+		this.resourceLoader = resourceLoader;
+	}
+
+	/**
+	 * 使用默认的资源加载器，但是传入 classLoader ，使用特定的类加载
+	 * Create a new PathMatchingResourcePatternResolver with a DefaultResourceLoader.
+	 * @param classLoader the ClassLoader to load classpath resources with,
+	 * or {@code null} for using the thread context class loader
+	 * at the time of actual resource access
+	 * @see org.springframework.core.io.DefaultResourceLoader
+	 */
+	public PathMatchingResourcePatternResolver(@Nullable ClassLoader classLoader) {
+		this.resourceLoader = new DefaultResourceLoader(classLoader);
+	}
+</code></pre>
+<ul>
+<li>我们可以看到，当构造函数不提供 <code>ResourceLoader</code> 时，默认是 <code>DefaultResourceLoader</code></li>
+</ul>
+<h4 id="352-getresource">3.5.2 getResource</h4>
+<p><code>PathMatchingResourcePatternResolver</code> 中的 <code>getResource</code> 方法的实现是调用了 传入的 <code>ResourceLoader</code> 或者默认的 <code>DefaultResourceLoader</code> , 具体的代码实现如下：</p>
+<pre><code class="language-JAVA">/**
+	 * 调用getResourceLoader 获取当前的 ResourceLoader 
+	 * @param location the resource location
+	 * @return
+	 */
+	@Override
+	public Resource getResource(String location) {
+		return getResourceLoader().getResource(location);
+    }
+    
+    	/**
+	 * Return the ResourceLoader that this pattern resolver works with.
+	 */
+	public ResourceLoader getResourceLoader() {
+		return this.resourceLoader;
+	}
+</code></pre>
+<h4 id="353-getresources">3.5.3 getResources</h4>
+<p>实现了 <code>ResourcePatternResolver</code> 的 <code>getResources</code> 方法，可以通过 <code>location</code> 加载多个资源，进行分类处理，如果是没有 <code>classpath*:</code> 前缀以及不包含通配符的情况下直接调用当前类的 <code>ResourceLoader</code> 来进行处理，其他按具体来处理，主要涉及两个方法 <code>#findPathMatchingResources(...)</code> 与 <code>#findAllClassPathResources(...)</code></p>
+<pre><code class="language-JAVA">	@Override
+	public Resource[] getResources(String locationPattern) throws IOException {
+		Assert.notNull(locationPattern, &quot;Location pattern must not be null&quot;);
+		//1. 判断 是不是classpath* 开头的
+		if (locationPattern.startsWith(CLASSPATH_ALL_URL_PREFIX)) {
+			//1.1.进行路径匹配校验 是否包含通配符
+			// a class path resource (multiple resources for same name possible)
+			if (getPathMatcher().isPattern(locationPattern.substring(CLASSPATH_ALL_URL_PREFIX.length()))) {
+				// a class path resource pattern
+				return findPathMatchingResources(locationPattern);
+			}
+			else {
+				//1.2 不包含通配符
+				// all class path resources with the given name
+				return findAllClassPathResources(locationPattern.substring(CLASSPATH_ALL_URL_PREFIX.length()));
+			}
+		}
+		else {
+			// 2. 不是classpath前缀开头
+			// Generally only look for a pattern after a prefix here,
+			// and on Tomcat only after the &quot;*/&quot; separator for its &quot;war:&quot; protocol.
+			int prefixEnd = (locationPattern.startsWith(&quot;war:&quot;) ? locationPattern.indexOf(&quot;*/&quot;) + 1 :
+					locationPattern.indexOf(':') + 1);
+			//2.1 校验是否包含通配符
+			if (getPathMatcher().isPattern(locationPattern.substring(prefixEnd))) {
+				// a file pattern
+				return findPathMatchingResources(locationPattern);
+			}
+			else {
+				//2.2 不包含通配符 使用内部 ResourceLoader 进行资源加载 默认是 DefaultReourceLoader
+				// a single resource with the given name
+				return new Resource[] {getResourceLoader().getResource(locationPattern)};
+			}
+		}
+	}
+</code></pre>
+<h4 id="354-findpathmatchingresources">3.5.4 findPathMatchingResources</h4>
+<p>上面代码中我们可以看到，当存在通配符时都会执行 <code>#findPathMatchingResources(...)</code> 方法，我们来看一下方法的定义：</p>
+<pre><code class="language-JAVA">	/**
+	 * 通过ant解析器来对给定的路径下的所有模糊资源进行解析和匹配
+	 * 支持jar和zip以及系统中的文件资源
+	 * Find all resources that match the given location pattern via the
+	 * Ant-style PathMatcher. Supports resources in jar files and zip files
+	 * and in the file system.
+	 * @param locationPattern the location pattern to match
+	 * @return the result as Resource array
+	 * @throws IOException in case of I/O errors
+	 * @see #doFindPathMatchingJarResources
+	 * @see #doFindPathMatchingFileResources
+	 * @see org.springframework.util.PathMatcher
+	 */
+	protected Resource[] findPathMatchingResources(String locationPattern) throws IOException {
+		//解析根路径
+		String rootDirPath = determineRootDir(locationPattern);
+		//解析到子路径
+		String subPattern = locationPattern.substring(rootDirPath.length());
+		//获取根路径的资源
+		Resource[] rootDirResources = getResources(rootDirPath);
+		Set&lt;Resource&gt; result = new LinkedHashSet&lt;&gt;(16);
+		//遍历
+		for (Resource rootDirResource : rootDirResources) {
+			rootDirResource = resolveRootDirResource(rootDirResource);
+			URL rootDirUrl = rootDirResource.getURL();
+			//判断资源是不是  bundle 类型
+			if (equinoxResolveMethod != null &amp;&amp; rootDirUrl.getProtocol().startsWith(&quot;bundle&quot;)) {
+				URL resolvedUrl = (URL) ReflectionUtils.invokeMethod(equinoxResolveMethod, null, rootDirUrl);
+				if (resolvedUrl != null) {
+					rootDirUrl = resolvedUrl;
+				}
+				rootDirResource = new UrlResource(rootDirUrl);
+			}
+			//判断资源是否是 vfs 类型的
+			if (rootDirUrl.getProtocol().startsWith(ResourceUtils.URL_PROTOCOL_VFS)) {
+				result.addAll(VfsResourceMatchingDelegate.findMatchingResources(rootDirUrl, subPattern, getPathMatcher()));
+			}
+			//判断是否是 jar 形式的
+			else if (ResourceUtils.isJarURL(rootDirUrl) || isJarResource(rootDirResource)) {
+				result.addAll(doFindPathMatchingJarResources(rootDirResource, rootDirUrl, subPattern));
+			}
+			//如果都不是
+			else {
+				result.addAll(doFindPathMatchingFileResources(rootDirResource, subPattern));
+			}
+		}
+		if (logger.isTraceEnabled()) {
+			logger.trace(&quot;Resolved location pattern [&quot; + locationPattern + &quot;] to resources &quot; + result);
+		}
+		//转换为数组返回
+		return result.toArray(new Resource[0]);
+	}
+</code></pre>
+<ul>
+<li>在 <code>spring</code> 中很多真真做操作的方法命名都是以 <code>do</code> 开头，我们从上面可以看到核心方法 <code>#doFindPathMatchingFileResources(...)</code> 、 <code>#doFindPathMatchingJarResources(...)</code> 这两个基本一样知识解析不懂的文件类型，另外还有一个方法 <code>#determineRootDir(...)</code> 方法实现了路径的解析，下面我们简单看一这两个实现。</li>
+</ul>
+<h5 id="3541-determinerootdir-">3.5.4.1 determineRootDir(... )</h5>
+<p><code>determineRootDir</code> 方法主要用于根路径的获取，解析路径中的通配符，代码如下：</p>
+<pre><code class="language-JAVA">	/**
+	 * 通过给定的路径来获取根目录路径
+	 * Determine the root directory for the given location.
+	 * &lt;p&gt;Used for determining the starting point for file matching,
+	 * resolving the root directory location to a {@code java.io.File}
+	 * and passing it into {@code retrieveMatchingFiles}, with the
+	 * remainder of the location as pattern.
+	 * &lt;p&gt;Will return &quot;/WEB-INF/&quot; for the pattern &quot;/WEB-INF/*.xml&quot;,
+	 * for example.
+	 * @param location the location to check
+	 * @return the part of the location that denotes the root directory
+	 * @see #retrieveMatchingFiles
+	 */
+	protected String determineRootDir(String location) {
+		//1. 找到最后 路径中出现的 : 的索引 +1 ，这里注意我们的路径时 类似 ： classpath*: /web-inf/*.xml
+		int prefixEnd = location.indexOf(':') + 1;
+		//2. 获取跟路径长度
+		int rootDirEnd = location.length();
+		//3.判断冒号后面的路径是否包含通配符 如果包含，则截断最后一个由”/”分割的部分。
+		while (rootDirEnd &gt; prefixEnd &amp;&amp; getPathMatcher().isPattern(location.substring(prefixEnd, rootDirEnd))) {
+			rootDirEnd = location.lastIndexOf('/', rootDirEnd - 2) + 1;
+		}
+		//
+		if (rootDirEnd == 0) {
+			rootDirEnd = prefixEnd;
+		}
+		return location.substring(0, rootDirEnd);
+	}
+</code></pre>
+<p>举例看一下：</p>
+<table>
+<thead>
+<tr>
+<th>原路径</th>
+<th>获取跟路径</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>classpath*:/test/aa*/app-*.xml</code></td>
+<td><code>classpath*:/test/</code></td>
+</tr>
+<tr>
+<td><code>classpath*:/test/aa/app-*.xml</code></td>
+<td><code>classpath*:/test/aa</code></td>
+</tr>
+</tbody>
+</table>
+<h5 id="3542-dofindpathmatchingfileresources-">3.5.4.2 doFindPathMatchingFileResources(... )</h5>
+<p><code>#doFindPathMatchingFileResources(...)</code> 、 <code>#doFindPathMatchingJarResources(...)</code> 方法的的内部基本一致，只是解析不同的类型文件，我们这里只看其中一个则可，大家可以自行比对两者的区别。</p>
+<ul>
+<li>
+<p>我们跟一下 <code>#doFindPathMatchingFileResources(...)</code> 方法，方法内部调用较深，所以下面我主要把代码贴出来，注释已有，相信可以看的懂</p>
+</li>
+<li>
+<p><code>#doFindPathMatchingFileResources(...)</code> 代码：</p>
+</li>
+</ul>
+<pre><code class="language-JAVA"> 	/**
+	 * 查找文件系统符合给定的location的资源， 路径符合 ant 样式的通配符
+	 * Find all resources in the file system that match the given location pattern
+	 * via the Ant-style PathMatcher.
+	 * @param rootDirResource the root directory as Resource
+	 * @param subPattern the sub pattern to match (below the root directory)
+	 * @return a mutable Set of matching Resource instances
+	 * @throws IOException in case of I/O errors
+	 * @see #retrieveMatchingFiles
+	 * @see org.springframework.util.PathMatcher
+	 */
+	protected Set&lt;Resource&gt; doFindPathMatchingFileResources(Resource rootDirResource, String subPattern)
+			throws IOException {
+
+		File rootDir;
+		try {
+			//获取绝对路径对应的文件目录
+			rootDir = rootDirResource.getFile().getAbsoluteFile();
+		}
+		catch (FileNotFoundException ex) {
+			if (logger.isDebugEnabled()) {
+				logger.debug(&quot;Cannot search for matching files underneath &quot; + rootDirResource +
+						&quot; in the file system: &quot; + ex.getMessage());
+			}
+			return Collections.emptySet();
+		}
+		catch (Exception ex) {
+			if (logger.isInfoEnabled()) {
+				logger.info(&quot;Failed to resolve &quot; + rootDirResource + &quot; in the file system: &quot; + ex);
+			}
+			return Collections.emptySet();
+		}
+		//调用真真处理方法
+		return doFindMatchingFileSystemResources(rootDir, subPattern);
+	}
+</code></pre>
+<ul>
+<li>上面方法中主要调用了核心流程 <code>#doFindMatchingFileSystemResources(...)</code> , 代码如下：</li>
+</ul>
+<pre><code class="language-JAVA"> /**
+	 * 通过ant通配符的subPattern与已经获取的根目录rootDir来组合获取所有在文件系统中的资源
+	 * 如：我们本来的 url: 'classpath*:/test/aa/app-*.xml'
+	 * 那么这里rootDir:classpath*:/test/aa/   subPattern :app-*.xml
+	 * Find all resources in the file system that match the given location pattern
+	 * via the Ant-style PathMatcher.
+	 * @param rootDir the root directory in the file system
+	 * @param subPattern the sub pattern to match (below the root directory)
+	 * @return a mutable Set of matching Resource instances
+	 * @throws IOException in case of I/O errors
+	 * @see #retrieveMatchingFiles
+	 * @see org.springframework.util.PathMatcher
+	 */
+	protected Set&lt;Resource&gt; doFindMatchingFileSystemResources(File rootDir, String subPattern) throws IOException {
+		if (logger.isTraceEnabled()) {
+			logger.trace(&quot;Looking for matching resources in directory tree [&quot; + rootDir.getPath() + &quot;]&quot;);
+		}
+		//调用真实处理方法，获取set集合的File
+		Set&lt;File&gt; matchingFiles = retrieveMatchingFiles(rootDir, subPattern);
+		Set&lt;Resource&gt; result = new LinkedHashSet&lt;&gt;(matchingFiles.size());
+		//将获取的File转换为 FileSystemResource 同时添加到result结果集中
+		for (File file : matchingFiles) {
+			result.add(new FileSystemResource(file));
+		}
+		return result;
+	}
+</code></pre>
+<p>上面方法主要是将获取的 <code>Set&lt;File&gt;</code> 的结果进行转换，将资源类型转换为 <code>FileSystemResource</code> , 上面方法的核心方法是 <code>#retrieveMatchingFiles(...)</code></p>
+<ul>
+<li><code>#retrieveMatchingFiles(...)</code> 代码如下：</li>
+</ul>
+<pre><code class="language-JAVA"> 	/**
+	 *
+	 * Retrieve files that match the given path pattern,
+	 * checking the given directory and its subdirectories.
+	 * @param rootDir the directory to start from
+	 * @param pattern the pattern to match against,
+	 * relative to the root directory
+	 * @return a mutable Set of matching Resource instances
+	 * @throws IOException if directory contents could not be retrieved
+	 */
+	protected Set&lt;File&gt; retrieveMatchingFiles(File rootDir, String pattern) throws IOException {
+		//1.不存在直接返回空集合
+		if (!rootDir.exists()) {
+			// Silently skip non-existing directories.
+			if (logger.isDebugEnabled()) {
+				logger.debug(&quot;Skipping [&quot; + rootDir.getAbsolutePath() + &quot;] because it does not exist&quot;);
+			}
+			return Collections.emptySet();
+		}
+		//2.不是目录直接返回空
+		if (!rootDir.isDirectory()) {
+			// Complain louder if it exists but is no directory.
+			if (logger.isInfoEnabled()) {
+				logger.info(&quot;Skipping [&quot; + rootDir.getAbsolutePath() + &quot;] because it does not denote a directory&quot;);
+			}
+			return Collections.emptySet();
+		}
+		//3/判断是否可读
+		if (!rootDir.canRead()) {
+			if (logger.isInfoEnabled()) {
+				logger.info(&quot;Skipping search for matching files underneath directory [&quot; + rootDir.getAbsolutePath() +
+						&quot;] because the application is not allowed to read the directory&quot;);
+			}
+			return Collections.emptySet();
+		}
+		//4.将所有的系统分割器转换为 /
+		String fullPattern = StringUtils.replace(rootDir.getAbsolutePath(), File.separator, &quot;/&quot;);
+		//5.若子路径开头没有 / 则父路径要最后添加 /
+		if (!pattern.startsWith(&quot;/&quot;)) {
+			fullPattern += &quot;/&quot;;
+		}
+		fullPattern = fullPattern + StringUtils.replace(pattern, File.separator, &quot;/&quot;);
+		Set&lt;File&gt; result = new LinkedHashSet&lt;&gt;(8);
+		//真真处理的方法
+		doRetrieveMatchingFiles(fullPattern, rootDir, result);
+		return result;
+	}
+</code></pre>
+<p>我们可以看到方法中主要是做了一些校验和转换，真真的处理是调用了 <code>#doRetrieveMatchingFiles(...)</code> 方法，</p>
+<ul>
+<li><code>#doRetrieveMatchingFiles(...)</code> 方法定义：</li>
+</ul>
+<pre><code class="language-JAVA"> 	/**
+	 * 递归遍历 dir 目录 结合fullpattern 进行路径匹配，将符合的资源全部放入result中
+	 * Recursively retrieve files that match the given pattern,
+	 * adding them to the given result list.
+	 * @param fullPattern the pattern to match against,
+	 * with prepended root directory path
+	 * @param dir the current directory
+	 * @param result the Set of matching File instances to add to
+	 * @throws IOException if directory contents could not be retrieved
+	 */
+	protected void doRetrieveMatchingFiles(String fullPattern, File dir, Set&lt;File&gt; result) throws IOException {
+		if (logger.isTraceEnabled()) {
+			logger.trace(&quot;Searching directory [&quot; + dir.getAbsolutePath() +
+					&quot;] for files matching pattern [&quot; + fullPattern + &quot;]&quot;);
+		}
+		//遍历目录
+		for (File content : listDirectory(dir)) {
+			//获取当前文件/目录的路径同时分隔符全部替换为 /
+			String currPath = StringUtils.replace(content.getAbsolutePath(), File.separator, &quot;/&quot;);
+			//如果是目录 同时和 fullPattern匹配 则进递归
+			if (content.isDirectory() &amp;&amp; getPathMatcher().matchStart(fullPattern, currPath + &quot;/&quot;)) {
+				if (!content.canRead()) {
+					if (logger.isDebugEnabled()) {
+						logger.debug(&quot;Skipping subdirectory [&quot; + dir.getAbsolutePath() +
+								&quot;] because the application is not allowed to read the directory&quot;);
+					}
+				}
+				else {
+					doRetrieveMatchingFiles(fullPattern, content, result);
+				}
+			}
+			//如果是文件则进行匹配
+			if (getPathMatcher().match(fullPattern, currPath)) {
+				result.add(content);
+			}
+		}
+	}
+</code></pre>
+<h4 id="355-findallclasspathresources">3.5.5 findAllClassPathResources</h4>
+<p>上面分析了当有通配符时的方法调用过程，那么这里我们来分析当没有通配符时的方法调用</p>
+<ul>
+<li><code>#findAllClassPathResources(...)</code> 方法代码：</li>
+</ul>
+<pre><code class="language-JAVA">	/**
+	 * 通过ClassLoader 来 加载所有的 class location
+	 * Find all class location resources with the given location via the ClassLoader.
+	 * Delegates to {@link #doFindAllClassPathResources(String)}.
+	 * @param location the absolute path within the classpath
+	 * @return the result as Resource array
+	 * @throws IOException in case of I/O errors
+	 * @see java.lang.ClassLoader#getResources
+	 * @see #convertClassLoaderURL
+	 */
+	protected Resource[] findAllClassPathResources(String location) throws IOException {
+		String path = location;
+		if (path.startsWith(&quot;/&quot;)) {
+			path = path.substring(1);
+		}
+		//真实处理方法， 得到资源结果集
+		Set&lt;Resource&gt; result = doFindAllClassPathResources(path);
+		if (logger.isTraceEnabled()) {
+			logger.trace(&quot;Resolved classpath location [&quot; + location + &quot;] to resources &quot; + result);
+		}
+		return result.toArray(new Resource[0]);
+	}
+</code></pre>
+<ul>
+<li><code>#doFindAllClassPathResources(...)</code> 方法代码：</li>
+</ul>
+<pre><code class="language-JAVA">	/**
+	 * Find all class location resources with the given path via the ClassLoader.
+	 * Called by {@link #findAllClassPathResources(String)}.
+	 * @param path the absolute path within the classpath (never a leading slash)
+	 * @return a mutable Set of matching Resource instances
+	 * @since 4.1.1
+	 */
+	protected Set&lt;Resource&gt; doFindAllClassPathResources(String path) throws IOException {
+		Set&lt;Resource&gt; result = new LinkedHashSet&lt;&gt;(16);
+		ClassLoader cl = getClassLoader();
+		//1.通过ClassLoader获取所有的URl
+		Enumeration&lt;URL&gt; resourceUrls = (cl != null ? cl.getResources(path) : ClassLoader.getSystemResources(path));
+		while (resourceUrls.hasMoreElements()) {
+			//将URl转换为  UrlResource
+			URL url = resourceUrls.nextElement();
+			result.add(convertClassLoaderURL(url));
+		}
+		if (&quot;&quot;.equals(path)) {
+			// The above result is likely to be incomplete, i.e. only containing file system references.
+			// We need to have pointers to each of the jar files on the classpath as well...
+			//添加所有的jar包
+			addAllClassLoaderJarRoots(cl, result);
+		}
+		return result;
+	}
+</code></pre>
+<p>方法内相对简单，主要是通过ClassLoader来加载目录下的jar资源，详细不再贴出来，可以自行查看</p>
+<blockquote>
+<p>本文由AnonyStar 发布,可转载但需声明原文出处。<br>
+仰慕「优雅编码的艺术」 坚信熟能生巧，努力改变人生<br>
+欢迎关注微信公账号 ：coder简码   获取更多优质文章<br>
+更多文章关注笔者博客 ：<a href="https://i-code.online/">IT简码</a></p>
+</blockquote>
+
+</div>
+<div id="MySignature"></div>
+<div class="clear"></div>
+<div id="blog_post_info_block">
+    <div id="blog_post_info"></div>
+    <div class="clear"></div>
+    <div id="post_next_prev"></div>
+</div>
+            </div>
+            <div class="postDesc">posted @ 
+<span id="post-date">2020-05-07 20:09</span>&nbsp;
+<a href="https://www.cnblogs.com/i-code/">AnonyStar</a>&nbsp;
+阅读(<span id="post_view_count">...</span>)&nbsp;
+评论(<span id="post_comment_count">...</span>)&nbsp;
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=12845329" rel="nofollow">编辑</a>&nbsp;
+<a href="javascript:void(0)" onclick="AddToWz(12845329);return false;">收藏</a></div>
+        </div>
+	    
+	    
+    </div><!--end: topics 文章、评论容器-->
+</div>
+<script src="https://common.cnblogs.com/highlight/9.12.0/highlight.min.js"></script>
+<script>markdown_highlight();</script>
+<script>
+    var allowComments = true, cb_blogId = 600488, cb_blogApp = 'i-code', cb_blogUserGuid = '84b115a4-49a8-44cf-1865-08d7eb74c09a';
+    var cb_entryId = 12845329, cb_entryCreatedDate = '2020-05-07 20:09', cb_postType = 1; 
+    loadViewCount(cb_entryId);
+    loadSideColumnAd();
+</script><a name="!comments"></a>
+<div id="blog-comments-placeholder"></div>
+<script>
+    var commentManager = new blogCommentManager();
+    commentManager.renderComments(0);
+</script>
+
+<div id="comment_form" class="commentform">
+    <a name="commentform"></a>
+    <div id="divCommentShow"></div>
+    <div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="#" onclick="return RefreshPage();">刷新页面</a><a href="#top">返回顶部</a></div>
+    <div id="comment_form_container"></div>
+    <div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+    <div id="ad_t2"></div>
+    <div id="opt_under_post"></div>
+    <script async="async" src="https://www.googletagservices.com/tag/js/gpt.js"></script>
+    <script>
+        var googletag = googletag || {};
+        googletag.cmd = googletag.cmd || [];
+    </script>
+    <script>
+        googletag.cmd.push(function () {
+            googletag.defineSlot("/1090369/C1", [300, 250], "div-gpt-ad-1546353474406-0").addService(googletag.pubads());
+            googletag.defineSlot("/1090369/C2", [468, 60], "div-gpt-ad-1539008685004-0").addService(googletag.pubads());
+            googletag.pubads().enableSingleRequest();
+            googletag.enableServices();
+        });
+    </script>
+    <div id="cnblogs_c1" class="c_ad_block">
+        <div id="div-gpt-ad-1546353474406-0" style="height:250px; width:300px;"></div>
+    </div>
+    <div id="under_post_news"></div>
+    <div id="cnblogs_c2" class="c_ad_block">
+        <div id="div-gpt-ad-1539008685004-0" style="height:60px; width:468px;">
+            <script>
+                if (new Date() >= new Date(2018, 9, 13)) {
+                    googletag.cmd.push(function () { googletag.display("div-gpt-ad-1539008685004-0"); });
+                }
+            </script>
+        </div>
+    </div>
+    <div id="under_post_kb"></div>
+    <div id="HistoryToday" class="c_ad_block"></div>
+    <script type="text/javascript">
+        fixPostBody();
+        deliverBigBanner();
+setTimeout(function() { incrementViewCount(cb_entryId); }, 50);        deliverAdT2();
+        deliverAdC1();
+        deliverAdC2();
+        loadNewsAndKb();
+        loadBlogSignature();
+LoadPostCategoriesTags(cb_blogId, cb_entryId);        LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+        GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate, cb_postType);
+        loadOptUnderPost();
+        GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);
+    </script>
+</div>
+	</div><!--end: forFlow -->
+	</div><!--end: mainContent 主体内容容器-->
+
+	<div id="sideBar">
+		<div id="sideBarMain">
+			
+<div id="sidebar_news" class="newsItem">
+            <script>loadBlogNews();</script>
+</div>
+
+<div id="sidebar_ad"></div>
+			<div id="blog-calendar" style="display:none"></div><script>loadBlogDefaultCalendar();</script>
+			
+			<div id="leftcontentcontainer">
+				<div id="blog-sidecolumn"></div>
+                    <script>loadBlogSideColumn();</script>
+			</div>
+			
+		</div><!--end: sideBarMain -->
+	</div><!--end: sideBar 侧边栏容器 -->
+	<div class="clear"></div>
+	</div><!--end: main -->
+	<div class="clear"></div>
+	<div id="footer">
+		<!--done-->
+Copyright &copy; 2020 AnonyStar
+<br /><span id="poweredby">Powered by .NET Core on Kubernetes</span>
+
+
+
+	</div><!--end: footer -->
+</div><!--end: home 自定义的最大容器 -->
+
+
+    
+</body>
+</html>

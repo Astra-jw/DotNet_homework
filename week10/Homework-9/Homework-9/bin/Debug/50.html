@@ -1,0 +1,414 @@
+﻿<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="referrer" content="never" />
+    <meta property="og:description" content="前言 本文介绍什么是CoAP，以及如何在物联网设备上使用它。CoAP是一种物联网协议，具有一些专门为受约束的设备而设计的有趣功能。还有其他一些可用于构建物联网解决方案的IoT协议，例如MQTT等。 物" />
+    <meta http-equiv="Cache-Control" content="no-transform" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>初识CoAP协议 - 三升水 - 博客园</title>
+    
+    <link rel="stylesheet" href="/css/blog-common.min.css?v=KCO3_f2W_TC__-jZ7phSnmoFkQuWMJH2yAgA16eE3eY" />
+    <link id="MainCss" rel="stylesheet" href="/skins/codinglife/bundle-codinglife.min.css?v=UeHyLv1TT2WTz4TwfUOiMoKNmtFvLUjUnIhFE2UmZ7I" />
+    
+    <link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="/skins/codinglife/bundle-codinglife-mobile.min.css?v=XjHfryC9ctsatIZz1dHn7TsRIqmwz9c3aj_6SCfHSDM" />
+    
+    <link type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/sanshengshui/rss" />
+    <link type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/sanshengshui/rsd.xml" />
+    <link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/sanshengshui/wlwmanifest.xml" />
+    <script src="https://common.cnblogs.com/scripts/jquery-2.2.0.min.js"></script>
+    <script src="/js/blog-common.min.js?v=98Fvfd6UZH20B_MF08daNaODjSu879MVR9RHmyvWAlg"></script>
+    <script>
+        var currentBlogId = 463176;
+        var currentBlogApp = 'sanshengshui';
+        var cb_enable_mathjax = false;
+        var isLogined = false;
+        var skinName = 'CodingLife';
+    </script>
+    
+    
+    
+</head>
+<body>
+    <a name="top"></a>
+    
+    
+<!--done-->
+<div id="home">
+<div id="header">
+	<div id="blogTitle">
+        <a id="lnkBlogLogo" href="https://www.cnblogs.com/sanshengshui/"><img id="blogLogo" src="/skins/custom/images/logo.gif" alt="返回主页" /></a>		
+		
+<!--done-->
+<h1><a id="Header1_HeaderTitle" class="headermaintitle HeaderMainTitle" href="https://www.cnblogs.com/sanshengshui/">三升水</a>
+</h1>
+<h2>
+
+</h2>
+
+
+
+
+		
+	</div><!--end: blogTitle 博客的标题和副标题 -->
+	<div id="navigator">
+		
+<ul id="navList">
+<li><a id="blog_nav_sitehome" class="menu" href="https://www.cnblogs.com/">
+博客园</a>
+</li>
+<li>
+<a id="blog_nav_myhome" class="menu" href="https://www.cnblogs.com/sanshengshui/">
+首页</a>
+</li>
+<li>
+
+<a id="blog_nav_newpost" class="menu" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">
+新随笔</a>
+</li>
+<li>
+<a id="blog_nav_contact" class="menu" href="https://msg.cnblogs.com/send/%E4%B8%89%E5%8D%87%E6%B0%B4">
+联系</a></li>
+<li>
+<a id="blog_nav_rss" class="menu" href="https://www.cnblogs.com/sanshengshui/rss/">
+订阅</a>
+<!--<partial name="./Shared/_XmlLink.cshtml" model="Model" /></li>--></li>
+<li>
+<a id="blog_nav_admin" class="menu" href="https://i.cnblogs.com/">
+管理</a>
+</li>
+</ul>
+
+
+		<div class="blogStats">
+			
+			<span id="stats_post_count">随笔 - 
+39&nbsp; </span>
+<span id="stats_article_count">文章 - 
+0&nbsp; </span>
+<span id="stats-comment_count">评论 - 
+52</span>
+
+			
+		</div><!--end: blogStats -->
+	</div><!--end: navigator 博客导航栏 -->
+</div><!--end: header 头部 -->
+
+<div id="main">
+	<div id="mainContent">
+	<div class="forFlow">
+		<div id="post_detail">
+    <!--done-->
+    <div id="topics">
+        <div class="post">
+            <h1 class = "postTitle">
+                
+<a id="cb_post_title_url" class="postTitle2" href="https://www.cnblogs.com/sanshengshui/p/12844111.html">初识CoAP协议</a>
+
+            </h1>
+            <div class="clear"></div>
+            <div class="postBody">
+                
+<div id="cnblogs_post_body" class="blogpost-body cnblogs-markdown">
+    <p><img src="https://james-1258744956.cos.ap-shanghai.myqcloud.com/thingsboard-coap/coap-banner.jpg" alt=""></p>
+<h2 id="前言">前言</h2>
+<p>本文介绍什么是CoAP，以及如何在物联网设备上使用它。CoAP是一种物联网协议，具有一些专门为受约束的设备而设计的有趣功能。还有其他一些可用于构建物联网解决方案的IoT协议，例如MQTT等。</p>
+<p>物联网是最有趣和最有前途的技术趋势之一。在这个生态系统中，对象，人员，设备相互连接并交换数据。在此博客中，我们从多个角度介绍了物联网和开发物联网项目，并涵盖了与物联网相关的多个方面。</p>
+<h2 id="什么是coap协议？">什么是CoAP协议？</h2>
+<p>如前所述，CoAP是一种物联网协议。CoAP意思为<strong>Constrained Application Protocol</strong>，在<a href="https://tools.ietf.org/html/rfc7252">RFC 7252</a>中所定义。CoAP是一种低开销的简单协议，专门针对受限设备（例如微控制器）和受限网络而设计。该协议用于M2M数据交换中，并且与HTTP非常相似，即使稍后我们将介绍重要的区别。</p>
+<p>CoAP协议的主要特征是：</p>
+<ul>
+<li>受限制的小型设备的Web传输协议(类似于HTTP)</li>
+<li>异步消息交换</li>
+<li>低开销，非常易于解析</li>
+<li>URI和内容类型支持</li>
+<li>代理和缓存功能</li>
+</ul>
+<p>您可能会注意到，CoAP某些功能也与HTTP非常相似，但是不能将CoAP视为压缩版本的HTTP协议，因为CoAP是专门为IoT设计的，并且更详细地针对M2M，因此针对这些要求必须有所优化。</p>
+<p>从抽象协议层，CoAP可以表示为：</p>
+<p><img src="https://james-1258744956.cos.ap-shanghai.myqcloud.com/thingsboard-coap/coap-stack.png" alt=""></p>
+<p>正如你所看到的，CoAP协议有两个不同的层：<strong>消息负载</strong>和<strong>请求/响应</strong>。消息层处理UDP和异步消息。请求/响应层基于请求/响应消息来管理请求/响应交互。</p>
+<p>CoAP支持四种不同的消息类型：</p>
+<ul>
+<li>可确认的 Confirmable(<strong>CON</strong>)</li>
+<li>无法确认 Non-confirmable(<strong>NON</strong>)</li>
+<li>确认 Acknowledgment</li>
+<li>重置 Reset</li>
+</ul>
+<p>在深入研究CoAP协议之前，以下必要的术语有助于我们更好的了解CoAP协议：</p>
+<ul>
+<li><strong>节点</strong>(Endpoint）：参与CoAP协议的实体。通常，将端点标识为主机</li>
+<li><strong>发件人</strong>(Sender)：发送消息的实体</li>
+<li><strong>收件人</strong>(Recipient)：接受消息的实体</li>
+<li><strong>客户端</strong>(Client)：发送请求的实体和接受消息的实体</li>
+<li><strong>服务器</strong>(Server)：接收来自客户端的请求并向客户端发送回响应的实体</li>
+</ul>
+<h2 id="coap消息模型">CoAP消息模型</h2>
+<p>这是CoAP的最低层。该层处理端点之间的UDP交换消息。每个CoAP消息都有一个唯一的ID。这对于检测消息重复很有用。CoAP消息由以下部分构建：</p>
+<ul>
+<li>二进制标志头</li>
+<li>可选项</li>
+<li>载荷消息</li>
+</ul>
+<p>稍后，我们将更详细地描述消息格式。</p>
+<p>如前所述，CoAP协议使用两种消息：</p>
+<ul>
+<li>确认消息</li>
+<li>不可确认的消息</li>
+</ul>
+<p>可确认消息是可靠消息。在两个端点之间交换消息时，这些消息可能是可靠的。在CoAP中，使用确认消息（CON）获得可靠的消息。使用这种消息，客户端可以确保消息将到达服务器。反复发送确认消息，直到另一方发送确认消息（ACK）。ACK消息包含与确认消息（CON）相同的ID。</p>
+<p>下图显示了消息交换过程：</p>
+<p><img src="https://james-1258744956.cos.ap-shanghai.myqcloud.com/thingsboard-coap/coap-messages-ack.png" alt=""></p>
+<p>如果服务器在管理传入请求时遇到问题，则可以发送回Rest消息（RST）而不是Acknowledge消息（ACK）：</p>
+<p><img src="https://james-1258744956.cos.ap-shanghai.myqcloud.com/thingsboard-coap/coap-messages-rst.png" alt=""></p>
+<p>另一个消息类别是“不可确认（NON）”消息。这些是不需要服务器确认的消息。它们是不可靠的消息，或者换句话说，这些消息不包含必须传递给服务器的关键信息。包含从传感器读取的值的消息属于此类别。</p>
+<p>即使这些消息不可靠，它们也具有唯一的ID。</p>
+<p><img src="https://james-1258744956.cos.ap-shanghai.myqcloud.com/thingsboard-coap/coap-messages-non.png" alt=""></p>
+<h2 id="coap请求响应模型">CoAP请求/响应模型</h2>
+<p>CoAP请求/响应是CoAP抽象层中的第二层。使用“确认”（CON）或“非确认”（NON）消息发送请求。根据服务器是否可以立即响应客户端请求或答案（如果不可用），有几种方案。</p>
+<p>如果服务器可以立即响应客户端请求，则如果使用确认消息（CON）承载了请求，则服务器将包含响应或错误代码的确认消息发送回客户端：</p>
+<p><img src="https://james-1258744956.cos.ap-shanghai.myqcloud.com/thingsboard-coap/request-ack-con.png" alt=""></p>
+<p>如您在CoAP消息中所注意到的，有一个令牌。令牌不同于消息ID，它用于匹配请求和响应。</p>
+<p>如果服务器无法立即响应来自客户端的请求，则它将发送带有空响应的确认消息。一旦响应可用，服务器就会向客户端发送一条新的Confirmable消息，其中包含响应。此时，客户端发送回确认消息：</p>
+<p><img src="https://james-1258744956.cos.ap-shanghai.myqcloud.com/thingsboard-coap/request-ack-con-async.png" alt=""></p>
+<p>如果来自客户端的请求是使用不可确认消息承载的，则服务器将使用不可确认消息进行应答。</p>
+<h2 id="coap消息格式">CoAP消息格式</h2>
+<p>本段涵盖了CoAP消息格式。到目前为止，我们已经讨论了客户端和服务器之间交换的各种消息。现在是时候分析消息格式了。受限的应用程序协议是受限环境中的关键，因此，它使用紧凑的消息。为了避免分段，消息占用UDP数据报的数据部分。一条消息由几个部分组成：</p>
+<p><img src="https://james-1258744956.cos.ap-shanghai.myqcloud.com/thingsboard-coap/coap-message-format.png" alt=""></p>
+<p><strong>Version</strong>(VER)(2 bits): CoAP版本号</p>
+<p><strong>Type</strong>(2 bits)</p>
+<p>​	这描述了请求和响应着两种消息类型上下文的数据包消息类型。</p>
+<ul>
+<li>请求
+<ul>
+<li>0 : 可确认: 该消息需要相应的确认消息。</li>
+<li>1 : 不可确认：此消息不需要确认消息。</li>
+</ul>
+</li>
+<li>响应
+<ul>
+<li>2 : 确认: 此消息是确认可确认消息的响应。</li>
+<li>3 : 重置: 此消息表明它已收到消息，但无法处理。</li>
+</ul>
+</li>
+</ul>
+<p><strong>Token Length</strong>(4 bits): 指示可变长度令牌字段的长度，其长度可以为0-8字节。</p>
+<p><strong>Request/Response</strong>(8 bits): CoAP请求/响应代码</p>
+<p><strong>Message ID</strong>(16 bits): 用于检测消息重复并将“确认/重置”类型的消息与“确认” /“不可确认”类型的消息进行匹配。：响应消息将具有与请求相同的消息ID。</p>
+<h2 id="coap安全方面">CoAP安全方面</h2>
+<p>处理物联网协议时的一个重要方面是安全性方面。如前所述，CoAP使用UDP传输信息。CoAP依靠UDP安全性方面来保护信息。由于HTTP使用基于TCP的TLS，因此CoAP使用基于<em>UDP的数据报TLS。</em>DTLS支持RSA，AES等。无论如何，我们应该考虑在某些受限设备中可能无法使用某些DTLS密码套件。重要的是要注意，某些密码套件引入了一些复杂性，并且受约束的设备可能没有足够的资源来管理它。</p>
+<p><img src="https://james-1258744956.cos.ap-shanghai.myqcloud.com/thingsboard-coap/secured-coap.png" alt=""></p>
+<p>分割线君</p>
+<hr>
+<p align="center">
+    <img src="https://james-1258744956.cos.ap-shanghai.myqcloud.com/IOT%20Technical%20Guide/logo.png" alt="IOT Technical Guide">
+</p>
+<p align="center">
+    <a href="https://travis-ci.org/sanshengshui/IOT-Technical-Guide"><img src="https://travis-ci.org/sanshengshui/IOT-Technical-Guide.svg?branch=master"></a>
+    <a href="https://github.com/sanshengshui/Groza/blob/master/LICENSE"><img src="https://img.shields.io/badge/license-Apache-000000.svg"></a>
+    <a href="https://github.com/sanshengshui/IOT-Technical-Guide/issues"><img src="http://isitmaintained.com/badge/open/dreamans/syncd.svg"></a>
+<p><strong>🍁高质量的 IOT 技术教程，代码主要源于国外开源物联网平台<a href="https://thingsboard.io/">ThingsBoard</a>和对阿里云物联网平台的感悟</strong></p>
+<p>备注:  🔓 :表示<strong>公开浏览</strong>;   🔐 :表示<strong>需要加入作者知识星球才可浏览</strong>;</p>
+<p align="center">
+    <img src="https://james-1258744956.cos.ap-shanghai.myqcloud.com/thingsboard-mqtt-part2/halving_line.jpg" alt="分割线">
+</p>
+<p align="center">
+<h2 id="源码解析系列"><img src="https://james-1258744956.cos.ap-shanghai.myqcloud.com/thingsboard-mqtt-part2/thingsboard_logo_blue.png?imageMogr2/thumbnail/!10p" alt=""> 源码解析系列</h2>
+<h3 id="a『-准备篇-』">a.『 准备篇 』</h3>
+<ul>
+<li>
+<p>🔓 <a href="https://blog.mushuwei.cn/2018/07/21/%E7%89%A9%E8%81%94%E7%BD%91%E6%97%B6%E4%BB%A3-Thingsboard%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90-%E8%B0%83%E8%AF%95%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/">《物联网时代-Thingsboard源码分析-调试环境调试》</a><br></p>
+</li>
+<li>
+<p>🔓 <a href="https://blog.mushuwei.cn/2018/07/24/%E7%89%A9%E8%81%94%E7%BD%91%E6%97%B6%E4%BB%A3-ThingsBoard%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90-%E9%A1%B9%E7%9B%AE%E7%BB%93%E6%9E%84%E8%AF%B4%E6%98%8E/">《物联网时代-Thingsboard源码分析-项目结构说明》</a><br></p>
+</li>
+</ul>
+<h3 id="b『设备连接协议篇-』">b.『设备连接协议篇 』</h3>
+<ul>
+<li><strong>MQTT</strong> <img src="https://james-1258744956.cos.ap-shanghai.myqcloud.com/IOT%20Technical%20Guide/MQTT.png" alt=""></li>
+</ul>
+<p>协议 :  <a href="http://mqtt.org/">MQTT</a></p>
+<p>技术框架 :  <a href="https://netty.io/">Netty</a></p>
+<ul>
+<li>
+<p>🔓 <a href="https://blog.mushuwei.cn/2020/02/05/mqtt%E5%85%A5%E9%97%A8%E7%AF%87/">《MQTT入门篇》</a><br></p>
+</li>
+<li>
+<p>🔓 <a href="https://blog.mushuwei.cn/2020/01/24/%E7%89%A9%E8%81%94%E7%BD%91%E6%97%B6%E4%BB%A3-ThingsBoard%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90-MQTT%E8%AE%BE%E5%A4%87%E8%BF%9E%E6%8E%A5%E5%8D%8F%E8%AE%AE-%E4%B8%8A/">《物联网时代-ThingsBoard源码分析-MQTT设备连接协议-上》</a><br></p>
+</li>
+<li>
+<p>🔐 <a href="https://blog.mushuwei.cn/2020/04/23/%E7%89%A9%E8%81%94%E7%BD%91%E6%97%B6%E4%BB%A3-ThingsBoard%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90-MQTT%E8%AE%BE%E5%A4%87%E8%BF%9E%E6%8E%A5%E5%8D%8F%E8%AE%AE-%E4%B8%8B/">《物联网时代-ThingsBoard源码分析-MQTT设备连接协议-下》</a><br></p>
+</li>
+<li>
+<p><strong>CoAP</strong><img src="https://james-1258744956.cos.ap-shanghai.myqcloud.com/IOT%20Technical%20Guide/coap.png" alt=""></p>
+<p>协议 :  <a href="https://coap.technology/">CoAP</a></p>
+<p>框架: <a href="https://www.eclipse.org/californium/">Californium(cf)</a></p>
+</li>
+<li>
+<p>🔓 <a href="https://blog.mushuwei.cn/2020/04/30/%E5%88%9D%E8%AF%86CoAP%E5%8D%8F%E8%AE%AE/">《初识CoAP协议》</a><br></p>
+</li>
+<li>
+<p>🔓 <a href="https://blog.mushuwei.cn/2020/05/07/%E6%8A%93%E4%BD%8FCoAP%E5%8D%8F%E8%AE%AE%E7%9A%84-%E5%BF%83/">《抓住CoAP协议的'心'》</a><br></p>
+</li>
+</ul>
+<h2 id="iot在线资源推荐">IoT在线资源推荐</h2>
+<ul>
+<li>关于物联网框架、开源库、操作系统和平台的资源 <a href="https://phodal.github.io/awesome-iot/">https://phodal.github.io/awesome-iot/</a></li>
+<li>一个很棒的物联网项目和资源的列表  <a href="https://github.com/HQarroum/awesome-iot/">https://github.com/HQarroum/awesome-iot/</a></li>
+</ul>
+<h2 id="号外">号外</h2>
+<p>致力于打造专业的物联网技术圈，帮助朋友和同学在物联网的风口上早日起飞 🛫️</p>
+<p>主要内容有:</p>
+<ol>
+<li>📢 ThingsBoard源码解析<br>
+高达5k+的开源物联网平台，物联网解决方案的设备管理、数据收集、处理和可视化</li>
+<li>🎐 应用于物联网应用层技术领域的技术和实践</li>
+</ol>
+<p>并且你还可以得到：</p>
+<ul>
+<li>Java通信领域Netty技术的极大提升。</li>
+<li>MQTT, CoAP, Http2和网关协议的理论知识和指导。</li>
+<li>手把手教你搭建高可用及高性能IoT平台。</li>
+</ul>
+<p align="center">
+    <img src="https://james-1258744956.cos.ap-shanghai.myqcloud.com/thingsboard-mqtt-part2/Knowledge.jpg?imageMogr2/thumbnail/!50p" alt="物联网技术指导知识星球">
+</p>
+<p align="center">
+<h2 id="版权说明">版权说明</h2>
+<ul>
+<li>✍️ <a href="https://github.com/sanshengshui">穆书伟 (sanshengshui@github)</a></li>
+<li>除非另行注明，这个项目中的所有内容采用Apache2.0（<a href="http://www.apache.org/licenses/LICENSE-2.0">Apache-2.0</a>）协议共享。</li>
+<li>不少文章在原基础上翻译或演绎而来，页面上方标注了原作者、原文链接以及原文采用的协议。如有版权疑问，请在 Issue 中提出。</li>
+<li>如果引用本此项目教程代码或者文章,请注明作者和github项目地址。</li>
+<li>欢迎通过 Issue 或者 Pull Request 推荐你认为合适的资料，让这份菜单更充实一些。</li>
+</ul>
+<p>🍀🍀🍀🍀🍀🍀🍀</p>
+<h2 id="为什么要做这份菜单">为什么要做这份菜单</h2>
+<blockquote>
+<p>在学习开源物联网平台ThingsBoard和使用阿里云物联网平台的时候，让我对物联网这个领域产生了极大的兴趣。我发现ThingsBoard的更新速度十分频繁且代码架构十分优秀，随着未来十年内将会有数十亿的设备将联网和国内对物联网领域的高热度。众多的开发人员经历过Web2.0和移动互联网的时代，但是对于未来的设备联网这块的知识十分缺乏，并且搜索引擎上大多数文章都比较的粗浅。此外，这些资料往往只涉及某些特定的话题，如果能有一份菜单将这些菜谱以特定的方式串起来，那么对于 IOT 学习者来说将会是极大的便利。尤其对于我这样热爱查阅社区资料胜过出版物的懒人🌚 随着我的学习节奏还会不断有新的菜谱加入进来。</p>
+</blockquote>
+
+</div>
+<div id="MySignature"></div>
+<div class="clear"></div>
+<div id="blog_post_info_block">
+    <div id="blog_post_info"></div>
+    <div class="clear"></div>
+    <div id="post_next_prev"></div>
+</div>
+            </div>
+            <div class="postDesc">posted @ 
+<span id="post-date">2020-05-07 16:56</span>&nbsp;
+<a href="https://www.cnblogs.com/sanshengshui/">三升水</a>&nbsp;
+阅读(<span id="post_view_count">...</span>)&nbsp;
+评论(<span id="post_comment_count">...</span>)&nbsp;
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=12844111" rel="nofollow">编辑</a>&nbsp;
+<a href="javascript:void(0)" onclick="AddToWz(12844111);return false;">收藏</a></div>
+        </div>
+	    
+	    
+    </div><!--end: topics 文章、评论容器-->
+</div>
+<script src="https://common.cnblogs.com/highlight/9.12.0/highlight.min.js"></script>
+<script>markdown_highlight();</script>
+<script>
+    var allowComments = true, cb_blogId = 463176, cb_blogApp = 'sanshengshui', cb_blogUserGuid = '95d12c74-ef92-408d-d41d-08d6222f6651';
+    var cb_entryId = 12844111, cb_entryCreatedDate = '2020-05-07 16:56', cb_postType = 1; 
+    loadViewCount(cb_entryId);
+    loadSideColumnAd();
+</script><a name="!comments"></a>
+<div id="blog-comments-placeholder"></div>
+<script>
+    var commentManager = new blogCommentManager();
+    commentManager.renderComments(0);
+</script>
+
+<div id="comment_form" class="commentform">
+    <a name="commentform"></a>
+    <div id="divCommentShow"></div>
+    <div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="#" onclick="return RefreshPage();">刷新页面</a><a href="#top">返回顶部</a></div>
+    <div id="comment_form_container"></div>
+    <div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+    <div id="ad_t2"></div>
+    <div id="opt_under_post"></div>
+    <script async="async" src="https://www.googletagservices.com/tag/js/gpt.js"></script>
+    <script>
+        var googletag = googletag || {};
+        googletag.cmd = googletag.cmd || [];
+    </script>
+    <script>
+        googletag.cmd.push(function () {
+            googletag.defineSlot("/1090369/C1", [300, 250], "div-gpt-ad-1546353474406-0").addService(googletag.pubads());
+            googletag.defineSlot("/1090369/C2", [468, 60], "div-gpt-ad-1539008685004-0").addService(googletag.pubads());
+            googletag.pubads().enableSingleRequest();
+            googletag.enableServices();
+        });
+    </script>
+    <div id="cnblogs_c1" class="c_ad_block">
+        <div id="div-gpt-ad-1546353474406-0" style="height:250px; width:300px;"></div>
+    </div>
+    <div id="under_post_news"></div>
+    <div id="cnblogs_c2" class="c_ad_block">
+        <div id="div-gpt-ad-1539008685004-0" style="height:60px; width:468px;">
+            <script>
+                if (new Date() >= new Date(2018, 9, 13)) {
+                    googletag.cmd.push(function () { googletag.display("div-gpt-ad-1539008685004-0"); });
+                }
+            </script>
+        </div>
+    </div>
+    <div id="under_post_kb"></div>
+    <div id="HistoryToday" class="c_ad_block"></div>
+    <script type="text/javascript">
+        fixPostBody();
+        deliverBigBanner();
+setTimeout(function() { incrementViewCount(cb_entryId); }, 50);        deliverAdT2();
+        deliverAdC1();
+        deliverAdC2();
+        loadNewsAndKb();
+        loadBlogSignature();
+LoadPostCategoriesTags(cb_blogId, cb_entryId);        LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+        GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate, cb_postType);
+        loadOptUnderPost();
+        GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);
+    </script>
+</div>
+	</div><!--end: forFlow -->
+	</div><!--end: mainContent 主体内容容器-->
+
+	<div id="sideBar">
+		<div id="sideBarMain">
+			
+<div id="sidebar_news" class="newsItem">
+            <script>loadBlogNews();</script>
+</div>
+
+<div id="sidebar_ad"></div>
+			<div id="blog-calendar" style="display:none"></div><script>loadBlogDefaultCalendar();</script>
+			
+			<div id="leftcontentcontainer">
+				<div id="blog-sidecolumn"></div>
+                    <script>loadBlogSideColumn();</script>
+			</div>
+			
+		</div><!--end: sideBarMain -->
+	</div><!--end: sideBar 侧边栏容器 -->
+	<div class="clear"></div>
+	</div><!--end: main -->
+	<div class="clear"></div>
+	<div id="footer">
+		<!--done-->
+Copyright &copy; 2020 三升水
+<br /><span id="poweredby">Powered by .NET Core on Kubernetes</span>
+
+
+
+	</div><!--end: footer -->
+</div><!--end: home 自定义的最大容器 -->
+
+
+    
+</body>
+</html>

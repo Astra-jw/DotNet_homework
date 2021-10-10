@@ -1,0 +1,7 @@
+C:\Users\86173\source\repos\Csharp5\bin\Debug\Csharp5.exe.config
+C:\Users\86173\source\repos\Csharp5\bin\Debug\Csharp5.exe
+C:\Users\86173\source\repos\Csharp5\bin\Debug\Csharp5.pdb
+C:\Users\86173\source\repos\Csharp5\obj\Debug\Csharp5.csproj.AssemblyReference.cache
+C:\Users\86173\source\repos\Csharp5\obj\Debug\Csharp5.csproj.CoreCompileInputs.cache
+C:\Users\86173\source\repos\Csharp5\obj\Debug\Csharp5.exe
+C:\Users\86173\source\repos\Csharp5\obj\Debug\Csharp5.pdb

@@ -1,0 +1,440 @@
+﻿<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="referrer" content="origin" />
+    <meta property="og:description" content="常见的图像变换操作 窗口视图变换 用户域：程序员用来定义草图的整个自然空间WD,它是一个实数域，理论上WD是连续无限的。 窗口区：用户指定的任一区域W,它是WD的子域，一般为矩形域。 屏幕域：设备输出" />
+    <meta http-equiv="Cache-Control" content="no-transform" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>常见的图像变换操作——平移变换，比例变换，对称变换，旋转变换，投影变换 - Baby-Lily - 博客园</title>
+    
+    <link rel="stylesheet" href="/css/blog-common.min.css?v=KCO3_f2W_TC__-jZ7phSnmoFkQuWMJH2yAgA16eE3eY" />
+    <link id="MainCss" rel="stylesheet" href="/skins/simplememory/bundle-simplememory.min.css?v=OL4qeo1LNGlN1rKIhv5UctANvt0M6Nx6kLzr_ffx3Xk" />
+    
+    <link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="/skins/SimpleMemory/bundle-SimpleMemory-mobile.min.css" />
+    
+    <link type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/baby-lily/rss" />
+    <link type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/baby-lily/rsd.xml" />
+    <link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/baby-lily/wlwmanifest.xml" />
+    <script src="https://common.cnblogs.com/scripts/jquery-2.2.0.min.js"></script>
+    <script src="/js/blog-common.min.js?v=98Fvfd6UZH20B_MF08daNaODjSu879MVR9RHmyvWAlg"></script>
+    <script>
+        var currentBlogId = 502481;
+        var currentBlogApp = 'baby-lily';
+        var cb_enable_mathjax = true;
+        var isLogined = false;
+        var skinName = 'SimpleMemory';
+    </script>
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+        tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']], processClass: 'math', processEscapes: true },
+        TeX: {
+        equationNumbers: { autoNumber: ['AMS'], useLabelIds: true },
+        extensions: ['extpfeil.js', 'mediawiki-texvc.js'],
+        Macros: {bm: "\\boldsymbol"}
+        },
+        'HTML-CSS': { linebreaks: { automatic: true } },
+        SVG: { linebreaks: { automatic: true } }
+        });
+    </script>
+    <script src="https://mathjax.cnblogs.com/2_7_5/MathJax.js?config=TeX-AMS-MML_HTMLorMML&amp;v=20200504"></script>
+    
+</head>
+<body>
+    <a name="top"></a>
+    
+    
+<!--done-->
+<div id="home">
+<div id="header">
+	<div id="blogTitle">
+        <a id="lnkBlogLogo" href="https://www.cnblogs.com/baby-lily/"><img id="blogLogo" src="/skins/custom/images/logo.gif" alt="返回主页" /></a>		
+		
+<!--done-->
+<h1><a id="Header1_HeaderTitle" class="headermaintitle HeaderMainTitle" href="https://www.cnblogs.com/baby-lily/">Baby-Lily</a>
+</h1>
+<h2>
+我用代码成就你的梦想！
+</h2>
+
+
+
+
+		
+	</div><!--end: blogTitle 博客的标题和副标题 -->
+	<div id="navigator">
+		
+<ul id="navList">
+<li><a id="blog_nav_sitehome" class="menu" href="https://www.cnblogs.com/">
+博客园</a>
+</li>
+<li>
+<a id="blog_nav_myhome" class="menu" href="https://www.cnblogs.com/baby-lily/">
+首页</a>
+</li>
+<li>
+
+<a id="blog_nav_newpost" class="menu" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">
+新随笔</a>
+</li>
+<li>
+<a id="blog_nav_contact" class="menu" href="https://msg.cnblogs.com/send/Baby-Lily">
+联系</a></li>
+<li>
+<a id="blog_nav_rss" class="menu" href="https://www.cnblogs.com/baby-lily/rss/">
+订阅</a>
+<!--<partial name="./Shared/_XmlLink.cshtml" model="Model" /></li>--></li>
+<li>
+<a id="blog_nav_admin" class="menu" href="https://i.cnblogs.com/">
+管理</a>
+</li>
+</ul>
+
+
+		<div class="blogStats">
+			
+			<span id="stats_post_count">随笔 - 
+57&nbsp; </span>
+<span id="stats_article_count">文章 - 
+0&nbsp; </span>
+<span id="stats-comment_count">评论 - 
+6</span>
+
+			
+		</div><!--end: blogStats -->
+	</div><!--end: navigator 博客导航栏 -->
+</div><!--end: header 头部 -->
+
+<div id="main">
+	<div id="mainContent">
+	<div class="forFlow">
+		<div id="post_detail">
+    <!--done-->
+    <div id="topics">
+        <div class="post">
+            <h1 class = "postTitle">
+                
+<a id="cb_post_title_url" class="postTitle2" href="https://www.cnblogs.com/baby-lily/p/12845172.html">常见的图像变换操作——平移变换，比例变换，对称变换，旋转变换，投影变换</a>
+
+            </h1>
+            <div class="clear"></div>
+            <div class="postBody">
+                
+<div id="cnblogs_post_body" class="blogpost-body ">
+    <h3>常见的图像变换操作</h3>
+<p><span style="font-size: 16px;">窗口视图变换</span></p>
+<p><span style="font-size: 16px;">用户域：程序员用来定义草图的整个自然空间WD,它是一个实数域，理论上WD是连续无限的。</span></p>
+<p><span style="font-size: 16px;">窗口区：用户指定的任一区域W,它是WD的子域，一般为矩形域。</span></p>
+<p><span style="font-size: 16px;">屏幕域：设备输出图形的最大区域DC,它是有限的整数域， 如：如显示器有1600*1200个像素。</span></p>
+<p><span style="font-size: 16px;">视图区：任何小于等于屏幕域的区域。一般为矩形。一个 屏幕上可定义多个视图。</span></p>
+<p><img style="float: left; display: block; margin-left: auto; margin-right: auto" src="https://img2020.cnblogs.com/blog/1636554/202005/1636554-20200507192020623-443342032.png" alt=""><img style="float: left" src="https://img2020.cnblogs.com/blog/1636554/202005/1636554-20200507192031438-2092839324.png" alt="" width="291" height="174"></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="font-size: 16px;">窗口和视图之间的坐标转换</span></p>
+<p><img style="display: block; margin-left: auto; margin-right: auto; float: left" src="https://img2020.cnblogs.com/blog/1636554/202005/1636554-20200507192237191-784137300.png" alt="" width="571" height="177"></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="font-size: 16px;">对于窗口和视图的坐标变换，我们可以根据变换的比例关系得到如下等式：</span></p>
+<p><img src="https://img2020.cnblogs.com/blog/1636554/202005/1636554-20200507192529161-504634846.png" alt="" width="211" height="111"></p>
+<p><span style="font-size: 16px;">&nbsp;根据公式，可以推导出下面的变换公式：</span></p>
+<p><img src="https://img2020.cnblogs.com/blog/1636554/202005/1636554-20200507192634541-1739606854.png" alt="" width="313" height="120"></p>
+<p><span style="font-size: 16px;">图形的几何变换</span></p>
+<p><span style="font-size: 16px;">对各种图形的几何变换，实际上是对点的变换，对原来图形中的一点坐标通过变换生成一个新的点坐标。二维图形的几何变换的表示采用3*3矩阵的形式，称为变换矩阵，点的坐标表示采用齐次坐标形式，故几何变换操作的过程是将变换矩阵M作用于齐次坐标点P生成新的坐标点P&acute;,即P&acute;=PM。其中齐次坐标齐次坐标表示就是用n+1维向量表示一个n维向量，齐次坐标不唯一,规范化齐次坐标表示就是h=1的齐次坐标。</span></p>
+<p><strong><span style="font-size: 16px;">平移变换</span></strong></p>
+<p><strong><span style="font-size: 16px;">x&acute;=x+Tx，y&acute;=y+Ty</span></strong></p>
+<p><span style="font-size: 16px;"><img src="https://img2020.cnblogs.com/blog/1636554/202005/1636554-20200507193210653-661546756.png" alt="" width="267" height="80"></span></p>
+<p><strong><span style="font-size: 16px;">&nbsp;比例变换</span></strong></p>
+<p><strong><span style="font-size: 16px;">x&rsquo;=x . Sx， y&rsquo;=y . Sy</span></strong></p>
+<p><span style="font-size: 16px;"><img src="https://img2020.cnblogs.com/blog/1636554/202005/1636554-20200507193339680-1631687055.png" alt="" width="253" height="101"></span></p>
+<p><strong><span style="font-size: 16px;">&nbsp;对称变换</span></strong></p>
+<p><strong><span style="font-size: 16px;">x&rsquo;=ax+by，y&rsquo;=dx+ey</span></strong></p>
+<p><span style="font-size: 16px;">&nbsp;<img src="https://img2020.cnblogs.com/blog/1636554/202005/1636554-20200507193512778-1283004381.png" alt="" width="242" height="89"><img src="https://img2020.cnblogs.com/blog/1636554/202005/1636554-20200507193822320-438126271.png" alt="" width="170" height="119"></span></p>
+<p><strong><span style="font-size: 16px;">&nbsp;旋转变换</span></strong></p>
+<p><strong><span style="font-size: 16px;">x&acute;=xcos&theta;-ysin&theta;，y&acute;=xsin&theta;+ycos&theta;</span></strong></p>
+<p><span style="font-size: 16px;"><img src="https://img2020.cnblogs.com/blog/1636554/202005/1636554-20200507193740538-1593944247.png" alt="" width="324" height="109"><img src="https://img2020.cnblogs.com/blog/1636554/202005/1636554-20200507193843246-1657580614.png" alt="" width="162" height="143"></span></p>
+<p><strong><span style="font-size: 16px;">错切变换</span></strong></p>
+<p><strong><span style="font-size: 16px;">x&rsquo;=x+by，&nbsp; y&rsquo;=dx+y</span></strong></p>
+<p><span style="font-size: 16px;">&nbsp;<img src="https://img2020.cnblogs.com/blog/1636554/202005/1636554-20200507193937208-214664166.png" alt="" width="164" height="109"></span></p>
+<p><strong><span style="font-size: 16px;">&nbsp;复合变换</span></strong></p>
+<p><span style="font-size: 16px;">一般的图形变换大多是复合变换，即由多个基本几何变换组合而成，复合变换矩阵实际上是一系列基本几何变换矩阵的乘积结果。</span></p>
+<p><span style="font-size: 16px;">例如在图形绕平面上的一点(x0,y0)作旋转变换&theta;角度：</span></p>
+<p><strong><span style="font-size: 16px;">[x&acute;,y&acute;,1] = [x,y,1]T2(-x0,-y0)R2(&theta;)T2(x0,y0)</span></strong></p>
+<p><span style="font-size: 16px;">&nbsp;<img src="https://img2020.cnblogs.com/blog/1636554/202005/1636554-20200507194252947-1266257473.png" alt="" width="382" height="165"></span></p>
+<p><strong><span style="font-size: 16px;">&nbsp;形体的透视变换</span></strong></p>
+<p><span style="font-size: 16px;">要把现实世界的三维物体在计算机的二维屏幕上 显示出来，必须经过投影变化，把物体从三维表示形式 转化为二维表示形式。</span></p>
+<p><span style="font-size: 16px;"><img src="https://img2020.cnblogs.com/blog/1636554/202005/1636554-20200507194351885-1448748442.png" alt="" width="482" height="194"></span></p>
+<p><span style="font-size: 16px;">&nbsp;下面给出python实现的图像旋转：</span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff;">import</span><span style="color: #000000;"> cv2
+</span><span style="color: #0000ff;">import</span><span style="color: #000000;"> numpy as np
+
+
+path </span>= <span style="color: #800000;">'</span><span style="color: #800000;">img/a.png</span><span style="color: #800000;">'</span>
+
+
+<span style="color: #0000ff;">def</span><span style="color: #000000;"> show(image):
+    image </span>= cv2.resize(image, (0, 0), fx=0.5, fy=0.5<span style="color: #000000;">)
+    cv2.imshow(</span><span style="color: #800000;">'</span><span style="color: #800000;">image</span><span style="color: #800000;">'</span><span style="color: #000000;">, image)
+    cv2.waitKey(0)
+    cv2.destroyAllWindows()
+
+
+</span><span style="color: #0000ff;">def</span> draw_line(image, point, color=(0, 255, 0), w=2<span style="color: #000000;">):
+    image </span>= cv2.line(image, (point[0][0], point[0][1]), (point[1][0], point[1][1<span style="color: #000000;">]), color, w)
+    image </span>= cv2.line(image, (point[1][0], point[1][1]), (point[2][0], point[2][1<span style="color: #000000;">]), color, w)
+    image </span>= cv2.line(image, (point[2][0], point[2][1]), (point[3][0], point[3][1<span style="color: #000000;">]), color, w)
+    image </span>= cv2.line(image, (point[3][0], point[3][1]), (point[0][0], point[0][1<span style="color: #000000;">]), color, w)
+    </span><span style="color: #0000ff;">return</span><span style="color: #000000;"> image
+
+
+</span><span style="color: #0000ff;">def</span><span style="color: #000000;"> cal_rotate_point(center, point, degree):
+    x, y </span>=<span style="color: #000000;"> center
+    point_ro </span>=<span style="color: #000000;"> np.zeros_like(point)
+    rad </span>=<span style="color: #000000;"> np.deg2rad(degree)
+    x1 </span>= x - (x * np.cos(rad) - y *<span style="color: #000000;"> np.sin(rad))
+    y1 </span>= y - (x * np.sin(rad) + y *<span style="color: #000000;"> np.cos(rad))
+    </span><span style="color: #0000ff;">for</span> i <span style="color: #0000ff;">in</span><span style="color: #000000;"> range(point_ro.shape[0]):
+        point_ro[i][0] </span>= int(point[i][0] * np.cos(rad) - point[i][1] * np.sin(rad) + x1 + 0.5<span style="color: #000000;">)
+        point_ro[i][</span>1] = int(point[i][0] * np.sin(rad) + point[i][1] * np.cos(rad) + y1 + 0.5<span style="color: #000000;">)
+    </span><span style="color: #0000ff;">return</span><span style="color: #000000;"> point_ro
+
+
+</span><span style="color: #0000ff;">def</span><span style="color: #000000;"> rotate(image, center, degree):
+    x, y </span>= center[0], center[1<span style="color: #000000;">]
+    h, w </span>= image.shape[:2<span style="color: #000000;">]
+    img </span>=<span style="color: #000000;"> np.zeros_like(image)
+    rad </span>=<span style="color: #000000;"> np.deg2rad(degree)
+    </span><span style="color: #0000ff;">for</span> i <span style="color: #0000ff;">in</span><span style="color: #000000;"> range(w):
+        </span><span style="color: #0000ff;">for</span> j <span style="color: #0000ff;">in</span><span style="color: #000000;"> range(h):
+            ir </span>= (i-x) * np.cos(rad) - (j-y) * np.sin(rad) + x + 0.5<span style="color: #000000;">
+            jr </span>= (i-x) * np.sin(rad) + (j-y) * np.cos(rad) + y + 0.5<span style="color: #000000;">
+            ir </span>=<span style="color: #000000;"> int(ir)
+            jr </span>=<span style="color: #000000;"> int(jr)
+            </span><span style="color: #0000ff;">if</span> 1 &lt;= ir &lt; w-1 <span style="color: #0000ff;">and</span> 1 &lt;= jr &lt; h-1<span style="color: #000000;">:
+                img[jr, ir, :] </span>=<span style="color: #000000;"> image[j, i, :]
+                img[jr</span>-1, ir, :] = image[j, i, :]  <span style="color: #008000;">#</span><span style="color: #008000;"> 对该像素的周围4个像素进行赋值</span>
+                img[jr+1, ir, :] =<span style="color: #000000;"> image[j, i, :]
+                img[jr, ir</span>-1, :] =<span style="color: #000000;"> image[j, i, :]
+                img[jr, ir</span>+1, :] =<span style="color: #000000;"> image[j, i, :]
+    </span><span style="color: #0000ff;">return</span><span style="color: #000000;"> img
+
+
+</span><span style="color: #0000ff;">def</span><span style="color: #000000;"> rotation(image, center, degree):
+    center_h, center_w </span>= center[:2<span style="color: #000000;">]
+    M </span>= cv2.getRotationMatrix2D((center_h, center_w), -degree, 1)  <span style="color: #008000;">#</span><span style="color: #008000;"> 参数依次为旋转中心, 旋转角度, 变换尺度, 返回变换矩阵</span>
+    img = cv2.warpAffine(image, M, (image.shape[1<span style="color: #000000;">], image.shape[0]))
+    </span><span style="color: #0000ff;">return</span><span style="color: #000000;"> img
+
+
+</span><span style="color: #0000ff;">def</span><span style="color: #000000;"> cal_rotation_point(center, point, degree):
+    center_w, center_h </span>= center[:2<span style="color: #000000;">]
+    M </span>= cv2.getRotationMatrix2D((center_w, center_h), -degree, 1)  <span style="color: #008000;">#</span><span style="color: #008000;"> 参数依次为旋转中心, 旋转角度, 变换尺度, 返回变换矩阵</span>
+    point =<span style="color: #000000;"> np.array(point)
+    point </span>= np.insert(point, 2, values=np.ones(4), axis=1<span style="color: #000000;">)
+    M </span>=<span style="color: #000000;"> np.mat(M).T
+    new_point </span>=<span style="color: #000000;"> np.dot(point, M)
+    new_point </span>=<span style="color: #000000;"> new_point.astype(int)
+    new_point </span>= [[new_point[i, 0], new_point[i, 1]] <span style="color: #0000ff;">for</span> i <span style="color: #0000ff;">in</span><span style="color: #000000;"> range(new_point.shape[0])]
+    </span><span style="color: #0000ff;">return</span><span style="color: #000000;"> new_point
+
+
+</span><span style="color: #0000ff;">def</span><span style="color: #000000;"> my_rotate(image, point, degree, center):
+    image_box </span>=<span style="color: #000000;"> draw_line(image.copy(), point)
+    img </span>= rotate(image.copy(), (center[0], center[1<span style="color: #000000;">]), degree)
+    point_ro </span>= cal_rotate_point((center[0], center[1<span style="color: #000000;">]), point, degree)
+    image_ro_box </span>=<span style="color: #000000;"> draw_line(img, point_ro)
+    images </span>=<span style="color: #000000;"> np.hstack((image_box, image_ro_box))
+    </span><span style="color: #0000ff;">return</span><span style="color: #000000;"> images
+
+
+</span><span style="color: #0000ff;">def</span><span style="color: #000000;"> cv_rotate(image, point, degree, center):
+    image_box </span>=<span style="color: #000000;"> draw_line(image.copy(), point)
+    img </span>= rotation(image.copy(), (center[0], center[1<span style="color: #000000;">]), degree)
+    point_ro </span>= cal_rotation_point((center[0], center[1<span style="color: #000000;">]), point, degree)
+    image_ro_box </span>=<span style="color: #000000;"> draw_line(img, point_ro)
+    </span><span style="color: #0000ff;">print</span><span style="color: #000000;">(point_ro)
+    images </span>=<span style="color: #000000;"> np.hstack((image_box, image_ro_box))
+    </span><span style="color: #0000ff;">return</span><span style="color: #000000;"> images
+
+
+</span><span style="color: #0000ff;">def</span><span style="color: #000000;"> main():
+    image </span>=<span style="color: #000000;"> cv2.imread(path)
+    </span><span style="color: #0000ff;">print</span><span style="color: #000000;">(image.shape)
+    center </span>= (image.shape[1]//2, image.shape[0]//2<span style="color: #000000;">)
+    center </span>=<span style="color: #000000;"> (0, 0)
+    point </span>= [[348, 183], [549, 191], [580, 613], [332, 618<span style="color: #000000;">]]
+    degree </span>= 15<span style="color: #000000;">
+    images1 </span>=<span style="color: #000000;"> my_rotate(image, point, degree, center)
+    images2 </span>=<span style="color: #000000;"> cv_rotate(image, point, degree, center)
+    images </span>=<span style="color: #000000;"> np.vstack((images1, images2))
+    show(images)
+
+
+</span><span style="color: #0000ff;">if</span> <span style="color: #800080;">__name__</span> == <span style="color: #800000;">'</span><span style="color: #800000;">__main__</span><span style="color: #800000;">'</span><span style="color: #000000;">:
+    main()</span></pre>
+</div>
+<p>&nbsp;<img style="display: block; margin-left: auto; margin-right: auto" src="https://img2020.cnblogs.com/blog/1636554/202005/1636554-20200507195530293-1117299596.png" alt="" width="481" height="480"></p>
+<p>&nbsp;</p>
+</div>
+<div id="MySignature"></div>
+<div class="clear"></div>
+<div id="blog_post_info_block">
+    <div id="blog_post_info"></div>
+    <div class="clear"></div>
+    <div id="post_next_prev"></div>
+</div>
+            </div>
+            <div class="postDesc">posted @ 
+<span id="post-date">2020-05-07 19:56</span>&nbsp;
+<a href="https://www.cnblogs.com/baby-lily/">Baby-Lily</a>&nbsp;
+阅读(<span id="post_view_count">...</span>)&nbsp;
+评论(<span id="post_comment_count">...</span>)&nbsp;
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=12845172" rel="nofollow">编辑</a>&nbsp;
+<a href="javascript:void(0)" onclick="AddToWz(12845172);return false;">收藏</a></div>
+        </div>
+	    
+	    
+    </div><!--end: topics 文章、评论容器-->
+</div>
+<script src="https://common.cnblogs.com/highlight/9.12.0/highlight.min.js"></script>
+<script>markdown_highlight();</script>
+<script>
+    var allowComments = true, cb_blogId = 502481, cb_blogApp = 'baby-lily', cb_blogUserGuid = '73594955-3c31-45bb-d67b-08d6ab35ac30';
+    var cb_entryId = 12845172, cb_entryCreatedDate = '2020-05-07 19:56', cb_postType = 1; 
+    loadViewCount(cb_entryId);
+    loadSideColumnAd();
+</script><a name="!comments"></a>
+<div id="blog-comments-placeholder"></div>
+<script>
+    var commentManager = new blogCommentManager();
+    commentManager.renderComments(0);
+</script>
+
+<div id="comment_form" class="commentform">
+    <a name="commentform"></a>
+    <div id="divCommentShow"></div>
+    <div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="#" onclick="return RefreshPage();">刷新页面</a><a href="#top">返回顶部</a></div>
+    <div id="comment_form_container"></div>
+    <div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+    <div id="ad_t2"></div>
+    <div id="opt_under_post"></div>
+    <script async="async" src="https://www.googletagservices.com/tag/js/gpt.js"></script>
+    <script>
+        var googletag = googletag || {};
+        googletag.cmd = googletag.cmd || [];
+    </script>
+    <script>
+        googletag.cmd.push(function () {
+            googletag.defineSlot("/1090369/C1", [300, 250], "div-gpt-ad-1546353474406-0").addService(googletag.pubads());
+            googletag.defineSlot("/1090369/C2", [468, 60], "div-gpt-ad-1539008685004-0").addService(googletag.pubads());
+            googletag.pubads().enableSingleRequest();
+            googletag.enableServices();
+        });
+    </script>
+    <div id="cnblogs_c1" class="c_ad_block">
+        <div id="div-gpt-ad-1546353474406-0" style="height:250px; width:300px;"></div>
+    </div>
+    <div id="under_post_news"></div>
+    <div id="cnblogs_c2" class="c_ad_block">
+        <div id="div-gpt-ad-1539008685004-0" style="height:60px; width:468px;">
+            <script>
+                if (new Date() >= new Date(2018, 9, 13)) {
+                    googletag.cmd.push(function () { googletag.display("div-gpt-ad-1539008685004-0"); });
+                }
+            </script>
+        </div>
+    </div>
+    <div id="under_post_kb"></div>
+    <div id="HistoryToday" class="c_ad_block"></div>
+    <script type="text/javascript">
+        fixPostBody();
+        deliverBigBanner();
+setTimeout(function() { incrementViewCount(cb_entryId); }, 50);        deliverAdT2();
+        deliverAdC1();
+        deliverAdC2();
+        loadNewsAndKb();
+        loadBlogSignature();
+LoadPostCategoriesTags(cb_blogId, cb_entryId);        LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+        GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate, cb_postType);
+        loadOptUnderPost();
+        GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);
+    </script>
+</div>
+	</div><!--end: forFlow -->
+	</div><!--end: mainContent 主体内容容器-->
+
+	<div id="sideBar">
+		<div id="sideBarMain">
+			
+<div id="sidebar_news" class="newsItem">
+            <script>loadBlogNews();</script>
+</div>
+
+<div id="sidebar_ad"></div>
+			<div id="blog-calendar" style="display:none"></div><script>loadBlogDefaultCalendar();</script>
+			
+			<div id="leftcontentcontainer">
+				<div id="blog-sidecolumn"></div>
+                    <script>loadBlogSideColumn();</script>
+			</div>
+			
+		</div><!--end: sideBarMain -->
+	</div><!--end: sideBar 侧边栏容器 -->
+	<div class="clear"></div>
+	</div><!--end: main -->
+	<div class="clear"></div>
+	<div id="footer">
+		<!--done-->
+Copyright &copy; 2020 Baby-Lily
+<br /><span id="poweredby">Powered by .NET Core on Kubernetes</span>
+
+
+
+	</div><!--end: footer -->
+</div><!--end: home 自定义的最大容器 -->
+
+
+    <div id="page_end_html">
+        <script type="text/javascript">
+/* 鼠标特效 */
+var a_idx = 0;
+jQuery(document).ready(function($) {
+    $("body").click(function(e) {
+        var a = new Array("❤Baby-Lily❤","❤岭回归❤","❤Adaboost❤","❤KMeans❤","❤LDA❤","❤随机森林❤","❤VGG❤","❤BiLSTM❤","❤HMM❤","❤EM❤","❤CTPN❤","❤CNN❤","❤U-Net❤","❤RCNN❤","❤Yolo❤","❤test❤","❤GAN❤","❤SGD❤","❤BERT❤","❤ResNet❤", "❤DCGAN❤","❤SSD❤","❤XGBoost❤","❤LoveYou❤","❤CTPN❤");
+        var $i = $("<span></span>").text(a[a_idx]);
+        a_idx = (a_idx + 1) % a.length;
+        var x = e.pageX,
+        y = e.pageY;
+        $i.css({
+            "z-index": 999999999999999999999999999999999999999999999999999999999999999999999,
+            "top": y - 20,
+            "left": x,
+            "position": "absolute",
+            "font-weight": "bold",
+            "color": "rgb("+~~(255*Math.random())+","+~~(255*Math.random())+","+~~(255*Math.random())+")"
+        });
+        $("body").append($i);
+        $i.animate({
+            "top": y - 180,
+            "opacity": 0
+        },
+        1500,
+        function() {
+            $i.remove();
+        });
+    });
+});
+</script>
+    </div>
+</body>
+</html>

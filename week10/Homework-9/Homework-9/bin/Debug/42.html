@@ -1,0 +1,354 @@
+﻿<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="referrer" content="origin" />
+    <meta property="og:description" content="之前的文章已经分析了HIDL服务的注册和调用，这篇文章来总结下一个HIDL的服务如何编写。 缩写HAL文件 首先要确认放置文件夹和接口的包名，因为这跟后面使用脚本生成一部分代码有关，一般默认的放在ha" />
+    <meta http-equiv="Cache-Control" content="no-transform" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Android P HIDL demo代码编写 （原创） - five.li - 博客园</title>
+    
+    <link rel="stylesheet" href="/css/blog-common.min.css?v=KCO3_f2W_TC__-jZ7phSnmoFkQuWMJH2yAgA16eE3eY" />
+    <link id="MainCss" rel="stylesheet" href="/skins/thinkinside/bundle-thinkinside.min.css?v=zGEk8KXMYTU2anZ0M42lVKd_08x_RY4uIK61K7GsK3g" />
+    
+    <link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="/skins/thinkinside/bundle-thinkinside-mobile.min.css?v=-99kdknJAJsoRA0UeBwKu6WHa3LvEP4487GKBNHpHoI" />
+    
+    <link type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/jack2010/rss" />
+    <link type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/jack2010/rsd.xml" />
+    <link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/jack2010/wlwmanifest.xml" />
+    <script src="https://common.cnblogs.com/scripts/jquery-2.2.0.min.js"></script>
+    <script src="/js/blog-common.min.js?v=98Fvfd6UZH20B_MF08daNaODjSu879MVR9RHmyvWAlg"></script>
+    <script>
+        var currentBlogId = 69011;
+        var currentBlogApp = 'jack2010';
+        var cb_enable_mathjax = false;
+        var isLogined = false;
+        var skinName = 'ThinkInside';
+    </script>
+    
+    
+    
+</head>
+<body>
+    <a name="top"></a>
+    
+    
+<!--done-->
+<div id="home">
+<div id="header">
+	<div id="blogTitle">
+        <a id="lnkBlogLogo" href="https://www.cnblogs.com/jack2010/"><img id="blogLogo" src="/skins/custom/images/logo.gif" alt="返回主页" /></a>		
+		
+<!--done-->
+<h1><a id="Header1_HeaderTitle" class="headermaintitle HeaderMainTitle" href="https://www.cnblogs.com/jack2010/">无压力前进</a>
+</h1>
+<h2>
+
+</h2>
+
+
+
+
+		
+	</div><!--end: blogTitle 博客的标题和副标题 -->
+	<div id="navigator">
+		
+<ul id="navList">
+<li><a id="blog_nav_sitehome" class="menu" href="https://www.cnblogs.com/">
+博客园</a>
+</li>
+<li>
+<a id="blog_nav_myhome" class="menu" href="https://www.cnblogs.com/jack2010/">
+首页</a>
+</li>
+<li>
+
+<a id="blog_nav_newpost" class="menu" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">
+新随笔</a>
+</li>
+<li>
+<a id="blog_nav_contact" class="menu" href="https://msg.cnblogs.com/send/five.li">
+联系</a></li>
+<li>
+<a id="blog_nav_rss" class="menu" href="https://www.cnblogs.com/jack2010/rss/">
+订阅</a>
+<!--<partial name="./Shared/_XmlLink.cshtml" model="Model" /></li>--></li>
+<li>
+<a id="blog_nav_admin" class="menu" href="https://i.cnblogs.com/">
+管理</a>
+</li>
+</ul>
+
+
+		<div class="blogStats">
+			
+			<span id="stats_post_count">随笔 - 
+10&nbsp; </span>
+<span id="stats_article_count">文章 - 
+0&nbsp; </span>
+<span id="stats-comment_count">评论 - 
+0</span>
+
+			
+		</div><!--end: blogStats -->
+	</div><!--end: navigator 博客导航栏 -->
+</div><!--end: header 头部 -->
+
+<div id="main">
+	<div id="mainContent">
+	<div class="forFlow">
+		<div id="post_detail">
+    <!--done-->
+    <div id="topics">
+        <div class="post">
+            <h1 class = "postTitle">
+                
+<a id="cb_post_title_url" class="postTitle2" href="https://www.cnblogs.com/jack2010/p/Android_HIDL.html">Android P HIDL demo代码编写 （原创）</a>
+
+            </h1>
+            <div class="clear"></div>
+            <div class="postBody">
+                
+<div id="cnblogs_post_body" class="blogpost-body ">
+    <p>之前的文章已经分析了HIDL服务的注册和调用，这篇文章来总结下一个HIDL的服务如何编写。</p>
+<h2>缩写HAL文件</h2>
+<p>&nbsp;首先要确认放置文件夹和接口的包名，因为这跟后面使用脚本生成一部分代码有关，一般默认的放在hardware/interfaces目录下，我们写一个简单的IDemo.hal (hardware/interface/demo/1.0/IDemo.hal)</p>
+<div class="cnblogs_code">
+<pre>package android.hardware.demo@<span style="color: #800080;">1.0</span><span style="color: #000000;">;
+
+</span><span style="color: #0000ff;">interface</span><span style="color: #000000;"> IDemo {
+    init(int32_t level) generates (int32_t initRet);
+
+    getProperty(</span><span style="color: #0000ff;">string</span> key) generates (int32_t getResult, <span style="color: #0000ff;">string</span><span style="color: #000000;"> value);
+};</span></pre>
+</div>
+<h2>&nbsp;生成接口的执行代码</h2>
+<p>使用如下命令生成执行文件：</p>
+<div class="cnblogs_code">
+<pre>hidl-gen -o hardware/interfaces/demo/<span style="color: #800080;">1.0</span>/<span style="color: #0000ff;">default</span> -Lc++-impl -randroid.hardware:hardware/intefaces -randroid.hidl:system/libhidl/transport android.hardware.demo@<span style="color: #800080;">1.0</span></pre>
+</div>
+<p>这个命令会在hardware/interfaces/demo/1.0/default 下生成Demo.cpp 和 Demo.h两个文件，上面那个接口文件里，getProperty里有两个返回值，一般函数都只有一个返回值，那这个两个返回值是回事呢？那我们看看生成的执行代码是怎么样的？</p>
+<div class="cnblogs_code">
+<pre>#include <span style="color: #800000;">"</span><span style="color: #800000;">Demo.h</span><span style="color: #800000;">"</span>
+
+<span style="color: #0000ff;">namespace</span><span style="color: #000000;"> android {
+</span><span style="color: #0000ff;">namespace</span><span style="color: #000000;"> hardware {
+</span><span style="color: #0000ff;">namespace</span><span style="color: #000000;"> demo {
+</span><span style="color: #0000ff;">namespace</span><span style="color: #000000;"> V1_0 {
+</span><span style="color: #0000ff;">namespace</span><span style="color: #000000;"> implementation {
+
+Return</span>&lt;int32_t&gt;<span style="color: #000000;"> Demo::init(int32_t level) {<br />     //这种返回一个参数就按普通函数的做法，返回值就OK
+     </span><span style="color: #0000ff;">return</span><span style="color: #000000;"> int32_t{};  
+}
+
+Return</span>&lt;<span style="color: #0000ff;">void</span>&gt; Demo::getProperty(<span style="color: #0000ff;">const</span> hidl_string&amp;<span style="color: #000000;"> key, getProperty_cb _hidl_cb ) {
+    </span><span style="color: #008000;">//</span><span style="color: #008000;">这里将两个返回值封装到一个回调函数里，然后传给调用者，使用如下</span>
+    <span style="color: #0000ff;">int</span> result = <span style="color: #800080;">0</span><span style="color: #000000;">;
+    </span><span style="color: #008000;">//</span><span style="color: #008000;">使用map 里值来返回<br />　　std::Map&lt;hidl_string, hidl_string&gt; demoMap = {<br />　　　　{"one", "first"},<br />　　　　{"two", "second"},<br />　　　　{"three", "third"}<br />　　};<br />   <br />　　int result = -1;<br />　　hidl_string value = "";<br />　　auto findRet = demoMap.find(key);<br />　　if(findRet != demoMap.end()){<br />　　　　result = 0;<br />　　　　value = findRet-&gt;second;<br />　　}<br />　　//这里就将result 和 value 作为参数直接回调给调用者<br /></span>　　_hidl_cb(result, value);
+    <span style="color: #0000ff;">return</span><span style="color: #000000;"> Void();
+}
+
+}
+}
+}
+}</span></pre>
+</div>
+<h2>生成Android.bp</h2>
+<p>方法实现完了之后，就需要用命令再生成一个Android.bp</p>
+<div class="cnblogs_code">
+<pre>hidl-gen -o hardware/interfaces/demo/<span style="color: #800080;">1.0</span>/<span style="color: #0000ff;">default</span> -Landroidbp-impl -randroid.hardware:hardware/interfaces -randroid.hidl:system/libhidl/transport android.hardware.demo@<span style="color: #800080;">1.0</span></pre>
+</div>
+<p>执行命令之后，就会在hardeare/interfaces/demo/1.0/default/Android.bp</p>
+<p>进入hardware/interface目录下，执行./update-makefiles.sh之后，会生成demo/1.0/Android.bp 文件</p>
+<p>现在有了两个Android.bp之后，需要采用绑定模式来创建一个Demo服务，在demo/1.0/default下创建一个service.cpp</p>
+<h2>添加绑定模式的服务代码</h2>
+<div class="cnblogs_code">
+<pre>#include &lt;android-<span style="color: #0000ff;">base</span>/logging.h&gt;<span style="color: #000000;">
+#include </span>&lt;hidl/HidlTransportSupport.h&gt;<span style="color: #000000;">
+#include </span>&lt;android/hardware/demo/<span style="color: #800080;">1.0</span>/IDemo.h&gt;
+
+<span style="color: #0000ff;">#undef</span> LOG_TAG
+<span style="color: #0000ff;">#define</span> LOG_TAG "android.hardware.demo@1.0-service"<span style="color: #000000;">
+
+#include </span>&lt;hidl/LegacySupport.h&gt;<span style="color: #000000;">
+#include </span><span style="color: #800000;">"</span><span style="color: #800000;">Demo.h</span><span style="color: #800000;">"</span>
+<span style="color: #0000ff;">using</span><span style="color: #000000;"> android::hardware::configureRpcThreadpool;
+</span><span style="color: #0000ff;">using</span><span style="color: #000000;"> android::hardware::joinRpcThreadpool;
+</span><span style="color: #0000ff;">using</span> android::hardware::demo::V1.<span style="color: #800080;">0</span><span style="color: #000000;">::implementation::Demo;
+
+</span><span style="color: #0000ff;">int</span><span style="color: #000000;"> main(){
+    configureRpcThreadpool(</span><span style="color: #800080;">4</span>, <span style="color: #0000ff;">true</span><span style="color: #000000;">);
+    Demo demo </span>= <span style="color: #0000ff;">new</span><span style="color: #000000;"> Demo();
+    auto status </span>=<span style="color: #000000;"> demo.registerAsService();
+    </span><span style="color: #0000ff;">if</span>(status !=<span style="color: #000000;"> android::OK){
+        ALOGE(</span><span style="color: #800000;">"</span><span style="color: #800000;">register demo As Service failed</span><span style="color: #800000;">"</span><span style="color: #000000;">);
+        </span><span style="color: #0000ff;">return</span> -<span style="color: #800080;">1</span><span style="color: #000000;">;
+    }
+    joinRpcThreadpool();
+}</span></pre>
+</div>
+<p>&nbsp;然后再在demo/1.0/default下创建android.hardware.demo@1.0-service.rc</p>
+<div class="cnblogs_code">
+<pre>service demo_hal_service /vendor/bin/hw/android.hardware.demo@<span style="color: #800080;">1.0</span>-<span style="color: #000000;">service
+    </span><span style="color: #0000ff;">class</span><span style="color: #000000;"> hal
+    user  system
+    group  system</span></pre>
+</div>
+<p>在demo/1.0/default/Android.bp中增加 init_rc和 service.cpp的编译项,并将cc_library_shared 改为 cc_binary ，具体如下：</p>
+<div class="cnblogs_code">
+<pre><span style="color: #000000;">cc_binary {
+    name: </span><span style="color: #800000;">"</span><span style="color: #800000;">android.hardware.demo@1.0-service</span><span style="color: #800000;">"</span><span style="color: #000000;">,
+    relative_install_path: </span><span style="color: #800000;">"</span><span style="color: #800000;">hw</span><span style="color: #800000;">"</span><span style="color: #000000;">,
+    proprietary: </span><span style="color: #0000ff;">true</span><span style="color: #000000;">,
+    init_rc: [</span><span style="color: #800000;">"</span><span style="color: #800000;">android.hardware.demo@1.0-service.rc</span><span style="color: #800000;">"</span><span style="color: #000000;">],
+    srcs: [
+        </span><span style="color: #800000;">"</span><span style="color: #800000;">Demo.cpp</span><span style="color: #800000;">"</span><span style="color: #000000;">,
+        </span><span style="color: #800000;">"</span><span style="color: #800000;">service.cpp</span><span style="color: #800000;">"</span><span style="color: #000000;">
+    ],  
+    shared_libs: [
+        </span><span style="color: #800000;">"</span><span style="color: #800000;">libhidlbase</span><span style="color: #800000;">"</span><span style="color: #000000;">,
+        </span><span style="color: #800000;">"</span><span style="color: #800000;">libhidltransport</span><span style="color: #800000;">"</span><span style="color: #000000;">,
+        </span><span style="color: #800000;">"</span><span style="color: #800000;">libutils</span><span style="color: #800000;">"</span><span style="color: #000000;">,<br />　　　　　"liblog",
+        </span><span style="color: #800000;">"</span><span style="color: #800000;">android.hardware.demo@1.0</span><span style="color: #800000;">"</span><span style="color: #000000;">,
+    ],
+}    </span></pre>
+</div>
+<p>&nbsp;然后通过mmm 或 mm 的方式 就可以编译出android.hardware.demo@1.0-service 和&nbsp;android.hardware.demo@1.0-service.rc的服务了。</p>
+<p>如果要自运行，添加上Selinux 的相关权限，可以参考其它HIDL 服务的selinux。</p>
+<p>关于调用HIDL的接口，之前文章分析过，下面我们写核心的几句代码：</p>
+<div class="cnblogs_code">
+<pre>#include &lt;android/hardware/demo/<span style="color: #800080;">1.0</span>/IDemo.h&gt;<span style="color: #000000;">
+sp</span>&lt;IDemo&gt; mDemo =<span style="color: #000000;"> IDemo::getService();
+mDemo</span>-&gt;init(<span style="color: #800080;">1</span><span style="color: #000000;">);
+</span><span style="color: #0000ff;">string</span><span style="color: #000000;"> mValue;
+mDemo</span>-&gt;getProperty(<span style="color: #800000;">"</span><span style="color: #800000;">two</span><span style="color: #800000;">"</span>, [&amp;](int result, string value) <span style="color: #000000;">{
+       </span><span style="color: #0000ff;">if</span>(result == <span style="color: #800080;">0</span><span style="color: #000000;">)
+             mVaule </span>=<span style="color: #000000;"> value;
+});</span></pre>
+</div>
+<p>到这里，HIDL的Demo服务代码可以结束了，后面可以增加复杂的Icallback HIDL接口相关的代码。</p>
+<p>&nbsp;</p>
+</div>
+<div id="MySignature"></div>
+<div class="clear"></div>
+<div id="blog_post_info_block">
+    <div id="blog_post_info"></div>
+    <div class="clear"></div>
+    <div id="post_next_prev"></div>
+</div>
+            </div>
+            <div class="postDesc">posted @ 
+<span id="post-date">2020-05-07 18:17</span>&nbsp;
+<a href="https://www.cnblogs.com/jack2010/">five.li</a>&nbsp;
+阅读(<span id="post_view_count">...</span>)&nbsp;
+评论(<span id="post_comment_count">...</span>)&nbsp;
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=12844139" rel="nofollow">编辑</a>&nbsp;
+<a href="javascript:void(0)" onclick="AddToWz(12844139);return false;">收藏</a></div>
+        </div>
+	    
+	    
+    </div><!--end: topics 文章、评论容器-->
+</div>
+<script src="https://common.cnblogs.com/highlight/9.12.0/highlight.min.js"></script>
+<script>markdown_highlight();</script>
+<script>
+    var allowComments = true, cb_blogId = 69011, cb_blogApp = 'jack2010', cb_blogUserGuid = 'a0c7cdbb-3ef9-de11-ba8f-001cf0cd104b';
+    var cb_entryId = 12844139, cb_entryCreatedDate = '2020-05-07 18:17', cb_postType = 1; 
+    loadViewCount(cb_entryId);
+    loadSideColumnAd();
+</script><a name="!comments"></a>
+<div id="blog-comments-placeholder"></div>
+<script>
+    var commentManager = new blogCommentManager();
+    commentManager.renderComments(0);
+</script>
+
+<div id="comment_form" class="commentform">
+    <a name="commentform"></a>
+    <div id="divCommentShow"></div>
+    <div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="#" onclick="return RefreshPage();">刷新页面</a><a href="#top">返回顶部</a></div>
+    <div id="comment_form_container"></div>
+    <div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+    <div id="ad_t2"></div>
+    <div id="opt_under_post"></div>
+    <script async="async" src="https://www.googletagservices.com/tag/js/gpt.js"></script>
+    <script>
+        var googletag = googletag || {};
+        googletag.cmd = googletag.cmd || [];
+    </script>
+    <script>
+        googletag.cmd.push(function () {
+            googletag.defineSlot("/1090369/C1", [300, 250], "div-gpt-ad-1546353474406-0").addService(googletag.pubads());
+            googletag.defineSlot("/1090369/C2", [468, 60], "div-gpt-ad-1539008685004-0").addService(googletag.pubads());
+            googletag.pubads().enableSingleRequest();
+            googletag.enableServices();
+        });
+    </script>
+    <div id="cnblogs_c1" class="c_ad_block">
+        <div id="div-gpt-ad-1546353474406-0" style="height:250px; width:300px;"></div>
+    </div>
+    <div id="under_post_news"></div>
+    <div id="cnblogs_c2" class="c_ad_block">
+        <div id="div-gpt-ad-1539008685004-0" style="height:60px; width:468px;">
+            <script>
+                if (new Date() >= new Date(2018, 9, 13)) {
+                    googletag.cmd.push(function () { googletag.display("div-gpt-ad-1539008685004-0"); });
+                }
+            </script>
+        </div>
+    </div>
+    <div id="under_post_kb"></div>
+    <div id="HistoryToday" class="c_ad_block"></div>
+    <script type="text/javascript">
+        fixPostBody();
+        deliverBigBanner();
+setTimeout(function() { incrementViewCount(cb_entryId); }, 50);        deliverAdT2();
+        deliverAdC1();
+        deliverAdC2();
+        loadNewsAndKb();
+        loadBlogSignature();
+LoadPostCategoriesTags(cb_blogId, cb_entryId);        LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+        GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate, cb_postType);
+        loadOptUnderPost();
+        GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);
+    </script>
+</div>
+	</div><!--end: forFlow -->
+	</div><!--end: mainContent 主体内容容器-->
+
+	<div id="sideBar">
+		<div id="sideBarMain">
+			
+<div id="sidebar_news" class="newsItem">
+            <script>loadBlogNews();</script>
+</div>
+
+<div id="sidebar_ad"></div>
+			<div id="blog-calendar" style="display:none"></div><script>loadBlogDefaultCalendar();</script>
+			
+			<div id="leftcontentcontainer">
+				<div id="blog-sidecolumn"></div>
+                    <script>loadBlogSideColumn();</script>
+			</div>
+			
+		</div><!--end: sideBarMain -->
+	</div><!--end: sideBar 侧边栏容器 -->
+	<div class="clear"></div>
+	</div><!--end: main -->
+	<div class="clear"></div>
+	<div id="footer">
+		<!--done-->
+Copyright &copy; 2020 five.li
+<br /><span id="poweredby">Powered by .NET Core on Kubernetes</span>
+
+
+
+	</div><!--end: footer -->
+</div><!--end: home 自定义的最大容器 -->
+
+
+    
+</body>
+</html>

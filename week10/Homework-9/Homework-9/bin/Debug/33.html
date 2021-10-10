@@ -1,0 +1,383 @@
+﻿<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="referrer" content="never" />
+    <meta property="og:description" content="本文始发于个人公众号： TechFlow ，原创不易，求个关注 今天是算法和数据结构专题的第19篇文章，我们一起来看看最小生成树。 我们先不讲算法的原理，也不讲一些七七八八的概念，因为对于初学者来说，" />
+    <meta http-equiv="Cache-Control" content="no-transform" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>这是一篇每个人都能读懂的最小生成树文章（Kruskal） - TechFlow2019 - 博客园</title>
+    
+    <link rel="stylesheet" href="/css/blog-common.min.css?v=KCO3_f2W_TC__-jZ7phSnmoFkQuWMJH2yAgA16eE3eY" />
+    <link id="MainCss" rel="stylesheet" href="/skins/simplememory/bundle-simplememory.min.css?v=OL4qeo1LNGlN1rKIhv5UctANvt0M6Nx6kLzr_ffx3Xk" />
+    
+    <link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="/skins/SimpleMemory/bundle-SimpleMemory-mobile.min.css" />
+    
+    <link type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/techflow/rss" />
+    <link type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/techflow/rsd.xml" />
+    <link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/techflow/wlwmanifest.xml" />
+    <script src="https://common.cnblogs.com/scripts/jquery-2.2.0.min.js"></script>
+    <script src="/js/blog-common.min.js?v=98Fvfd6UZH20B_MF08daNaODjSu879MVR9RHmyvWAlg"></script>
+    <script>
+        var currentBlogId = 569749;
+        var currentBlogApp = 'techflow';
+        var cb_enable_mathjax = true;
+        var isLogined = false;
+        var skinName = 'SimpleMemory';
+    </script>
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+        tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']], processClass: 'math', processEscapes: true },
+        TeX: {
+        equationNumbers: { autoNumber: ['AMS'], useLabelIds: true },
+        extensions: ['extpfeil.js', 'mediawiki-texvc.js'],
+        Macros: {bm: "\\boldsymbol"}
+        },
+        'HTML-CSS': { linebreaks: { automatic: true } },
+        SVG: { linebreaks: { automatic: true } }
+        });
+    </script>
+    <script src="https://mathjax.cnblogs.com/2_7_5/MathJax.js?config=TeX-AMS-MML_HTMLorMML&amp;v=20200504"></script>
+    
+</head>
+<body>
+    <a name="top"></a>
+    
+    
+<!--done-->
+<div id="home">
+<div id="header">
+	<div id="blogTitle">
+        <a id="lnkBlogLogo" href="https://www.cnblogs.com/techflow/"><img id="blogLogo" src="/skins/custom/images/logo.gif" alt="返回主页" /></a>		
+		
+<!--done-->
+<h1><a id="Header1_HeaderTitle" class="headermaintitle HeaderMainTitle" href="https://www.cnblogs.com/techflow/">TechFlow2019</a>
+</h1>
+<h2>
+
+</h2>
+
+
+
+
+		
+	</div><!--end: blogTitle 博客的标题和副标题 -->
+	<div id="navigator">
+		
+<ul id="navList">
+<li><a id="blog_nav_sitehome" class="menu" href="https://www.cnblogs.com/">
+博客园</a>
+</li>
+<li>
+<a id="blog_nav_myhome" class="menu" href="https://www.cnblogs.com/techflow/">
+首页</a>
+</li>
+<li>
+
+<a id="blog_nav_newpost" class="menu" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">
+新随笔</a>
+</li>
+<li>
+<a id="blog_nav_contact" class="menu" href="https://msg.cnblogs.com/send/TechFlow2019">
+联系</a></li>
+<li>
+<a id="blog_nav_rss" class="menu" href="https://www.cnblogs.com/techflow/rss/">
+订阅</a>
+<!--<partial name="./Shared/_XmlLink.cshtml" model="Model" /></li>--></li>
+<li>
+<a id="blog_nav_admin" class="menu" href="https://i.cnblogs.com/">
+管理</a>
+</li>
+</ul>
+
+
+		<div class="blogStats">
+			
+			<span id="stats_post_count">随笔 - 
+134&nbsp; </span>
+<span id="stats_article_count">文章 - 
+0&nbsp; </span>
+<span id="stats-comment_count">评论 - 
+61</span>
+
+			
+		</div><!--end: blogStats -->
+	</div><!--end: navigator 博客导航栏 -->
+</div><!--end: header 头部 -->
+
+<div id="main">
+	<div id="mainContent">
+	<div class="forFlow">
+		<div id="post_detail">
+    <!--done-->
+    <div id="topics">
+        <div class="post">
+            <h1 class = "postTitle">
+                
+<a id="cb_post_title_url" class="postTitle2" href="https://www.cnblogs.com/techflow/p/12845378.html">这是一篇每个人都能读懂的最小生成树文章（Kruskal）</a>
+
+            </h1>
+            <div class="clear"></div>
+            <div class="postBody">
+                
+<div id="cnblogs_post_body" class="blogpost-body cnblogs-markdown">
+    <p>本文始发于个人公众号：<strong>TechFlow</strong>，原创不易，求个关注</p>
+<br>
+<section id="nice" data-tool="mdnice编辑器" data-website="https://www.mdnice.com" style="font-size: 16px; color: black; padding: 0 10px; line-height: 1.6; word-spacing: 0px; letter-spacing: 0px; word-break: break-word; word-wrap: break-word; text-align: left; font-family: Optima-Regular, Optima, PingFangSC-light, PingFangTC-light, 'PingFang SC', Cambria, Cochin, Georgia, Times, 'Times New Roman', serif; margin-top: -10px;"><p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: rgb(89,89,89);">今天是<strong style="font-weight: bold; color: rgb(71, 193, 168);">算法和数据结构专题的第19篇</strong>文章，我们一起来看看最小生成树。</p>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: rgb(89,89,89);">我们先不讲算法的原理，也不讲一些七七八八的概念，因为对于初学者来说，看到这些术语和概念往往会很头疼。头疼也是正常的，因为无端突然出现这么多信息，都不知道它们是怎么来的，也不知道这些信息有什么用，自然就会觉得头疼。这也是很多人学习算法热情很高，但是最后又被劝退的原因。</p>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: rgb(89,89,89);">我们先不讲什么叫生成树，怎么生成树，有向图、无向图这些，先简单点，<strong style="font-weight: bold; color: rgb(71, 193, 168);">从最基本的内容开始</strong>，完整地将这个算法梳理一遍。</p>
+<h2 data-tool="mdnice编辑器" style="margin-top: 30px; padding: 0px; font-weight: bold; font-size: 22px; border-bottom: 2px solid rgb(89,89,89); margin-bottom: 30px; color: rgb(89,89,89);"><span class="prefix" style="display: none;"></span><span class="content" style="font-size: 22px; display: inline-block; border-bottom: 2px solid rgb(89,89,89);">树是什么</span><span class="suffix"></span></h2>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: rgb(89,89,89);">首先，我们先来看看最简单的数据结构——树。</p>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: rgb(89,89,89);">树是一个很抽象的数据结构，因为它在自然界当中能找到对应的物体。我们在初学的时候，往往都会根据自然界中真实的树来理解这个概念。所以在我们的认知当中，往往树是长这样的：</p>
+<figure data-tool="mdnice编辑器" style="margin: 0; margin-top: 10px; margin-bottom: 10px;"><img src="https://user-gold-cdn.xitu.io/2020/5/7/171ef121c5f1072b?w=1078&amp;h=738&amp;f=jpeg&amp;s=17034" alt="" style="display: block; margin: 0 auto; max-width: 100%"></figure>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: rgb(89,89,89);">上面这张图就是自然界中树的抽象，我们很容易理解。但是一般情况下，我们看到的树结构往往不是这样的，而是<strong style="font-weight: bold; color: rgb(71, 193, 168);">倒过来的</strong>。也就是树根在上，树叶在下。这样设计的原因很简单，没什么特别的道理，只是因为我们在遍历树的时候，往往从树根开始，从树根往叶子节点出发。所以我们倒过来很容易理解一些，我们把上面的树倒过来就成了这样：</p>
+<figure data-tool="mdnice编辑器" style="margin: 0; margin-top: 10px; margin-bottom: 10px;"><img src="https://user-gold-cdn.xitu.io/2020/5/7/171ef121908b713b?w=1246&amp;h=752&amp;f=jpeg&amp;s=20061" alt="" style="display: block; margin: 0 auto; max-width: 100%"></figure>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: rgb(89,89,89);">上面的两种画法当然都是正确的，但既然树可以正着放，也可以倒过来放，我们自然也可以将它<strong style="font-weight: bold; color: rgb(71, 193, 168);">伸展开来放</strong>。比如下面这张图，其实也是一棵树，只是我们把它画得不一样而已。</p>
+<figure data-tool="mdnice编辑器" style="margin: 0; margin-top: 10px; margin-bottom: 10px;"><img src="https://user-gold-cdn.xitu.io/2020/5/7/171ef121abbb3424?w=1359&amp;h=1080&amp;f=jpeg&amp;s=31037" alt="" style="display: block; margin: 0 auto; max-width: 100%"></figure>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: rgb(89,89,89);">我们可以想象一下，假如有一只无形的大手抓住了树根将它“拎起来”，那么它自然而然就变成了上面的样子。</p>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: rgb(89,89,89);">然后你会发现，如果真的有这样大手，它不管拎起哪个节点，都会得到一棵树。也就是说，如果树根的位置对我们不再重要的话，树其实就等价于上面这样的图。</p>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: rgb(89,89,89);">那么这样的图究竟是什么图呢？它有什么性质呢？所有的图都能看成是树吗？</p>
+<figure data-tool="mdnice编辑器" style="margin: 0; margin-top: 10px; margin-bottom: 10px;"><img src="https://user-gold-cdn.xitu.io/2020/5/7/171ef121cb0e4f5e?w=2326&amp;h=992&amp;f=jpeg&amp;s=43960" alt="" style="display: block; margin: 0 auto; max-width: 100%"></figure>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: rgb(89,89,89);">显然这三种情况<strong style="font-weight: bold; color: rgb(71, 193, 168);">都不是树</strong>，第一种是因为图中的边有方向了。有了方向之后，图中连通的情况就被破坏了。在我们认知当中树应该是全连通的，就好像自然界中的一只蚂蚁，可以走到树上任何位置。<strong style="font-weight: bold; color: rgb(71, 193, 168);">不能全连通，自然就不是树</strong>。情况2也不对，因为<strong style="font-weight: bold; color: rgb(71, 193, 168);">有了环</strong>，树是不应该有环的。自然界中的树是没有环的，不存在某根树枝自己绕一圈，同样，我们逻辑中的树也是没有环的，否则我们递归访问永远也找不到终点。第三种情况也一样，有些点孤立在外，<strong style="font-weight: bold; color: rgb(71, 193, 168);">不能连通</strong>，自然也不是树。</p>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: rgb(89,89,89);">那我们总结一下，就可以回答这个问题。树是什么？树就是可以全连通（无向图），并且没有环路的图。</p>
+<h2 data-tool="mdnice编辑器" style="margin-top: 30px; padding: 0px; font-weight: bold; font-size: 22px; border-bottom: 2px solid rgb(89,89,89); margin-bottom: 30px; color: rgb(89,89,89);"><span class="prefix" style="display: none;"></span><span class="content" style="font-size: 22px; display: inline-block; border-bottom: 2px solid rgb(89,89,89);">从图到树</span><span class="suffix"></span></h2>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: rgb(89,89,89);">从刚才的分析当中，我们得到了一个很重要的结论，<strong style="font-weight: bold; color: rgb(71, 193, 168);">树的本质就是图</strong>，只不过是满足了一些特殊性质的图。这也是为什么树的很多算法都会被收纳进图论这个大概念当中。</p>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: rgb(89,89,89);">从<strong style="font-weight: bold; color: rgb(71, 193, 168);">全连通和没有环路</strong>这两个性质出发，我们又可以得到一个很重要的结论，对于一棵拥有n个节点的树而言，它的边数是固定的，一定是n-1条边。如果超过n-1条边，那么当中一定存在环路，如果小于n-1条边，那么一定存在不连通的部分。但注意，它只是一个<strong style="font-weight: bold; color: rgb(71, 193, 168);">必要条件</strong>，不是一个充分条件。也就是说并不是n个点n-1条边就一定是树，这很容易构造出反例。</p>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: rgb(89,89,89);">这个结论虽然很简单，但是很有用处，它可以解决一个<strong style="font-weight: bold; color: rgb(71, 193, 168);">由图转化成树</strong>的问题。</p>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: rgb(89,89,89);">也就是说当下我们拥有一个复杂图，我们想要根据这个图生成能够连通所有节点的树，这个时候应该怎么办？如果我们没有上面的性质，会有一点无从下手的感觉。但有了这个性质之后，就明确多了。我们一共有两种办法，第一种办法是<strong style="font-weight: bold; color: rgb(71, 193, 168);">删减边</strong>，既然是一个复杂图，说明边的数量一定超过n-1。那么我们可以试着删去一些边，最后留下一棵树。第二种做法与之相反，是<strong style="font-weight: bold; color: rgb(71, 193, 168);">增加边</strong>。也就是说我们一开始把所有的边全部撤掉，然后一条一条地往当中添加n-1条边，让它变成一棵树。</p>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: rgb(89,89,89);">我们试着想一下，会发现删减边的做法明显弱于添加边的方法。原因很简单，因为我们每一次在删除边的时候都面临<strong style="font-weight: bold; color: rgb(71, 193, 168);">是否会破坏树上连通关系</strong>的拷问。比如下图：</p>
+<figure data-tool="mdnice编辑器" style="margin: 0; margin-top: 10px; margin-bottom: 10px;"><img src="https://user-gold-cdn.xitu.io/2020/5/7/171ef1220deb7aaf?w=1506&amp;h=1080&amp;f=jpeg&amp;s=35956" alt="" style="display: block; margin: 0 auto; max-width: 100%"></figure>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: rgb(89,89,89);">如果我们一旦删去了AB这条边，那么一定会破坏整个结构的连通性。我们要判断连通关系，最好的办法就是我们先删除这条边，然后试着从A点出发，看看能否到达B点。如果可以，那么则认为这条边可以删除。如果图很大的话，<strong style="font-weight: bold; color: rgb(71, 193, 168);">每一次删除都需要遍历整张图</strong>，这会带来巨大的开销。并且每一次删除都会改变图的结构，很难缓存这些结果。</p>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: rgb(89,89,89);">因此，删除边的方式并不是不可行，只是复杂度非常高，正因此，目前比较流行的两种最小生成树的算法都是利用的第二种，也就是添加边的方式实现的。</p>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: rgb(89,89,89);">到这里，我们就知道了，所谓的最小生成树算法，<strong style="font-weight: bold; color: rgb(71, 193, 168);">就是从图当中挑选出n-1条边将它转化成一棵树</strong>的算法。</p>
+<h2 data-tool="mdnice编辑器" style="margin-top: 30px; padding: 0px; font-weight: bold; font-size: 22px; border-bottom: 2px solid rgb(89,89,89); margin-bottom: 30px; color: rgb(89,89,89);"><span class="prefix" style="display: none;"></span><span class="content" style="font-size: 22px; display: inline-block; border-bottom: 2px solid rgb(89,89,89);">解决生成问题</span><span class="suffix"></span></h2>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: rgb(89,89,89);">我们先不考虑边上带权重的情况，我们假设所有边都是等价的，先来看看生成问题怎么解决，再来进行优化求最小。</p>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: rgb(89,89,89);">如果采用添加边的方法，面临的问题和上面类似，当我们选择一条边的时候，我们如何判断这条边是有必要添加的呢？这个问题需要用到树的另外一个性质。</p>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: rgb(89,89,89);">由于没有环路，<strong style="font-weight: bold; color: rgb(71, 193, 168);">树上任意两点之间的路径，有且只有一条</strong>。因为如果存在两点之间的路径有两条，那么必然可以找到一个环路。它的证明很简单，但是我们很难凭自己想到这个结论。有了这个结论，就可以回答上面的那个问题，什么样的边是有必要添加的？也就是两个点之间不存在通路的时候。如果两个点之间已经存在通路，那么当前这条边就不能添加了，否则必然会出现环。如果没有通路，那么可以添加。</p>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: rgb(89,89,89);">所以我们要做的就是设计一个算法，可以<strong style="font-weight: bold; color: rgb(71, 193, 168);">维护树上点的连通性</strong>。</p>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: rgb(89,89,89);">但是这又带来了一个新的问题，在树结构当中，<strong style="font-weight: bold; color: rgb(71, 193, 168);">连通性是可以传递的</strong>。两个点之间连了一条边，并不仅仅是这两个点连通，而是所有与这两个点之间连通的点都连通了。比如下图：</p>
+<figure data-tool="mdnice编辑器" style="margin: 0; margin-top: 10px; margin-bottom: 10px;"><img src="https://user-gold-cdn.xitu.io/2020/5/7/171ef1222e4591a0?w=770&amp;h=540&amp;f=jpeg&amp;s=16106" alt="" style="display: block; margin: 0 auto; max-width: 100%"></figure>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: rgb(89,89,89);">这张图当中A和B连了一条边，这不仅仅是A和B连通，而是<strong style="font-weight: bold; color: rgb(71, 193, 168);">左半边的集合和右半边集合的连通</strong>。所以，虽然A只是和B连通了，但是和C也连通了。AC这条边也一样不能被加入了。也就是说A和B连通，其实是<strong style="font-weight: bold; color: rgb(71, 193, 168);">A所在的集合和B所在的集合合并</strong>的过程。看到集合的合并，有没有一点熟悉的感觉？对嘛，上一篇文章当中我们讲的并查集算法就是用来解决集合合并和查询问题的。那么，显然可以用并查集来维护图中这些点集的连通性。</p>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: rgb(89,89,89);">如果对并查集算法有些遗忘的话，可以点击下方的传送门回顾一下：</p>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: rgb(89,89,89);"><a href="https://mp.weixin.qq.com/s?__biz=MzUyMTM5OTM2NA==&amp;mid=2247485165&amp;idx=1&amp;sn=0c04c7736c266c184a75d0b84d36426f&amp;chksm=f9dafbc6cead72d0923c7857a8e5eac31a2b8cba46b5fa743c44ae521c02be486286da0e6aa7&amp;scene=21#wechat_redirect" style="text-decoration: none; word-wrap: break-word; font-weight: bold; color: rgb(71, 193, 168); border-bottom: 1px solid rgb(71, 193, 168);">四十行代码搞定经典的并查集算法</a></p>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: rgb(89,89,89);">利用并查集算法，问题就很简单了。一开始所有点之间都不连通，那么<strong style="font-weight: bold; color: rgb(71, 193, 168);">所有点单独是一个集合</strong>。如果当前边连通的两个点所属于同一个集合，那么说明它们之间已经有通路了，这条边不能被添加。否则的话，说明它们不连通，那么将这条边连上，并且合并这两个集合。</p>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: rgb(89,89,89);">于是，我们就解决了生成树这个问题。</p>
+<h2 data-tool="mdnice编辑器" style="margin-top: 30px; padding: 0px; font-weight: bold; font-size: 22px; border-bottom: 2px solid rgb(89,89,89); margin-bottom: 30px; color: rgb(89,89,89);"><span class="prefix" style="display: none;"></span><span class="content" style="font-size: 22px; display: inline-block; border-bottom: 2px solid rgb(89,89,89);">从生成树到最小生成树</span><span class="suffix"></span></h2>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: rgb(89,89,89);">接下来，我们为图中的每条边加上权重，希望最后得到的树的所有权重之和最小。</p>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: rgb(89,89,89);">比如，我们有下面这张图，我们希望生成的<strong style="font-weight: bold; color: rgb(71, 193, 168);">树上所有边的权重和最小</strong>。</p>
+<figure data-tool="mdnice编辑器" style="margin: 0; margin-top: 10px; margin-bottom: 10px;"><img src="https://user-gold-cdn.xitu.io/2020/5/7/171ef122b1d60db5?w=815&amp;h=631&amp;f=jpeg&amp;s=23453" alt="" style="display: block; margin: 0 auto; max-width: 100%"></figure>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: rgb(89,89,89);">观察一下这张图上的边，长短不一。根据贪心算法，我们<strong style="font-weight: bold; color: rgb(71, 193, 168);">显然希望用尽量短的边来连通树</strong>。所以Kruskal算法的原理非常简单粗暴，就是对这些边进行长短排序，依次从短到长遍历这些边，然后通过并查集来维护边是否能够被添加，直到所有边都遍历结束。</p>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: rgb(89,89,89);">可以肯定，这样生成出来的树一定是正确的，虽然我们对边进行了排序，但是每条边依然都有可能会被用上，排序并不会影响算法的可行性。但问题是，这样贪心出来的结果一定是最优的吗？</p>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: rgb(89,89,89);">这里，我们还是使用之前讲过的<strong style="font-weight: bold; color: rgb(71, 193, 168);">等价判断方法</strong>。我们假设存在两条长度一样的边，那么我们的决策是否会影响最后的结果呢？</p>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: rgb(89,89,89);">两个完全相等的边一共只有可能出现三种情况，为了简化图示，我们<strong style="font-weight: bold; color: rgb(71, 193, 168);">把一个集合看成是一个点</strong>。第一种情况是这两条边连通四个不同的集合：</p>
+<figure data-tool="mdnice编辑器" style="margin: 0; margin-top: 10px; margin-bottom: 10px;"><img src="https://user-gold-cdn.xitu.io/2020/5/7/171ef12256946600?w=799&amp;h=478&amp;f=jpeg&amp;s=13623" alt="" style="display: block; margin: 0 auto; max-width: 100%"></figure>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: rgb(89,89,89);">那么显然这两条边之间并不会引起冲突，所以我们可以都保留。所以这不会引起反例。</p>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: rgb(89,89,89);">第二种情况是这两条边连通三个不同的集合：</p>
+<figure data-tool="mdnice编辑器" style="margin: 0; margin-top: 10px; margin-bottom: 10px;"><img src="https://user-gold-cdn.xitu.io/2020/5/7/171ef1230b1e2644?w=797&amp;h=522&amp;f=jpeg&amp;s=12484" alt="" style="display: block; margin: 0 auto; max-width: 100%"></figure>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: rgb(89,89,89);">这种情况和上面一样，我们可以都要，并不会影响连通情况。所以也不会引起反例。</p>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: rgb(89,89,89);">最后一种是这两条边连通的是两个集合，也就是下面这样。</p>
+<figure data-tool="mdnice编辑器" style="margin: 0; margin-top: 10px; margin-bottom: 10px;"><img src="https://user-gold-cdn.xitu.io/2020/5/7/171ef122b1585c66?w=597&amp;h=471&amp;f=jpeg&amp;s=8883" alt="" style="display: block; margin: 0 auto; max-width: 100%"></figure>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: rgb(89,89,89);">在这种情况下，这两条件之间互相冲突，我们<strong style="font-weight: bold; color: rgb(71, 193, 168);">只能选择其中的一条</strong>。但是显然，不论我们怎么选都是一样的。因为都是连接了这两个连通块，然后带来的价值也是一样的，<strong style="font-weight: bold; color: rgb(71, 193, 168);">并不会影响最终的结果</strong>。</p>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: rgb(89,89,89);">当我们把所有情况列举出来之后，我们就可以明确，在这个问题当中贪心法是可行的，并不会引起反例，所以我们可以放心大胆地用。</p>
+<h2 data-tool="mdnice编辑器" style="margin-top: 30px; padding: 0px; font-weight: bold; font-size: 22px; border-bottom: 2px solid rgb(89,89,89); margin-bottom: 30px; color: rgb(89,89,89);"><span class="prefix" style="display: none;"></span><span class="content" style="font-size: 22px; display: inline-block; border-bottom: 2px solid rgb(89,89,89);">实际问题与代码实现</span><span class="suffix"></span></h2>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: rgb(89,89,89);">明白了算法原理之后，我们来看看这个算法的实际问题。其实这个算法在现实当中的使用蛮多的，比如自来水公司要用水管连通所有的小区。而水管是有成本的，那么显然自来水公司希望<strong style="font-weight: bold; color: rgb(71, 193, 168);">水管的总长度尽量短</strong>。比如山里的村庄通电，要用尽量少的电缆将所有村庄连通，这些类似的问题其实都可以抽象成最小生成树来解决。当然现实中的问题可能没有这么简单，除了考虑成本和连通之外，还需要考虑地形、人文、社会等其他很多因素。</p>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: rgb(89,89,89);">最后，我们试着用代码来实现一下这个算法。</p>
+<pre class="custom" data-tool="mdnice编辑器" style="margin-top: 10px; margin-bottom: 10px;"><code class="hljs" style="overflow-x: auto; padding: 16px; color: #333; background: #f8f8f8; display: block; font-family: Operator Mono, Consolas, Monaco, Menlo, monospace; border-radius: 0px; font-size: 12px; -webkit-overflow-scrolling: touch;"><span class="hljs-class" style="line-height: 26px;"><span class="hljs-keyword" style="color: #333; font-weight: bold; line-height: 26px;">class</span> <span class="hljs-title" style="color: #458; font-weight: bold; line-height: 26px;">DisjointSet</span>:</span>
+<span/>
+    <span class="hljs-function" style="line-height: 26px;"><span class="hljs-keyword" style="color: #333; font-weight: bold; line-height: 26px;">def</span> <span class="hljs-title" style="color: #900; font-weight: bold; line-height: 26px;">__init__</span><span class="hljs-params" style="line-height: 26px;">(self, element_num=None)</span>:</span>
+        self._father = {}
+        self._rank = {}
+        <span class="hljs-comment" style="color: #998; font-style: italic; line-height: 26px;"># 初始化时每个元素单独成为一个集合</span>
+        <span class="hljs-keyword" style="color: #333; font-weight: bold; line-height: 26px;">if</span> element_num <span class="hljs-keyword" style="color: #333; font-weight: bold; line-height: 26px;">is</span> <span class="hljs-keyword" style="color: #333; font-weight: bold; line-height: 26px;">not</span> <span class="hljs-literal" style="color: #008080; line-height: 26px;">None</span>:
+            <span class="hljs-keyword" style="color: #333; font-weight: bold; line-height: 26px;">for</span> i <span class="hljs-keyword" style="color: #333; font-weight: bold; line-height: 26px;">in</span> range(element_num):
+                self.add(i)
+<span/>
+    <span class="hljs-function" style="line-height: 26px;"><span class="hljs-keyword" style="color: #333; font-weight: bold; line-height: 26px;">def</span> <span class="hljs-title" style="color: #900; font-weight: bold; line-height: 26px;">add</span><span class="hljs-params" style="line-height: 26px;">(self, x)</span>:</span>
+        <span class="hljs-comment" style="color: #998; font-style: italic; line-height: 26px;"># 添加新集合</span>
+        <span class="hljs-comment" style="color: #998; font-style: italic; line-height: 26px;"># 如果已经存在则跳过</span>
+        <span class="hljs-keyword" style="color: #333; font-weight: bold; line-height: 26px;">if</span> x <span class="hljs-keyword" style="color: #333; font-weight: bold; line-height: 26px;">in</span> self._father:
+            <span class="hljs-keyword" style="color: #333; font-weight: bold; line-height: 26px;">return</span> 
+        self._father[x] = x
+        self._rank[x] = <span class="hljs-number" style="color: #008080; line-height: 26px;">0</span>
+<span/>
+    <span class="hljs-function" style="line-height: 26px;"><span class="hljs-keyword" style="color: #333; font-weight: bold; line-height: 26px;">def</span> <span class="hljs-title" style="color: #900; font-weight: bold; line-height: 26px;">_query</span><span class="hljs-params" style="line-height: 26px;">(self, x)</span>:</span>
+        <span class="hljs-comment" style="color: #998; font-style: italic; line-height: 26px;"># 如果father[x] == x，说明x是树根</span>
+        <span class="hljs-keyword" style="color: #333; font-weight: bold; line-height: 26px;">if</span> self._father[x] == x:
+            <span class="hljs-keyword" style="color: #333; font-weight: bold; line-height: 26px;">return</span> x
+        self._father[x] = self._query(self._father[x])
+        <span class="hljs-keyword" style="color: #333; font-weight: bold; line-height: 26px;">return</span> self._father[x]
+<span/>
+    <span class="hljs-function" style="line-height: 26px;"><span class="hljs-keyword" style="color: #333; font-weight: bold; line-height: 26px;">def</span> <span class="hljs-title" style="color: #900; font-weight: bold; line-height: 26px;">merge</span><span class="hljs-params" style="line-height: 26px;">(self, x, y)</span>:</span>
+        <span class="hljs-keyword" style="color: #333; font-weight: bold; line-height: 26px;">if</span> x <span class="hljs-keyword" style="color: #333; font-weight: bold; line-height: 26px;">not</span> <span class="hljs-keyword" style="color: #333; font-weight: bold; line-height: 26px;">in</span> self._father:
+            self.add(x)
+        <span class="hljs-keyword" style="color: #333; font-weight: bold; line-height: 26px;">if</span> y <span class="hljs-keyword" style="color: #333; font-weight: bold; line-height: 26px;">not</span> <span class="hljs-keyword" style="color: #333; font-weight: bold; line-height: 26px;">in</span> self._father:
+            self.add(y)
+        <span class="hljs-comment" style="color: #998; font-style: italic; line-height: 26px;"># 查找到两个元素的树根</span>
+        x = self._query(x)
+        y = self._query(y)
+        <span class="hljs-comment" style="color: #998; font-style: italic; line-height: 26px;"># 如果相等，说明属于同一个集合</span>
+        <span class="hljs-keyword" style="color: #333; font-weight: bold; line-height: 26px;">if</span> x == y:
+            <span class="hljs-keyword" style="color: #333; font-weight: bold; line-height: 26px;">return</span>
+        <span class="hljs-comment" style="color: #998; font-style: italic; line-height: 26px;"># 否则将树深小的合并到树根大的上</span>
+        <span class="hljs-keyword" style="color: #333; font-weight: bold; line-height: 26px;">if</span> self._rank[x] &lt; self._rank[y]:
+            self._father[x] = y
+        <span class="hljs-keyword" style="color: #333; font-weight: bold; line-height: 26px;">else</span>:
+            self._father[y] = x
+            <span class="hljs-comment" style="color: #998; font-style: italic; line-height: 26px;"># 如果树深相等，合并之后树深+1</span>
+            <span class="hljs-keyword" style="color: #333; font-weight: bold; line-height: 26px;">if</span> self._rank[x] == self._rank[y]:
+                self._rank[x] += <span class="hljs-number" style="color: #008080; line-height: 26px;">1</span>
+<span/>
+    <span class="hljs-comment" style="color: #998; font-style: italic; line-height: 26px;"># 判断是否属于同一个集合</span>
+    <span class="hljs-function" style="line-height: 26px;"><span class="hljs-keyword" style="color: #333; font-weight: bold; line-height: 26px;">def</span> <span class="hljs-title" style="color: #900; font-weight: bold; line-height: 26px;">same</span><span class="hljs-params" style="line-height: 26px;">(self, x, y)</span>:</span>
+        <span class="hljs-keyword" style="color: #333; font-weight: bold; line-height: 26px;">return</span> self._query(x) == self._query(y)
+<span/>
+<span class="hljs-comment" style="color: #998; font-style: italic; line-height: 26px;"># 构造数据</span>
+edges = [[<span class="hljs-number" style="color: #008080; line-height: 26px;">1</span>, <span class="hljs-number" style="color: #008080; line-height: 26px;">2</span>, <span class="hljs-number" style="color: #008080; line-height: 26px;">7</span>], [<span class="hljs-number" style="color: #008080; line-height: 26px;">2</span>, <span class="hljs-number" style="color: #008080; line-height: 26px;">3</span>, <span class="hljs-number" style="color: #008080; line-height: 26px;">8</span>], [<span class="hljs-number" style="color: #008080; line-height: 26px;">2</span>, <span class="hljs-number" style="color: #008080; line-height: 26px;">4</span>, <span class="hljs-number" style="color: #008080; line-height: 26px;">9</span>], [<span class="hljs-number" style="color: #008080; line-height: 26px;">1</span>, <span class="hljs-number" style="color: #008080; line-height: 26px;">4</span>, <span class="hljs-number" style="color: #008080; line-height: 26px;">5</span>], [<span class="hljs-number" style="color: #008080; line-height: 26px;">3</span>, <span class="hljs-number" style="color: #008080; line-height: 26px;">5</span>, <span class="hljs-number" style="color: #008080; line-height: 26px;">5</span>], [<span class="hljs-number" style="color: #008080; line-height: 26px;">2</span>, <span class="hljs-number" style="color: #008080; line-height: 26px;">5</span>, <span class="hljs-number" style="color: #008080; line-height: 26px;">7</span>], [<span class="hljs-number" style="color: #008080; line-height: 26px;">4</span>, <span class="hljs-number" style="color: #008080; line-height: 26px;">5</span>, <span class="hljs-number" style="color: #008080; line-height: 26px;">15</span>], [<span class="hljs-number" style="color: #008080; line-height: 26px;">4</span>, <span class="hljs-number" style="color: #008080; line-height: 26px;">6</span>, <span class="hljs-number" style="color: #008080; line-height: 26px;">6</span>], [<span class="hljs-number" style="color: #008080; line-height: 26px;">5</span>, <span class="hljs-number" style="color: #008080; line-height: 26px;">6</span>, <span class="hljs-number" style="color: #008080; line-height: 26px;">8</span>], [<span class="hljs-number" style="color: #008080; line-height: 26px;">6</span>, <span class="hljs-number" style="color: #008080; line-height: 26px;">7</span>, <span class="hljs-number" style="color: #008080; line-height: 26px;">11</span>], [<span class="hljs-number" style="color: #008080; line-height: 26px;">5</span>, <span class="hljs-number" style="color: #008080; line-height: 26px;">7</span>, <span class="hljs-number" style="color: #008080; line-height: 26px;">9</span>]]
+<span/>
+<span class="hljs-keyword" style="color: #333; font-weight: bold; line-height: 26px;">if</span> __name__ == <span class="hljs-string" style="color: #d14; line-height: 26px;">"__main__"</span>:
+    disjoinset = DisjointSet(<span class="hljs-number" style="color: #008080; line-height: 26px;">8</span>)
+    <span class="hljs-comment" style="color: #998; font-style: italic; line-height: 26px;"># 根据边长对边集排序</span>
+    edges = sorted(edges, key=<span class="hljs-keyword" style="color: #333; font-weight: bold; line-height: 26px;">lambda</span> x: x[<span class="hljs-number" style="color: #008080; line-height: 26px;">2</span>])
+    res = <span class="hljs-number" style="color: #008080; line-height: 26px;">0</span>
+    <span class="hljs-keyword" style="color: #333; font-weight: bold; line-height: 26px;">for</span> u, v, w <span class="hljs-keyword" style="color: #333; font-weight: bold; line-height: 26px;">in</span> edges:
+        <span class="hljs-keyword" style="color: #333; font-weight: bold; line-height: 26px;">if</span> disjoinset.same(u ,v):
+            <span class="hljs-keyword" style="color: #333; font-weight: bold; line-height: 26px;">continue</span>
+        disjoinset.merge(u, v)
+        res += w
+    print(res)
+</code></pre>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: rgb(89,89,89);">其实主要都是利用并查集，我们额外写的代码就只有几行而已，是不是非常简单呢？</p>
+<h2 data-tool="mdnice编辑器" style="margin-top: 30px; padding: 0px; font-weight: bold; font-size: 22px; border-bottom: 2px solid rgb(89,89,89); margin-bottom: 30px; color: rgb(89,89,89);"><span class="prefix" style="display: none;"></span><span class="content" style="font-size: 22px; display: inline-block; border-bottom: 2px solid rgb(89,89,89);">结尾</span><span class="suffix"></span></h2>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: rgb(89,89,89);">相信大家也都感觉到了Kruskal算法的原理非常简单，如果你是顺着文章脉络这样读下来，相信一定会有一种顺水推舟，一切都自然而然的感觉。也正是因此，它<strong style="font-weight: bold; color: rgb(71, 193, 168);">非常符合直觉</strong>，也<strong style="font-weight: bold; color: rgb(71, 193, 168);">非常容易理解</strong>，一旦记住了就不容易忘记，即使忘记了我们也很容易自己推导出来。这并不是笑话，有一次我在比赛的时候临时遇到了，当时许久不写Kruskal算法，一时想不起来。凭着仅有的一点印象，硬是在草稿纸上推导了一遍算法。</p>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: rgb(89,89,89);">在下一篇文章当中我们继续研究最小生成树问题，一起来看另外一个类似但不相同的算法——Prim。</p>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: rgb(89,89,89);">今天的文章就到这里，原创不易，需要你的<strong style="font-weight: bold; color: rgb(71, 193, 168);">一个关注</strong>，扫码关注，获取更多精彩文章。</p>
+</section>
+<p><img src="https://user-gold-cdn.xitu.io/2020/5/7/171ef1237737925c?w=258&amp;h=258&amp;f=png&amp;s=23988" alt=""></p>
+
+</div>
+<div id="MySignature"></div>
+<div class="clear"></div>
+<div id="blog_post_info_block">
+    <div id="blog_post_info"></div>
+    <div class="clear"></div>
+    <div id="post_next_prev"></div>
+</div>
+            </div>
+            <div class="postDesc">posted @ 
+<span id="post-date">2020-05-07 20:20</span>&nbsp;
+<a href="https://www.cnblogs.com/techflow/">TechFlow2019</a>&nbsp;
+阅读(<span id="post_view_count">...</span>)&nbsp;
+评论(<span id="post_comment_count">...</span>)&nbsp;
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=12845378" rel="nofollow">编辑</a>&nbsp;
+<a href="javascript:void(0)" onclick="AddToWz(12845378);return false;">收藏</a></div>
+        </div>
+	    
+	    
+    </div><!--end: topics 文章、评论容器-->
+</div>
+<script src="https://common.cnblogs.com/highlight/9.12.0/highlight.min.js"></script>
+<script>markdown_highlight();</script>
+<script>
+    var allowComments = true, cb_blogId = 569749, cb_blogApp = 'techflow', cb_blogUserGuid = '9eb32f80-09d7-4c19-e763-08d7804a3aa0';
+    var cb_entryId = 12845378, cb_entryCreatedDate = '2020-05-07 20:20', cb_postType = 1; 
+    loadViewCount(cb_entryId);
+    loadSideColumnAd();
+</script><a name="!comments"></a>
+<div id="blog-comments-placeholder"></div>
+<script>
+    var commentManager = new blogCommentManager();
+    commentManager.renderComments(0);
+</script>
+
+<div id="comment_form" class="commentform">
+    <a name="commentform"></a>
+    <div id="divCommentShow"></div>
+    <div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="#" onclick="return RefreshPage();">刷新页面</a><a href="#top">返回顶部</a></div>
+    <div id="comment_form_container"></div>
+    <div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+    <div id="ad_t2"></div>
+    <div id="opt_under_post"></div>
+    <script async="async" src="https://www.googletagservices.com/tag/js/gpt.js"></script>
+    <script>
+        var googletag = googletag || {};
+        googletag.cmd = googletag.cmd || [];
+    </script>
+    <script>
+        googletag.cmd.push(function () {
+            googletag.defineSlot("/1090369/C1", [300, 250], "div-gpt-ad-1546353474406-0").addService(googletag.pubads());
+            googletag.defineSlot("/1090369/C2", [468, 60], "div-gpt-ad-1539008685004-0").addService(googletag.pubads());
+            googletag.pubads().enableSingleRequest();
+            googletag.enableServices();
+        });
+    </script>
+    <div id="cnblogs_c1" class="c_ad_block">
+        <div id="div-gpt-ad-1546353474406-0" style="height:250px; width:300px;"></div>
+    </div>
+    <div id="under_post_news"></div>
+    <div id="cnblogs_c2" class="c_ad_block">
+        <div id="div-gpt-ad-1539008685004-0" style="height:60px; width:468px;">
+            <script>
+                if (new Date() >= new Date(2018, 9, 13)) {
+                    googletag.cmd.push(function () { googletag.display("div-gpt-ad-1539008685004-0"); });
+                }
+            </script>
+        </div>
+    </div>
+    <div id="under_post_kb"></div>
+    <div id="HistoryToday" class="c_ad_block"></div>
+    <script type="text/javascript">
+        fixPostBody();
+        deliverBigBanner();
+setTimeout(function() { incrementViewCount(cb_entryId); }, 50);        deliverAdT2();
+        deliverAdC1();
+        deliverAdC2();
+        loadNewsAndKb();
+        loadBlogSignature();
+LoadPostCategoriesTags(cb_blogId, cb_entryId);        LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+        GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate, cb_postType);
+        loadOptUnderPost();
+        GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);
+    </script>
+</div>
+	</div><!--end: forFlow -->
+	</div><!--end: mainContent 主体内容容器-->
+
+	<div id="sideBar">
+		<div id="sideBarMain">
+			
+<div id="sidebar_news" class="newsItem">
+            <script>loadBlogNews();</script>
+</div>
+
+<div id="sidebar_ad"></div>
+			<div id="blog-calendar" style="display:none"></div><script>loadBlogDefaultCalendar();</script>
+			
+			<div id="leftcontentcontainer">
+				<div id="blog-sidecolumn"></div>
+                    <script>loadBlogSideColumn();</script>
+			</div>
+			
+		</div><!--end: sideBarMain -->
+	</div><!--end: sideBar 侧边栏容器 -->
+	<div class="clear"></div>
+	</div><!--end: main -->
+	<div class="clear"></div>
+	<div id="footer">
+		<!--done-->
+Copyright &copy; 2020 TechFlow2019
+<br /><span id="poweredby">Powered by .NET Core on Kubernetes</span>
+
+
+
+	</div><!--end: footer -->
+</div><!--end: home 自定义的最大容器 -->
+
+
+    <div id="page_end_html">
+        
+
+    </div>
+</body>
+</html>

@@ -1,0 +1,615 @@
+﻿<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="referrer" content="origin" />
+    <meta property="og:description" content="如果熟悉C 语言的小伙伴们一般都会知道委托、事件的好处，只需在某个类中提前定义好公开的委托或事件（委托的特殊表现形式）变量，然后在其它类中就可以很随意的订阅该委托或事件，当委托或事件被触发执行时，会自" />
+    <meta http-equiv="Cache-Control" content="no-transform" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>模块（类）之间解耦利器：EventPublishSubscribeUtils 事件发布订阅工具类 - 梦在旅途 - 博客园</title>
+    
+    <link rel="stylesheet" href="/css/blog-common.min.css?v=KCO3_f2W_TC__-jZ7phSnmoFkQuWMJH2yAgA16eE3eY" />
+    <link id="MainCss" rel="stylesheet" href="/skins/simpleblue/bundle-simpleblue.min.css?v=A3b2aPJdyRz0wsOsfRnhl-bqaa45nYsYwvEqo53RYFs" />
+    
+    <link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="/skins/simpleblue/bundle-simpleblue-mobile.min.css?v=X7swQJ1TyCJAf6FMVjDPbYhUAiMdNFddEy1-m0_TbFQ" />
+    
+    <link type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/zuowj/rss" />
+    <link type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/zuowj/rsd.xml" />
+    <link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/zuowj/wlwmanifest.xml" />
+    <script src="https://common.cnblogs.com/scripts/jquery-2.2.0.min.js"></script>
+    <script src="/js/blog-common.min.js?v=98Fvfd6UZH20B_MF08daNaODjSu879MVR9RHmyvWAlg"></script>
+    <script>
+        var currentBlogId = 131302;
+        var currentBlogApp = 'zuowj';
+        var cb_enable_mathjax = true;
+        var isLogined = false;
+        var skinName = 'SimpleBlue';
+    </script>
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+        tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']], processClass: 'math', processEscapes: true },
+        TeX: {
+        equationNumbers: { autoNumber: ['AMS'], useLabelIds: true },
+        extensions: ['extpfeil.js', 'mediawiki-texvc.js'],
+        Macros: {bm: "\\boldsymbol"}
+        },
+        'HTML-CSS': { linebreaks: { automatic: true } },
+        SVG: { linebreaks: { automatic: true } }
+        });
+    </script>
+    <script src="https://mathjax.cnblogs.com/2_7_5/MathJax.js?config=TeX-AMS-MML_HTMLorMML&amp;v=20200504"></script>
+    
+</head>
+<body>
+    <a name="top"></a>
+    <div id="page_begin_html">
+        <style>
+<!--
+.post_body_title {margin:3px 0;padding:5px;height:30px;line-height:30px;font-size:18px; color:#ffffff;font-weight:bold;background-color:#399ab2;border-radius:8px;-moz-border-radius:8px;-webkit-border-radius:8px;}
+.hide {display:none;}
+.hideflag{display:none;content:'文章来自：zuowj.cnblogs.com'}
+-->
+</style>
+    </div>
+    <div id="home">
+    <div id="header">
+        <div id="blogTitle">
+            
+<div class="title"><a id="Header1_HeaderTitle" class="headermaintitle HeaderMainTitle" href="https://www.cnblogs.com/zuowj/">梦在旅途</a>
+</div>
+<div class="subtitle">
+我的个人网站:<a href="http://www.zuowenjun.cn?from=cnblogs.com">www.zuowenjun.cn</a>,欢迎大家光临!
+</div>
+
+        </div>
+        <div id="navigator">
+            
+<ul id="navList">
+    <li id="nav_sitehome"><a id="blog_nav_sitehome" class="menu" href="https://www.cnblogs.com/">
+博客园</a>
+</li>
+    <li id="nav_myhome">
+<a id="blog_nav_myhome" class="menu" href="https://www.cnblogs.com/zuowj/">
+首页</a>
+</li>
+    <li id="nav_newpost">
+
+<a id="blog_nav_newpost" class="menu" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">
+新随笔</a>
+</li>
+    <li id="nav_contact">
+<a id="blog_nav_contact" class="menu" href="https://msg.cnblogs.com/send/%E6%A2%A6%E5%9C%A8%E6%97%85%E9%80%94">
+联系</a></li>
+    <li id="nav_rss">
+<a id="blog_nav_rss" class="menu" href="https://www.cnblogs.com/zuowj/rss/">
+订阅</a></li>
+    <li id="nav_admin">
+<a id="blog_nav_admin" class="menu" href="https://i.cnblogs.com/">
+管理</a>
+</li>
+</ul>
+
+            <div class="blogStats">
+                
+<span id="stats_post_count">随笔 - 
+205&nbsp;</span>
+<span id="stats_article_count">文章 - 
+2&nbsp;</span>
+<!-- <span id="stats-comment_count"></span> -->
+<span id="stats_comment_count">评论 - 
+531</span>
+            </div>
+        </div>
+    </div>
+    <div id="main">
+        <div id="mainContent">
+            <div class="forFlow">
+                <div id="post_detail">
+    <div id="topics">
+        <div class="post">
+            <h1 class="postTitle">
+                
+<a id="cb_post_title_url" class="postTitle2" href="https://www.cnblogs.com/zuowj/p/12810016.html">模块（类）之间解耦利器：EventPublishSubscribeUtils 事件发布订阅工具类</a>
+
+            </h1>
+            <div class="clear"></div>
+            <div class="postBody">
+                
+<div id="cnblogs_post_body" class="blogpost-body cnblogs-markdown">
+    <p>如果熟悉C#语言的小伙伴们一般都会知道委托、事件的好处，只需在某个类中提前定义好公开的委托或事件（委托的特殊表现形式）变量，然后在其它类中就可以很随意的订阅该委托或事件，当委托或事件被触发执行时，会自动通知所有的订阅者进行消费处理。（观察者模式用委托来实现是最好不过了，DDD所提倡的事件驱动其根本理念也是如此），当然我这里想到的是不需要在每个类中进行定义委托或事件，而是由一个统一的中介者（即EventPublishSubscribeUtils）来提供事件的订阅及发布操作，这样各模块之间无需直接依赖，只需通过中介者完成发布通知与订阅回调即可，何乐而不为呢？</p>
+<p>这里我先借助C#语言独有的委托类型快速实现了一个简易的EventPublishSubscribeUtils，代码如下：</p>
+<pre><code class="language-c#">    /// &lt;summary&gt;
+    /// 自定义事件发布订阅回调工具类（业务解藕、关注点分离，避免互相依赖）--演示版
+    /// EventBus简化版，观察者模式
+    /// author:zuowenjun
+    /// &lt;/summary&gt;
+    public static class EventPublishSubscribeUtils
+    {
+        private static ConcurrentDictionary&lt;Type, EventHandler&lt;object&gt;&gt; EventHandlers { get; } = new ConcurrentDictionary&lt;Type, EventHandler&lt;object&gt;&gt;();
+
+        private static void removeRegisters(ref EventHandler&lt;object&gt; srcEvents, EventHandler&lt;object&gt; removeTargetEvents)
+        {
+            var evtTypes = removeTargetEvents.GetInvocationList().Select(d =&gt; d.GetType());
+            var registeredEventHandlers = Delegate.Combine(srcEvents.GetInvocationList().Where(ei =&gt; evtTypes.Contains(ei.GetType())).ToArray());
+            srcEvents -= (EventHandler&lt;object&gt;)registeredEventHandlers;
+        }
+
+        public static void Register&lt;T&gt;(EventHandler&lt;object&gt; eventHandlers)
+        {
+            EventHandlers.AddOrUpdate(typeof(T), eventHandlers,
+                (t, e) =&gt;
+                {
+                    //先根据订阅委托类型匹匹配过滤掉之前已有的相同订阅，然后再重新订阅，防止重复订阅，多次执行的情况。
+                    removeRegisters(ref e, eventHandlers);
+                    e += eventHandlers;
+                    return e;
+                });
+        }
+
+
+        public static void UnRegister&lt;T&gt;(EventHandler&lt;object&gt; eventHandlers = null)
+        {
+            Type eventMsgType = typeof(T);
+            if (eventHandlers == null)
+            {
+                EventHandlers.TryRemove(eventMsgType, out eventHandlers);
+                return;
+            }
+
+            var e = EventHandlers[eventMsgType];
+            removeRegisters(ref e, eventHandlers);
+        }
+
+        public static void PublishEvent&lt;T&gt;(T eventMsg, object sender)
+        {
+            Type eventMsgType = eventMsg.GetType();
+            if (EventHandlers.ContainsKey(eventMsgType))
+            {
+                EventHandlers[eventMsgType].Invoke(sender, eventMsg);
+            }
+        }
+    }
+</code></pre>
+<p>然后使用就比较简单了，我们只需通过EventPublishSubscribeUtils.Register注册订阅事件消息，通过EventPublishSubscribeUtils.PublishEvent发布事件通知，这样就可以让两个甚至多个不相关的模块（类）能够通过消息类型实现1对多的通讯与协同处理。使用示例代码如下：</p>
+<pre><code class="language-c#">
+    class EventMessage
+    {
+        public string Name { get; set; }
+
+        public string Msg { get; set; }
+
+        public DateTime CreatedDate { get; set; }
+    }
+
+    class DemoA
+    {
+        public DemoA()
+        {
+            EventHandler&lt;object&gt; eventHandlers = EventCallback1;
+            eventHandlers += EventCallback2;
+
+            EventPublishSubscribeUtils.Register&lt;EventMessage&gt;(eventHandlers);
+        }
+
+        private void EventCallback1(object sender, object e)
+        {
+            string json = JsonConvert.SerializeObject(e);
+            System.Diagnostics.Debug.WriteLine($&quot;EventCallback1=&gt; sender:{sender},e:{json}&quot;);
+        }
+
+        private void EventCallback2(object sender, object e)
+        {
+            string json = JsonConvert.SerializeObject(e);
+            System.Diagnostics.Debug.WriteLine($&quot;EventCallback2=&gt; sender:{sender},e:{json}&quot;);
+        }
+
+    }
+
+    class DemoB
+    {
+        public void ShowMsg(string name, string msg)
+        {
+            System.Diagnostics.Debug.WriteLine($&quot;ShowMsg=&gt; name:{name},msg:{msg}&quot;);
+            var eventMsg = new EventMessage
+            {
+                Name = name,
+                Msg = msg,
+                CreatedDate = DateTime.Now
+            };
+            EventPublishSubscribeUtils.PublishEvent(eventMsg, nameof(DemoB.ShowMsg));
+        }
+    }
+
+//main方法中使用：
+var demoA = new DemoA();
+var demoB = new DemoB();
+
+demoB.ShowMsg(&quot;梦在旅途&quot;, &quot;i love csharp and java!&quot;);
+
+</code></pre>
+<p>从上述示例代码中可以看出，DemoA与DemoB各为独立，互不依赖，它们都不知道有对方的存在，它们只关心业务的处理，通过执行demoB.ShowMsg方法进而触发回调demoA.EventCallback1，demoA.EventCallback2方法，是不是比起直接从DemoA中调DemoB更好呢？</p>
+<p>c#有委托类型（方法的引用），那如果是在java中该如何实现呢？</p>
+<p>其实同理，我们可以借助匿名内部类+匿名实现类的方式（如：函数式接口）实现与C#异曲同工的效果，同样可以实现类似的事件发布与订阅功能，如下便是采用java语言的实现EventPublishSubscribeUtils类的代码：</p>
+<p>这个因项目需要，我特意实现了两种模式，一种支持1对多的普通方式，另一种支持1对1的订阅回调方式，有返回值。</p>
+<pre><code class="language-java">
+/**
+ * 自定义事件发布订阅回调工具类（业务解藕、关注点分离，避免互相依赖）
+ * EventBus简化版，观察者模式
+ * &lt;pre&gt;
+ * 支持两种模式
+ * 1.无返回值：订阅事件消费（register）+ 发布事件消息（publishEvent/publishEventAsync）
+ * 2.有返回值：监听回调通知处理（listenCallback）+通知回调（notifyCallback）,通过notifyMessageType+MessageChannel 即可标识唯一的一组通知回调与监听回调处理
+ * &lt;pre&gt;
+ * @author zuowenjun
+ * @date 20200310
+ */
+public final class EventPublishSubscribeUtils {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(EventPublishSubscribeUtils.class);
+
+    private static final Map&lt;Class&lt;?&gt;, LinkedList&lt;Consumer&lt;Object&gt;&gt;&gt; eventConsumers = new ConcurrentHashMap&lt;&gt;();
+
+    private static final Map&lt;Class&lt;?&gt;, ConcurrentHashMap&lt;MessageChannel, Function&lt;Object, Object&gt;&gt;&gt; callbackFuncs = new ConcurrentHashMap&lt;&gt;();
+
+    private EventPublishSubscribeUtils() {
+    }
+
+
+    /**
+     * 注册事件回调消费者
+     * 用法：EventSubscribeConsumeUtils.register(this::xxxx方法） 或lambda表达式
+     * 注意：若回调方法添加了事务注解，则应指派其代理对象的方法来完成回调，如：
+     * EventSubscribeConsumeUtils.register((xxxService)SpringUtils.getBean(this.class)::xxxx方法）
+     *
+     * @param eventConsumer
+     */
+    public static void register(Class&lt;?&gt; eventMessageType, Consumer&lt;Object&gt; eventConsumer) {
+
+        if (eventConsumer == null) {
+            return;
+        }
+
+        LinkedList&lt;Consumer&lt;Object&gt;&gt; eventConsumerItems = null;
+        if (!eventConsumers.containsKey(eventMessageType)) {
+            eventConsumers.putIfAbsent(eventMessageType, new LinkedList&lt;&gt;());
+        }
+        eventConsumerItems = eventConsumers.get(eventMessageType);
+
+        eventConsumerItems.add(eventConsumer);
+    }
+
+    /**
+     * 取消订阅回调
+     *
+     * @param eventMessageType
+     * @param eventConsumer
+     */
+    public static void unRegister(Class&lt;?&gt; eventMessageType, Consumer&lt;Object&gt; eventConsumer) {
+        if (!eventConsumers.containsKey(eventMessageType)) {
+            return;
+        }
+
+        LinkedList&lt;Consumer&lt;Object&gt;&gt; eventConsumerItems = eventConsumers.get(eventMessageType);
+        int eventConsumerIndex = eventConsumerItems.indexOf(eventConsumer);
+        if (eventConsumerIndex == -1) {
+            return;
+        }
+        eventConsumerItems.remove(eventConsumerIndex);
+    }
+
+
+    /**
+     * 发布事件，同步触发执行回调事件消费者方法（存在阻塞等待），即事件消息生产者
+     * 用法：在需要触发事件消息回调时调用，如：publishEvent(eventMessage);
+     *
+     * @param eventMessage
+     */
+    public static &lt;T&gt; void publishEvent(T eventMessage) {
+        Class&lt;?&gt; eventMessageType = eventMessage.getClass();
+
+        if (!eventConsumers.containsKey(eventMessageType)) {
+            return;
+        }
+
+        LOGGER.info(&quot;事件已发布，正在执行通知消费:{}&quot;, JSONObject.toJSONString(eventMessage));
+
+        for (Consumer&lt;Object&gt; eventConsumer : eventConsumers.get(eventMessageType)) {
+            try {
+                eventConsumer.accept(eventMessage);
+            } catch (Exception ex) {
+                LOGGER.error(&quot;eventConsumer.accept error:{},eventMessageType:{},eventMessage:{}&quot;,
+                        ex, eventMessageType, JSONObject.toJSONString(eventMessage));
+            }
+        }
+    }
+
+
+    /**
+     * 发布事件，异步触发执行回调事件消费者方法（异步非阻塞），即事件消息生产者
+     * 用法：在需要触发事件消息回调时调用，如：publishEventAsync(eventMessage);
+     *
+     * @param eventMessage
+     */
+    public static &lt;T&gt; void publishEventAsync(final T eventMessage) {
+        Executor asyncTaskExecutor = (Executor) SpringUtils.getBean(&quot;asyncTaskExecutor&quot;);
+        asyncTaskExecutor.execute(() -&gt; {
+            publishEvent(eventMessage);
+        });
+    }
+
+
+    /**
+     * 监听回调处理（需要有返回值），即有返回值的回调消费者
+     *
+     * @param notifyMessageType
+     * @param messageChannel
+     * @param callbackFunc
+     */
+    public static void listenCallback(Class&lt;?&gt; notifyMessageType, MessageChannel messageChannel, Function&lt;Object, Object&gt; callbackFunc) {
+        if (!callbackFuncs.containsKey(notifyMessageType)) {
+            callbackFuncs.putIfAbsent(notifyMessageType, new ConcurrentHashMap&lt;&gt;());
+        }
+
+        Map&lt;MessageChannel, Function&lt;Object, Object&gt;&gt; functionMap = callbackFuncs.get(notifyMessageType);
+        if (!functionMap.containsKey(messageChannel)) {
+            functionMap.putIfAbsent(messageChannel, callbackFunc);
+        } else {
+            LOGGER.error(&quot;该通知消息类型：{}+消息通道：{}，已被订阅监听，重复订阅监听无效！&quot;, notifyMessageType.getSimpleName(), messageChannel.getDescription());
+        }
+
+    }
+
+    /**
+     * 通知回调（同步等待获取监听回调的处理结果），即生产者
+     *
+     * @param notifyMessage
+     * @param messageChannel
+     * @param &lt;R&gt;
+     * @return
+     */
+    @SuppressWarnings(&quot;unchecked&quot;)
+    public static &lt;R&gt; R notifyCallback(Object notifyMessage, MessageChannel messageChannel) {
+        Class&lt;?&gt; notifyMessageType = notifyMessage.getClass();
+
+        Map&lt;MessageChannel, Function&lt;Object, Object&gt;&gt; functionMap = callbackFuncs.getOrDefault(notifyMessageType, null);
+        if (functionMap != null) {
+            Function&lt;Object, Object&gt; callbackFunction = functionMap.getOrDefault(messageChannel, null);
+            if (callbackFunction != null) {
+                LOGGER.info(&quot;通知回调消息已发布，正在执行回调处理:{},messageChannel:[{}]&quot;, JSONObject.toJSONString(notifyMessage), messageChannel.getDescription());
+                Object result = callbackFunction.apply(notifyMessage);
+                try {
+                    return (R) result;
+                } catch (ClassCastException castEx) {
+                    throw new ClassCastException(String.format(&quot;监听回调处理后返回值实际类型与发布通知回调待接收的值预期类型不一致，导致类型转换失败：%s,&quot; +
+                                    &quot;请确保notifyCallback与listenCallback针对通知消息类型：%s+消息通道：%s返回值类型必需一致。&quot;,
+                            castEx.getMessage(), notifyMessageType.getSimpleName(), messageChannel.getDescription()));
+                }
+
+            }
+        }
+        return null;
+    }
+
+
+}
+</code></pre>
+<p>当然如果需要实现1对1的通讯，除了指定消息类型外，还需要指定消息通讯通道（即：唯一标识），目的是可以实现同一种消息类型，支持不同的点对点的处理。</p>
+<pre><code class="language-java">/**
+ * 自定义消息通道
+ * 作用：用于识别同一个消息类型下不同的监听回调者（notifyMessage+messageChannel 即可标识唯一的一组通知回调[生产者]与监听回调[消费者]）
+ * @author zuowenjun
+ * @date 2020-03-31
+ */
+public enum MessageChannel {
+    None(&quot;无效&quot;),
+    MSG_A(&quot;测试消息A&quot;),
+    ;
+
+    private String description;
+
+    MessageChannel(String description) {
+        this.description=description;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+}
+</code></pre>
+<p>使用方法示例代码如下：</p>
+<pre><code class="language-java">
+@Service
+public class DemoAService {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(DemoAService.class);
+    
+
+    public void showMsg(String name, String msg) {
+        System.out.printf(&quot;【%1$tF %1$tT.%1$tL】hello!%s,DemoAService showMsg:%s %n&quot;, new Date(), name, msg);
+
+        EventMessage eventMessage = new EventMessage();
+        eventMessage.setName(&quot;aaa&quot;);
+        eventMessage.setMsg(&quot;test&quot;);
+        eventMessage.setCreatedDate(new Date());
+        EventPublishSubscribeUtils.publishEvent(eventMessage);
+
+        String msgJsonStr = EventPublishSubscribeUtils.notifyCallback(eventMessage, MessageChannel.MSG_A);
+
+        System.out.printf(&quot;【%1$tF %1$tT.%1$tL】DemoAService showMsg notifyCallback json result:%2$s %n&quot;, new Date(), msgJsonStr);
+    }
+
+}
+
+
+@Service
+public class DemoBService {
+
+    @Autowired
+    private DemoAService demoAService;
+
+    @PostConstruct
+    public void init(){
+
+        //订阅消费，无返回值，支持1对多，即：同一个消息类型可同时被多个消费者订阅
+        EventPublishSubscribeUtils.register(EventMessage.class,this::showFinishedMsg);
+
+        //订阅监听回调，有返回值，只能1对1
+        EventPublishSubscribeUtils.listenCallback(EventMessage.class, MessageChannel.MSG_A,this::getMsgCallbak);
+    }
+
+    private void showFinishedMsg(Object eventMsg){
+        EventMessage eventMessage=(EventMessage)eventMsg;
+        System.out.printf(&quot;【%1$tF %1$tT.%1$tL】%s,receive msg:%s doing...%n&quot;,
+                eventMessage.getCreatedDate(),eventMessage.getName(),eventMessage.getMsg());
+
+        //模拟逻辑处理
+        try {
+            Thread.sleep(500L);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        System.out.printf(&quot;【%1$tF %1$tT.%1$tL】%s,do finished!!!%n&quot;,new Date(),eventMessage.getName());
+    }
+
+    private String getMsgCallbak(Object eventMsg){
+        EventMessage eventMessage=(EventMessage)eventMsg;
+        eventMessage.setMsg(eventMessage.getMsg()+&quot;--callback added!&quot;);
+        eventMessage.setCreatedDate(new Date());
+
+        System.out.printf(&quot;【%1$tF %1$tT.%1$tL】%s,do msg callback!!!%n&quot;,new Date(),eventMessage.getName());
+
+        return JSONObject.toJSONString(eventMessage);
+    }
+
+}
+
+
+</code></pre>
+<p>如上代码所示，我们借助于EventPublishSubscribeUtils，解耦了两个Service Bean之间的依赖，避免了循环依赖的问题，去掉了之前为了解决循环依赖而使用@Lazy注解的方式，更易于扩展与更改。其实Spring底层也使用了类似的Event机制,说明这种方式还是有合适的用武之地的。</p>
+<p>这里我通过简单的关系图来对比未引用EventPublishSubscribeUtils前与引用后的区别，大家可以感受一下哪种更方便：<br>
+之前：<br>
+<img src="https://img2020.cnblogs.com/blog/458152/202005/458152-20200507210130961-1512376505.png" alt=""></p>
+<p>之后：<br>
+<img src="https://img2020.cnblogs.com/blog/458152/202005/458152-20200507210229695-1766866105.png" alt=""></p>
+<p>最后，关于业务解耦，分清业务边界，我个人认为跨进程通讯使用MQ，同进程跨多模块（类，或者说跨多业务边界）可使用Event事件驱动思路来解决。大家觉得如何呢？如果有更好的方案欢迎评论交流，谢谢。</p>
+
+</div>
+<div id="MySignature"></div>
+<div class="clear"></div>
+<div id="blog_post_info_block">
+    <div id="blog_post_info"></div>
+    <div class="clear"></div>
+    <div id="post_next_prev"></div>
+</div>
+            </div>
+            <div class="postDesc">posted @ 
+<span id="post-date">2020-05-07 21:03</span>&nbsp;
+<a href="https://www.cnblogs.com/zuowj/">梦在旅途</a>&nbsp;
+阅读(<span id="post_view_count">...</span>)&nbsp;
+评论(<span id="post_comment_count">...</span>)&nbsp;
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=12810016" rel="nofollow">编辑</a>&nbsp;
+<a href="javascript:void(0)" onclick="AddToWz(12810016);return false;">收藏</a></div>
+        </div>
+<script src="https://common.cnblogs.com/highlight/9.12.0/highlight.min.js"></script>
+<script>markdown_highlight();</script>
+<script>
+    var allowComments = true, cb_blogId = 131302, cb_blogApp = 'zuowj', cb_blogUserGuid = '8748101c-1919-e211-b854-842b2b196315';
+    var cb_entryId = 12810016, cb_entryCreatedDate = '2020-05-07 21:03', cb_postType = 1; 
+    loadViewCount(cb_entryId);
+    loadSideColumnAd();
+</script><a name="!comments"></a>
+<div id="blog-comments-placeholder"></div>
+<script>
+    var commentManager = new blogCommentManager();
+    commentManager.renderComments(0);
+</script>
+
+<div id="comment_form" class="commentform">
+    <a name="commentform"></a>
+    <div id="divCommentShow"></div>
+    <div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="#" onclick="return RefreshPage();">刷新页面</a><a href="#top">返回顶部</a></div>
+    <div id="comment_form_container"></div>
+    <div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+    <div id="ad_t2"></div>
+    <div id="opt_under_post"></div>
+    <script async="async" src="https://www.googletagservices.com/tag/js/gpt.js"></script>
+    <script>
+        var googletag = googletag || {};
+        googletag.cmd = googletag.cmd || [];
+    </script>
+    <script>
+        googletag.cmd.push(function () {
+            googletag.defineSlot("/1090369/C1", [300, 250], "div-gpt-ad-1546353474406-0").addService(googletag.pubads());
+            googletag.defineSlot("/1090369/C2", [468, 60], "div-gpt-ad-1539008685004-0").addService(googletag.pubads());
+            googletag.pubads().enableSingleRequest();
+            googletag.enableServices();
+        });
+    </script>
+    <div id="cnblogs_c1" class="c_ad_block">
+        <div id="div-gpt-ad-1546353474406-0" style="height:250px; width:300px;"></div>
+    </div>
+    <div id="under_post_news"></div>
+    <div id="cnblogs_c2" class="c_ad_block">
+        <div id="div-gpt-ad-1539008685004-0" style="height:60px; width:468px;">
+            <script>
+                if (new Date() >= new Date(2018, 9, 13)) {
+                    googletag.cmd.push(function () { googletag.display("div-gpt-ad-1539008685004-0"); });
+                }
+            </script>
+        </div>
+    </div>
+    <div id="under_post_kb"></div>
+    <div id="HistoryToday" class="c_ad_block"></div>
+    <script type="text/javascript">
+        fixPostBody();
+        deliverBigBanner();
+setTimeout(function() { incrementViewCount(cb_entryId); }, 50);        deliverAdT2();
+        deliverAdC1();
+        deliverAdC2();
+        loadNewsAndKb();
+        loadBlogSignature();
+LoadPostCategoriesTags(cb_blogId, cb_entryId);        LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+        GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate, cb_postType);
+        loadOptUnderPost();
+        GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);
+    </script>
+</div>    </div>
+</div>
+            </div>
+        </div>
+
+        <div id="sideBar">
+            <div id="sideBarMain">
+                
+<div id="sidebar_news" class="newsItem">
+            <script>loadBlogNews();</script>
+</div>
+
+<div id="sidebar_ad"></div>
+                <div id="calendar"><div id="blog-calendar" style="display:none"></div></div>                
+                <script>loadBlogDefaultCalendar();</script>
+                <div id="leftcontentcontainer">
+                    <!-- begin:SingleColumn -->
+                    <div id="blog-sidecolumn"></div>
+                    <script>loadBlogSideColumn();</script>
+                    <!-- end:  SingleColumn -->
+                </div>
+            </div>
+        </div>
+        <div class="clear"></div>
+    </div>
+    <div class="clear"></div>
+    <div id="footer">
+        <!--done-->
+Copyright &copy; 2020 梦在旅途
+<br /><span id="poweredby">Powered by .NET Core on Kubernetes</span>
+
+    </div>
+</div>
+
+    
+</body>
+</html>

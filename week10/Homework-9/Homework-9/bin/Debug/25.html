@@ -1,0 +1,1434 @@
+﻿<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="referrer" content="origin" />
+    <meta property="og:description" content="复杂性与临界性初探" />
+    <meta http-equiv="Cache-Control" content="no-transform" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>复杂性与临界性初探 - 郑瀚Andrew.Hann - 博客园</title>
+    
+    <link rel="stylesheet" href="/css/blog-common.min.css?v=KCO3_f2W_TC__-jZ7phSnmoFkQuWMJH2yAgA16eE3eY" />
+    <link id="MainCss" rel="stylesheet" href="/skins/darkgreentrip/bundle-darkgreentrip.min.css?v=1CubIA3L29CO3-6VLJIOrrj2uGfyKeX_-xaumWzHk7o" />
+    
+    <link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="/skins/darkgreentrip/bundle-darkgreentrip-mobile.min.css?v=0pGk3D9Ik_jI4q1TALBT2ybOjIePHS_80_0J4DDOQiY" />
+    
+    <link type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/LittleHann/rss" />
+    <link type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/LittleHann/rsd.xml" />
+    <link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/LittleHann/wlwmanifest.xml" />
+    <script src="https://common.cnblogs.com/scripts/jquery-2.2.0.min.js"></script>
+    <script src="/js/blog-common.min.js?v=98Fvfd6UZH20B_MF08daNaODjSu879MVR9RHmyvWAlg"></script>
+    <script>
+        var currentBlogId = 152568;
+        var currentBlogApp = 'LittleHann';
+        var cb_enable_mathjax = true;
+        var isLogined = false;
+        var skinName = 'darkgreentrip';
+    </script>
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+        tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']], processClass: 'math', processEscapes: true },
+        TeX: {
+        equationNumbers: { autoNumber: ['AMS'], useLabelIds: true },
+        extensions: ['extpfeil.js', 'mediawiki-texvc.js'],
+        Macros: {bm: "\\boldsymbol"}
+        },
+        'HTML-CSS': { linebreaks: { automatic: true } },
+        SVG: { linebreaks: { automatic: true } }
+        });
+    </script>
+    <script src="https://mathjax.cnblogs.com/2_7_5/MathJax.js?config=TeX-AMS-MML_HTMLorMML&amp;v=20200504"></script>
+    
+</head>
+<body>
+    <a name="top"></a>
+    
+    
+<!--done-->
+<div id="home">
+<div id="header">
+	<div id="blogTitle">
+        <a id="lnkBlogLogo" href="https://www.cnblogs.com/LittleHann/"><img id="blogLogo" src="/skins/custom/images/logo.gif" alt="返回主页" /></a>		
+		
+<!--done-->
+<h1><a id="Header1_HeaderTitle" class="headermaintitle HeaderMainTitle" href="https://www.cnblogs.com/LittleHann/">Han Zheng, Researcher of Computer Science,  Alibaba Cloud Corp, China</a>
+</h1>
+<h2>
+阿里云安全能力建设团队长期招聘，欢迎对安全智能、大数据安全分析、入侵检测、恶意代码自动化分析领域感兴趣同学来加入，团队社招JD: https://job.alibaba.com/zhaopin/position_detail.htm?trace=qrcode_share&positionCode=GP600129。也欢迎在校学生前来获得实习机会。如有兴趣请将您的个人简历发送到我的工作邮箱：zhenghan.zh@alibaba-inc.com。
+Welcome to contact me by Wechat：LittleHann or email：zhenghan.zh@alibaba-inc.com。知乎专栏：https://zhuanlan.zhihu.com/cyber-security-data-science
+</h2>
+
+
+
+
+		
+	</div><!--end: blogTitle 博客的标题和副标题 -->
+	<div id="navigator">
+		
+<ul id="navList">
+<li><a id="blog_nav_sitehome" class="menu" href="https://www.cnblogs.com/">
+博客园</a>
+</li>
+<li>
+<a id="blog_nav_myhome" class="menu" href="https://www.cnblogs.com/LittleHann/">
+首页</a>
+</li>
+<li>
+
+<a id="blog_nav_newpost" class="menu" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">
+新随笔</a>
+</li>
+<li>
+<a id="blog_nav_contact" class="menu" href="https://msg.cnblogs.com/send/%E9%83%91%E7%80%9AAndrew.Hann">
+联系</a></li>
+<li>
+<a id="blog_nav_rss" class="menu" href="https://www.cnblogs.com/LittleHann/rss/">
+订阅</a>
+<!--<partial name="./Shared/_XmlLink.cshtml" model="Model" /></li>--></li>
+<li>
+<a id="blog_nav_admin" class="menu" href="https://i.cnblogs.com/">
+管理</a>
+</li>
+</ul>
+
+
+		<div class="blogStats">
+			
+			<span id="stats_post_count">随笔 - 
+665&nbsp; </span>
+<span id="stats_article_count">文章 - 
+8&nbsp; </span>
+<span id="stats-comment_count">评论 - 
+428</span>
+
+			
+		</div><!--end: blogStats -->
+	</div><!--end: navigator 博客导航栏 -->
+</div><!--end: header 头部 -->
+
+<div id="main">
+	<div id="mainContent">
+	<div class="forFlow">
+		<div id="post_detail">
+    <!--done-->
+    <div id="topics">
+        <div class="post">
+            <h1 class = "postTitle">
+                
+<a id="cb_post_title_url" class="postTitle2" href="https://www.cnblogs.com/LittleHann/p/12834149.html">复杂性与临界性初探</a>
+
+            </h1>
+            <div class="clear"></div>
+            <div class="postBody">
+                
+    <div id="cnblogs_post_description" style="display: none">
+        复杂性与临界性初探
+    </div>
+<div id="cnblogs_post_body" class="blogpost-body ">
+    <h1>1. 引言 - 复杂性与临界性</h1>
+<p>宇宙怎样以大爆炸中产生的几种基本粒子开始而以生命、历史、经济和文学告终？</p>
+<p>为什么大爆炸不形成粒子的一种简单的气体或凝聚成一个巨大的晶体呢？</p>
+<p>针对这些问题，目前学界的主流看法是，<strong>自然界的复杂行为反映了有许多分支的大型系统会朝着均衡的临界态发展的一种趋势</strong>。这种方法偏离了平衡，而且微小的扰动可能导致非常巨大的不同后果。</p>
+<p>大多数的改变是通过灾难性的事件，而不是遵循一种平和渐变的路线来实现的。</p>
+<p>并且，最重要的是，<strong>朝着这种非常微妙的态的演化并没有受到任何来自外部因素的影响。这种态之所以建立起来仅仅是因为系统中的单个元素之间的动力学相互作用</strong>。</p>
+<p>为了不至于太抽象，让我们看一看海滩上的孩子让沙粒缓缓流下而形成一堆沙的场景，</p>
+<p style="text-align: center;"><img src="https://img2020.cnblogs.com/blog/532548/202005/532548-20200506151822678-400970198.png" alt="" width="345" height="372"></p>
+<p>开始的时候，沙堆是平的，沙粒在附着的位置上靠的很近。它们的运动能够用单个沙粒的物理性质来理解。</p>
+<p>堆沙的过程在继续，沙堆变得越来越陡峭，开始有少量沙粒沿着沙堆滑动。</p>
+<p>对着时间的推移，沙粒的滑动越来越大。</p>
+<p>最终，一些滑动的沙粒甚至跨越了整个沙堆或沙堆的大部分。从这个时间点开始，系统远离了平衡，因而它的行为不再能用单个沙粒的行为来描述。雪崩形成了自身的内部力量，而这一点只有从对整个沙堆的性质的总体描述而不是单个沙粒的简化描述，才能得以理解。</p>
+<p>换句话说，<strong>沙堆是一个复杂系统</strong>。</p>
+<p>随处可见的复杂现象表明，<strong>自然界是作用在自组织临界态上面的</strong>。&nbsp;</p>
+<p><span style="color: #ff0000;"><strong><strong>Relevant Link:</strong></strong></span>&nbsp; &nbsp;</p>
+<div class="cnblogs_code">
+<pre>《大自然如何工作：有关自组织临界性的科学》</pre>
+</div>
+<p>&nbsp;</p>
+<h1>2. 物理定律是简单的，大自然是复杂的</h1>
+<p>从大爆炸开始，宇宙就被假定为按照物理定律演变。通过分析实验和观察到的现象，物理学家已经非常成功地发现了这些定律。</p>
+<p>物质包含原子，原子又由更基本的粒子如电子、质子、中子组成，而这些基本粒子又由夸克和胶子组成，如此循环往复。</p>
+<p>自然界中的所有现象，从最大的由宇宙标识的尺度到最小的由夸克代表的层次，都应被同样的物理规律所解释。</p>
+<ul>
+<li>譬如，牛顿第二定律 F=ma，它仅仅告诉我们如果一个物体受到一个外力的作用必定要相应产生一个加速度。这个简单的定律足够用来描述一个苹果是如何落地地上、行星是如何围绕太阳转动、以及星系是如何互相被吸引的。</li>
+<li>麦克斯韦方程描述了电流和磁场之间的相互作用，让我们知道电车或者发电机是如何工作的。</li>
+<li>爱因斯坦的相对论理论表明，当一个物体高速运动时，牛顿定律应当予以修正。</li>
+<li>量子力学理论告诉我们，原子中的电子只能处在有着特定能量的那些态上。电子从一个太激发到另一个态上，根本不花时间。</li>
+</ul>
+<p>这些物理定律十分简单，用写在几张纸上的数学方程就足以描述它们了。</p>
+<p><strong>物理的哲学思想从一开始就是最简原理：我们周围的世界能够用简单的砖块的方式来理解</strong>。</p>
+<p>然而，我们不仅仅生活在一个简单的、乏味的世界（只有一个恒星且周围围绕着一个行星、大量规则的水晶、简单的气体和液体）中。我们每天遇到的不仅仅是苹果落地的现象。</p>
+<p>地球的表面是由山脉、海洋、岛屿、河流、火山、冰川和地震带组成的一个复杂的大整体，它们各自有自己的动态特性。不像非常有序或非常无序的系统。</p>
+<p><strong>我们把有巨大变化性的系统称为复杂系统</strong>，这个大的变化性可能存在于一个广阔的长度标度的范围里。如果我们不断放大，或调查得越来越深入，我们会在每一级放大发现变化，同时会出现越来越多的新的细节。</p>
+<p>除了天文学和地球物理学之外，复杂性还包含更多的层次。</p>
+<ul>
+<li>生物的生命在地球上已发展成数量巨大的不同物种。许多物种包含数以十亿计的个体，它们之间以及它们与环境之间相互竞争及相互影响。</li>
+<li>在生物学的一个极小的分支的末端我们发现了人类自己。人类的身体和大脑是由相互作用的细胞的一种复杂系统组成的。</li>
+<li>人类的历史，包含着巨变、战争、宗教以及政治体制的记录，已组成另外层次的复杂性，包括现代人类社会，其中经济由顾客、商人、盗贼、政府和经济学家组成。</li>
+</ul>
+<p>无数的事实表明，物理定律决定一切的说法是不合适的。物理定律能够解释苹果是如何下落的，但不能解释为什么牛顿作为复杂世界的一部分，会去观察那个苹果。</p>
+<p>物理也解释不了苹果的来源。<strong>我们无法架起一座桥梁，从我们知道的物理定律适用的原子，经过复杂的有机分子的化学，到细胞的形成以及到那些细胞构成生命组织的排列</strong>。</p>
+<p>&nbsp;</p>
+<h1>3. 叙述与科学 -- 软科学与硬科学</h1>
+<p>习惯上将科学划分为两大类：</p>
+<ul>
+<li><strong>硬科学</strong>：可重复的事件可以通过那些反映自然界法则的数学表达式得以预言，例如物理、化学、分子生物学；</li>
+<li><strong>软科学</strong>：其中，因为它固有的变化性，只有对那些引人注目的事件的叙述性描述是可能的，例如历史、生物演化、经济学；</li>
+</ul>
+<p><strong>硬科学中的简化方法：先建立一个基本假设，然后与可重复实验进行比较。这种方法在软科学领域中是不适用的</strong>。</p>
+<p>古生物学家和科普作家，史蒂芬.杰伊.古尔德在他的《美好的生命》这本书里作了详细的说明：</p>
+<p><strong>当科学家们试图解释历史的结果，那些在荣耀的历史中只发生过一次的极其复杂的事件，必须用历史的工具加以研究。合适的方法是把注意力集中在叙述上，而不是实验上</strong>。</p>
+<p>古尔德认为，只有&ldquo;叙述&rdquo;才能被用到许多科学上，因为许多单个和不可预料的事件的结果是偶然的。演化或古生物学上的实验是互不相关的，因为没有什么东西是能够再现的。历史，包括历史的演化，也仅仅是&ldquo;一件又一件该死的事情&rdquo;，我们可以事后来解释那些已经发生的事情，但是我们不能预言将来会发生什么。</p>
+<p><strong>古尔德把事物的变化性，以及因而导致的复杂性，正确地归因于偶然性</strong>。历史事件依赖于及其偶然的事件，因此如果历史的录音带被重放很多次，而每次给予的初始条件都有微小的差别，那么每次出来的结果差别会相差巨大。</p>
+<div class="page" title="Page 24">
+<div class="layoutArea">
+<div class="column">
+<p>历史学家用一种叙事的语言解释事件的发生：</p>
+<ul>
+<li>事件 A 导致事 件 B 以及事件 C 导致事件 D。</li>
+<li>然后，因为事件 D 甚至事件 B 而导致事件 E,</li>
+<li>然而如果事件 C 不曾发生过，那么事件 D 和 E 都不会发生。</li>
+</ul>
+<p>历史的进程将会变换到另一连串的事件，而这一切通过以一种叙事方式，很好地、同等地得以解释。</p>
+<p>美洲的发现包含一长串的事件，对实际的结果来说，每一个事件都有其关键的历史重要性：</p>
+<ul>
+<li>哥伦布的父母必须在一起</li>
+<li>哥伦布必须得生下来</li>
+<li>他必须到西班牙获取资助</li>
+<li>天气必须非常合理，等等</li>
+</ul>
+<p>历史是不能预料的，但并不是不能解释的。目的是对特别事件的一个准确的、叙事般的记录。&nbsp;</p>
+<div class="page" title="Page 24">
+<div class="layoutArea">
+<div class="column">
+<p><strong>在软科学中，偶然性是普遍的、详尽的，长期的详尽预言是做不到的</strong>。</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="page" title="Page 25">
+<div class="layoutArea">
+<div class="column">
+<p>是历史和生物的什么潜在的性质使得它们对微不足道的偶然事件如此敏感？</p>
+<p>换句话说，动力学中存在什么潜在的本质从而导致了事件的相互关联并进一步导致复杂性？</p>
+<p>为什么带有戏剧性普遍后果的事件能够发生？</p>
+<p>带着这些疑问，我们开始复杂性科学的讨论。</p>
+</div>
+</div>
+</div>
+<p>&nbsp;</p>
+<h1>4. 复杂性理论能解释什么</h1>
+<div class="page" title="Page 25">
+<div class="layoutArea">
+<div class="column">
+<p>需要明白的是，复杂性理论肯定还不够完善。变化系统的变化性，意味着我们不可能将所有细节的观察，都浓缩成一个个独立数学方程。即我们无法像物理的基本定律一样，找到组成所有事物背后的基本元素独立数学方程。</p>
+<p>相反，<strong>复杂性理论只能解释【为什么有变化性】，或【哪种特别类型可能出现】，而不是【某个特定系统的特定结果会怎么样】</strong>。复杂性理论永远不可能预言大象。</p>
+<div class="page" title="Page 26">
+<div class="layoutArea">
+<div class="column">
+<p>这直接导致的结果就是，复杂系统的一个普遍理论必须而且必然是抽象的。</p>
+<p>例如，生命的理论原则上说必须能够描述演化的所有可能的情形。它应当能够描述火星上的生命的机理（如果火星上的确会有生命的话）。但这是极其不确定的一步。<strong>我们构造的任何普遍的理论都不能把实际的物种作为特定的参考</strong>。</p>
+<hr />
+<p><strong><span style="color: #ff6600;">笔者思考</span></strong>：</p>
+<p><strong>这一点很类似概率统计与因果推理，在宏观上，我们能够计算出目标事物的一个概率发生数值（例如98%），但这里所谓的概率值，仅仅是指对于整体来说，不同类型的事物各自的占比分布情况。我们决不能将其直接应用到一个具体的对象实例上，因为对于某一个具体的实例来说，这个98%的发生概率是不一定成立的，它存在浮动偏差这个概念。</strong></p>
+<div class="page" title="Page 27">
+<div class="layoutArea">
+<div class="column">
+<p><strong>正如哲学家卡尔&middot;玻普指出的那样，预言是我们区分科学和伪科学的最好的办法，预言实际现象的统计性而不是预言某个特定的结果，是处理理论与实验之间冲突的一条相当合理而又通用的途径</strong>。&nbsp;</p>
+<hr />
+<p>我们应当学会把我们从看问题仅仅看事情的本身这种方式中解脱出来！一个基本的科学观点才是真正重要的！</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="page" title="Page 26">
+<div class="layoutArea">
+<div class="column">
+<div class="page" title="Page 26">
+<div class="layoutArea">
+<div class="column">
+<p>如果遵循传统的实验科学方法，把重点放在对细节的精确描述上，我们可能会失去洞察力。<strong>生命的理论有可能是过程的理论，而不是对那个过程中的完全偶然的细节的详细描述</strong>，例如人类的出现。&nbsp;</p>
+<div class="page" title="Page 26">
+<div class="layoutArea">
+<div class="column">
+<p>这个理论必须是统计的，因而不能产生特定的细节。</p>
+<div class="page" title="Page 26">
+<div class="layoutArea">
+<div class="column">
+<p>在现今这个物质世界，也许太多的重点放在了对科学的细节性的预言或预告上。</p>
+<ul>
+<li>在地球物理中，重点是放在预报地震或其他大的灾难上。</li>
+<li>资助是根据预算机构和评审人判定成果会取得的进步而予以提供的。这就会导致假冒行为甚至行骗，更不用说有成就的科学家的补助金被抢走。</li>
+<li>经济学的重点是预言证券价格以及其他经济指标，因为准确的预报允许你赚钱。&nbsp;</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="page" title="Page 27">
+<div class="layoutArea">
+<div class="column">
+<p>实际上，物理学家们习惯了同概率理论打交道，因为很多时候，一项实验的特定的结果是不能预料的，只能知道一些统计特性。</p>
+<p>物理中的三个基本理论都有统计的特性，</p>
+<ul>
+<li>统计力学研究的是处于平衡态的大型系统，例如我们周围空气中的气体原子。统计力学告诉我们如何计算组成气体的许多原子的平均性质，例如温度和压强。这个理论没有告诉我们所有单个原子的位置和速度（而且无论如何我们也不可能关心到如此程度）</li>
+<li>量子力学告诉我们，不能同时测定一个小粒子（如电子）的特定位置和速度，而只是某个实验中在某个特定的位置发现某个粒子的几率。</li>
+<li>混沌理论告诉我们，许多简单的力学系统，例如周期性推动的钟摆，也可能显示出无法预料的行为。我们无法精确知道经过一段长时间后钟摆的位置会在哪里，无论我们对它的运动方程和初始状态了解得多么清楚。&nbsp;</li>
+</ul>
+</div>
+</div>
+</div>
+<p>回到我们本小节的问题，复杂理论可以解释什么？</p>
+<div class="page" title="Page 28">
+<div class="layoutArea">
+<div class="column">
+<p>如果我们不能解决不可预料性的问题，那么怎么能有一个普适理论或者一门复杂科学呢？如果这样一个理论不能解释任何特定的细节，那么这个理论又企图解释什么呢？准确地说，一个人怎样才能对 照理论和事实呢？没有这关键的一步，就不能有科学。</p>
+<div class="page" title="Page 28">
+<div class="layoutArea">
+<div class="column">
+<p>幸运的是，在个别几个学科中有一部分无所不在的、普遍的、经验性的观察，这些现象就是</p>
+<ul>
+<li>大雪崩事件的发生</li>
+<li>分形</li>
+<li>1/f 噪声</li>
+<li>兹波夫定律</li>
+</ul>
+<p>科学家发现，复杂理论就是解释这些现象的普适工具，这也是目前复杂性理论研究的最热门领域，人们相信，通过对这些领域的深入研究，可以进一步揭示复杂性理论的底层逻辑与内涵。</p>
+<p>我们接下来逐一讨论这几个话题。&nbsp;&nbsp;</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<p>&nbsp;</p>
+<h1>5. 灾变遵循一种简单的统计模式</h1>
+<div class="page" title="Page 28">
+<div class="layoutArea">
+<div class="column">
+<p>由于综合性特性，复杂系统能展示灾变行为，其中系统的某个部分能以多米诺效应的方式影响其他部分。</p>
+<p>一种典型的灾变就是地震，地球中地壳的崩坍也是以这种方式传播由此而形成地震的，这当中伴随着巨大的能量。</p>
+<h2><span style="color: #888888;">0x1：地震能级和数量分布中蕴含的简单规律 --&nbsp;古登堡 -- 里特定律</span></h2>
+<p>研究地震的科学家们把每个事件都同其他事件隔离开来并对它们进行个别的、叙述性的描述，从而企图在大的统计尺度上，寻找大事件的特别机制。这的确成功了！</p>
+<p>科学家发现大大小小的地震的数量遵循一种令人不可思议的简单分布函数，也就是众所周知的【古登堡 -- 里特定律】。</p>
+<p>每个时刻大约有 1000 个在里特标度上大小为 4 的地震发生，有 100 个大小为 5 的地震发生，有 10 个大小为 6 的地震发生，等等。这个规律显示在下图中，</p>
+<p style="text-align: center;"><img src="https://img2020.cnblogs.com/blog/532548/202005/532548-20200507100341745-688866378.png" alt="" width="544" height="370"></p>
+<p style="text-align: center;"><span style="color: #888888;">1974 至 1983 年期间美国东南部的新马里兰地震区中各种大小的地震的数量，点的大小表明了地震的大小</span></p>
+<p>可以看到，在这个图上，古登堡 -- 里特定律表现为一条直线（在双对数尺度上）。</p>
+</div>
+</div>
+</div>
+<div class="page" title="Page 29">
+<div class="layoutArea">
+<div class="column">
+<div class="page" title="Page 30">
+<div class="layoutArea">
+<div class="column">
+<ul>
+<li>量级为 6 的地震的强度是量级为 5 的地震的强度的十倍</li>
+<li>量级为 4 的地震的强度又是量级为 3 的地震的强度的十倍</li>
+<li>量级为 8 的地震的能量要比量级为 1 的地震的能量高一千万倍，而后者相当于一辆大型卡车通过时造成的结果。</li>
+</ul>
+<p>利用全球通用的地震手册，我们可以把直线拓展到量级为 7 级、8 级及 9 级的地震的情况。这个规律是令人惊奇的 ! 一个像地球的表面，有山峰、有山谷、有湖泊，以及充满巨大变化的地理结构一样复杂的系统的各个部分的动力是如何像魔术一样产生如此简单的规律？</p>
+<p>这个定律表明<strong>大地震并不占有特殊的地位，它们和小地震一样遵从同样的规律，大地震并不是黑天鹅事件</strong>。</p>
+<p>因此，<strong>人们似乎不应当设法找到对大地震的特定的解释，而是应当找到包括所有地震的普遍理论，无论这些地震是大还是小</strong>。&nbsp;</p>
+</div>
+</div>
+</div>
+<h2><span style="color: #888888;">0x2：经济领域中商品价格波动区间分布中蕴含的简单规律 -- 列维分布&nbsp;</span></h2>
+<div class="page" title="Page 30">
+<div class="layoutArea">
+<div class="column">
+<p>在经济学方面，也存在一个同古登堡&mdash;里特定律一样的经验性的模式。</p>
+<p>纽约 IBM 的 T&middot;J&middot;沃特森中心的贝罗特&middot;曼得布罗特在 1996 年指出，证券、棉花以及其他商品价格低和高的波动的概率，遵从一种非常简单的模式，也就是所谓的【列维分布】。</p>
+<p>曼得布罗特收集了几年中棉花价格逐月波动的资料。他然后计算出月波动在各个区间（例如&nbsp;10%到 20%之间、5%到 10%之间）的波动次数，并且把这些结果画在一个对数图上，</p>
+<p style="text-align: center;"><img src="https://img2020.cnblogs.com/blog/532548/202005/532548-20200507103510116-1465403818.png" alt="" width="566" height="279"></p>
+<p style="text-align: center;"><span style="color: #888888;">(a)曲线反映了30个月之内的棉花价格的月波动。(b)曲线显示了相关波动超过给定比例的月份的数目。注意从小的波动到大的波动的平滑过渡。直线表明了幂次规律。其他商品遵</span><br /><span style="color: #888888;">从同样的模式。</span></p>
+<p>正如古登堡 -- 里特定律一样，价格波动的分布近似地遵从一条直线（即满足幂次规律）。价格波动是&ldquo;标度自由的&rdquo;，即波动没有典型的尺寸，或者说波动在任何尺寸上都可能有分布，正如地震没有一个典型的特征大小，这点很类似分形的性质。&nbsp;</p>
+<div class="page" title="Page 31">
+<div class="layoutArea">
+<div class="column">
+<p>曼得布罗特研究了几种不同的商品，并且发现它们都遵循一种相近的模式，但是他并没有追溯他所观察到的规则行为的根源。当时的经济学家们大多都忽略了曼得布罗特所做的工作，最主要的是因为它并不适合普遍地被接受的情形。经济学家希望摈弃大的事件，是因为这些事件能够被归因于特定的&ldquo;不常见的情况&rdquo;，例如贸易计划所导致的 1987 年 10 月经济大崩溃，以及购买力过剩所导致的 1929 年的经济大崩溃。</p>
+<p>偶然性是统计中常常争论的话题。经济学家们通常在分析之前剔除或者删去那些带偶然性因素的资料。那些只发生过一次的事件怎么会遵从一个普遍的理论呢？</p>
+<p>然而，<strong>古登堡 -- 里特定律和列为分布告诉我们，大事件和小事件遵循同样的规律。很多事实表明，那些大事件并没有什么特别之处 , 除开他们可能带来的毁坏性的后果之外</strong>。&nbsp;</p>
+<h2><span style="color: #888888;">0x3：生物演化进程中灭绝事件的分布中蕴含的简单规律</span></h2>
+<div class="page" title="Page 32">
+<div class="layoutArea">
+<div class="column">
+<p>芝加哥大学的戴维&middot;诺伯教授指出：在生物演化进程中，灭绝事件的分布遵从一个平滑的分布，其中大的事件（例如白垩时代恐龙和其他一些物种的灭绝）和其他的小事件，都遵循一定的概率和规律发 生。</p>
+<p>以 400 万年为一个时期，把地质时代划分为 150 个连续的时期。对每一个时期他估算出自前一时期以来多大比例的物种已经消失，如下图所示：</p>
+<p style="text-align: center;"><img src="https://img2020.cnblogs.com/blog/532548/202005/532548-20200507105956398-1760019746.png" alt="" width="496" height="313"></p>
+<div class="page" title="Page 33">
+<div class="layoutArea">
+<div class="column">
+<p>这种估算是对灭绝率的一个测度。有时候灭绝率很小，不到 5% , 而有的时候灭绝率超过了 50%。</p>
+<p>初看这个图，似乎灭绝率是一个毫无规律的随机信号图，但实际上，灭绝率同样也遵循幂律分布。</p>
+<p>诺伯简单地估算了不同区间的灭绝率分布情况（例如不到 10% 的时期的数目、波动在 10% 到 20% 之间的数目），同时他作出了直方图，</p>
+<p style="text-align: center;"><img src="https://img2020.cnblogs.com/blog/532548/202005/532548-20200507110632700-41354937.png" alt="" width="363" height="479"></p>
+<div class="page" title="Page 33">
+<div class="layoutArea">
+<div class="column">
+<p style="text-align: center;"><span style="color: #888888;">直方图显示了在 400 万年期间某个给定范围的灭绝率的数目。大的灭绝事件出现在曲线的末端</span></p>
+
+
+
+
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+
+</div>
+<p>这和曼得布罗特对棉花价格非常类似。灭绝率代替了价格波动，400 万年间隔代替了月份间隔。&nbsp;</p>
+
+
+
+
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+
+</div>
+<hr />
+<p><span style="color: #ff6600;"><strong>笔者思考</strong></span>：&nbsp;</p>
+<div class="page" title="Page 34">
+<div class="layoutArea">
+<div class="column">
+<p><strong>尽管大的事件以一定的概率出现 , 但这并不意味着这个现象是周期性的。</strong></p>
+<p><strong>如同诺伯认为的那样。长时期没有发生地震这个事实并不意味着将有地震发生。这种情形和用来赌博的轮盘转动一样。尽管平均来说隔一次出现黑子，但这并不意味着红子与黑子交替出现。经过七次连续的红子之后，下一次黑子出现的概率仍然是1/2。 </strong></p>
+<p><strong>同样，地震在某个平均间隔内发生并不意味着它们是周期性的。例如，战争平均每三十年就会爆发一次这个事实并不能用来预报下一次战争。这种间隔的变化可能是巨大的&nbsp;</strong></p>
+
+
+
+
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+
+</div>
+<p><strong>换句话说，对灾变的这种统计模式的描述，并不意味着我们可以对未来的精确灾变进行精确预测。灾变模型本质上也是一种复杂性模型，它只能给出【为什么会有灾变】以及【某种程度的灾变可能会出现，不同程度的灾变出现的分布情况如何】这几个问题，而无法回答【未来的什么时间，什么程度的具体灾变是否会发生】这种问题</strong>。</p>
+<hr />
+<p>&nbsp;&nbsp;</p>
+
+
+
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+</div>
+<h1><span>6. 灾变理论与同一性理论的冲突</span></h1>
+<div class="page" title="Page 34">
+<div class="layoutArea">
+<div class="column">
+<p>灾变的发生是相当令人吃惊的。它们与【同一性理论】，或称【渐近性理论】，形成鲜明的对照。</p>
+<p>渐进性理论于上个世纪在地球物理学家查尔斯&middot;利尔的《地质原理》一书中初见端倪。</p>
+<p>根据利尔的理论，所有的变化都是由我们在此刻观察到的过程引起的，这些过程一直都以相同的速度进行着。例如，利尔认为地貌是由渐近的过程形成的，而不是由类似诺亚洪水的大灾难形成的，而且我们今天看到的地表特征是由缓慢的持续的过程造成的，随着时间的流逝，作为&ldquo;巨大的能动者&rdquo;最终导致大的变化。&nbsp;</p>
+
+
+
+
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+
+</div>
+<div class="page" title="Page 34">
+<div class="layoutArea">
+<div class="column">
+<p>利尔的同一性的观点从逻辑上来说是完美的。物理定律总是表示为平滑连续的方程。由于这些定律应当描述所有事物，因此，我们期待观察到的现象也应当以一种平滑的和渐近的方式变化。 </p>
+<p>&nbsp;&nbsp;</p>
+
+
+
+
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+
+</div>
+<h1>7. 分形几何</h1>
+<p>在之前讨论灾变现象的时候，我们提出的了一概念，&ldquo;标度自由&rdquo;，在灾变分布遵循的幂律分布中，标度自由是一个非常重要的性质。我们这个章节来继续深入讨论这个话题。</p>
+<p>在分形几何中，标度自由是一个非常典型的特性。我们这个章节就来详细讨论分形几何，希望能让读者朋友更深刻体会到&ldquo;标度自由&rdquo;的概念内涵。</p>
+<h2><span style="color: #888888;">0x1：挪威海岸线中的分形几何</span></h2>
+<p style="text-align: center;"><img src="https://img2020.cnblogs.com/blog/532548/202005/532548-20200507123804278-1389827452.png" alt="" width="345" height="533">&nbsp;</p>
+<p style="text-align: center;"><span style="color: #888888;">挪威海岸。注意&ldquo;分形的&rdquo;阶梯似的几何特征，海岸带有峡湾，并且峡湾中又有峡湾，如此等等。曼德布罗特指出地貌通常是分形的</span></p>
+<div class="page" title="Page 35">
+<div class="layoutArea">
+<div class="column">
+<p>上图显示了挪威的海岸，它显现出峡湾的一个阶梯似的结构，峡湾里又有峡湾，并且峡湾的峡湾里又有峡湾。</p>
+<p><strong>&ldquo;一个典型的峡湾有多长？&rdquo;这个问题没有答案</strong>。</p>
+<p>这种现象被称为&ldquo;标度无关&rdquo;。当你观察峡湾的一部分或海岸线的一部分的图像时，如果图上没有一把尺子你就不会知道海岸线有多长。而且长度的测量也依赖于用来测量的尺子的精确程度。</p>
+<p>以英里为单位来测量海岸线长度的大尺子，比以米为单位来测量长度的精细的尺子，在测量同一长度时得到的值要小得多。&nbsp;</p>
+<div class="page" title="Page 35">
+<div class="layoutArea">
+<div class="column">
+<p>这实际上是用到了微积分的渐进拟合的思想，通俗的理解方式就是，我们可以使用大小为 &delta; 的盒子来铺满海岸。显然，盒子越小，铺满整个海岸线所要的盒子越多。</p>
+<ul>
+<li>如果海岸线是一条直线，也就是维数为 1，那么盒子的数量就会反比于 &delta;，因此测量出的长度与&delta;无关。</li>
+<li>然而 , 所需盒子的数量，会随着海岸线的弯曲部分而快速增加 , 因而直线有了一个斜率。</li>
+
+
+
+
+
+
+
+
+
+</ul>
+<p>直线斜率的负数给出了海岸的&ldquo;分形维数&rdquo;。例如挪威海岸的 D = 1. 52，它表明海岸处于维数为 1 的直线和维数为 2 的平面之间的某种情况。&nbsp;</p>
+
+
+
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+</div>
+<p>&nbsp;</p>
+<h1>8. 1/f 噪声 -- 时间信号中的分形</h1>
+<div class="page" title="Page 38">
+<div class="layoutArea">
+<div class="column">
+<p>在来自类星体的光波中（类星体是宇宙中巨大的、遥远的星体）、高速公路交通中、以及全球温度波动中，广泛存在一种叫做 1/f 噪声的现象。</p>
+<p style="text-align: center;"><img src="https://img2020.cnblogs.com/blog/532548/202005/532548-20200507130948476-1635472629.png" alt="" width="420" height="308"></p>
+<div class="page" title="Page 39">
+<div class="layoutArea">
+<div class="column">
+<p style="text-align: center;"><span style="color: #888888;">1887 到 1967 年的 80 年间从类星体上发出的光 (Press,1978)。其中包含慢的，以及中等范围的起伏的模式（从几分钟到几年）。这种类型的信号就是 1/f 噪声</span></p>
+
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+</div>
+<p style="text-align: center;"><img src="https://img2020.cnblogs.com/blog/532548/202005/532548-20200507131005382-1165415077.png" alt="" width="385" height="318"></p>
+<p style="text-align: center;"><span style="color: #888888;">1865 年以来的全球温度跟踪(NASA)</span></p>
+<div class="page" title="Page 39">
+<div class="layoutArea">
+<div class="column">
+<p>这种信号可以被看作是大大小小的波峰的叠加。它看起来像时间上的一种山脉的地貌，而不是空间上的。</p>
+<p><strong>这种信号也可以等价地看作所有频率的周期性信号的一种叠加。这也是表明在所有的时间标度上都有相同特征的另外一种表达方式</strong>。</p>
+<p>正如挪威拥有大小各异的峡湾一样，一个 1/f 信号也包含各种大小的波峰。它的分频强度或&ldquo;功率&rdquo;相对于小的频率来说反而要大，它的强度与频率&nbsp;f 成反比，这也是 1/f 的由来。</p>
+<p>另一个一个简单的例子就是行驶在一条交通拥挤的公路上的汽车的车速。各种走走停停的时间长短不一，而时间的长短对应的是交通拥挤的程度，拥挤程度越高，则通行速度越低。对一条公路来说，整个路段的拥挤程度是各种拥挤程度的综合叠加。</p>
+<hr />
+<p><strong><span style="color: #ff6600;">笔者插入</span></strong>：</p>
+<p><strong>1/f 噪声中，也同样遵循&rdquo;标度自由&ldquo;特性</strong>。</p>
+<hr />
+<p>需要注意的是，<strong>1/f 噪声虽然是各种频率信号的综合叠加，但它不是白噪声</strong>。<strong>白噪声在一个时刻的信号值和另一时刻的信号值之间没有任何关联</strong>。</p>
+<p>在下图所示的白噪声模式中，没有缓慢的起伏，也就是说没有大的波峰。</p>
+<p style="text-align: center;"><img src="https://img2020.cnblogs.com/blog/532548/202005/532548-20200507132932934-1053328708.png" alt="" width="438" height="301"></p>
+<p>白噪声听起来更像收音机调台时发出的&ldquo; 嘶嘶&rdquo;声而不是乐音，并且它包括了所有的频率，这些频率在数量上也是统计一致的。&nbsp;&nbsp;</p>
+
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+</div>
+<p>&nbsp;</p>
+
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+</div>
+<h1>9. 兹波夫定律 </h1>
+<h2><span style="color: #888888;">0x1：城市人口分布中蕴含的标度自由性</span></h2>
+<div class="page" title="Page 41">
+<div class="layoutArea">
+<div class="column">
+<p>在 1949 年出版的《人类行为和最小努力原则》这本书中，哈佛大学的乔治&middot;金斯里&middot;兹波夫教授，阐述了他通过人类起源系统对许多简单规律所做的大量振奋人心的发现。</p>
+<p>下图显示出(大约在 1920 年)世界上有多少个城市的居民人数超过了一个给定的数字（800万、100万、20万等不同区间）。</p>
+<p style="text-align: center;"><img src="https://img2020.cnblogs.com/blog/532548/202005/532548-20200507155411078-1721272845.png" alt="" width="414" height="346"></p>
+<p>曲线在对数坐标上大致是一条直线。兹波夫为许多地理区域作了类似的图 , 发现了它们都有着相同的行为。&nbsp;</p>
+<h2><span style="color: #888888;">0x2：文学作品中单词分布中蕴含的标度自由性</span></h2>
+<div class="page" title="Page 42">
+<div class="layoutArea">
+<div class="column">
+<p>兹波夫也统计了单词在一篇文学作品中的出现频率分布，如詹姆斯&middot;乔伊斯的《尤利西斯》，或在一批美国报纸上的使用频率。</p>
+<ul>
+<li>使用频率占第 10 位的单词&ldquo;( 等级&rdquo;为 10 的单词)出现了 2653 次。</li>
+<li>使用频率占第 20 位的单词出现 1311 次。</li>
+<li>使用频率占第 20000 位的单 词只出现了一次</li>
+
+
+
+
+
+</ul>
+<p>下图显示了英语中单词出现的频率与它们的等级之间的关系。</p>
+<p style="text-align: center;"><img src="https://img2020.cnblogs.com/blog/532548/202005/532548-20200507160512737-824988280.png" alt="" width="429" height="417"></p>
+<ul>
+<li>等级为 1 的单词 the，出现的频率为 9%</li>
+<li>等级为 10 的 I 出现的频率为 1%</li>
+<li>等级为 100 的 say 出现的频率为 0.1%，</li>
+<li>等等</li>
+
+
+
+
+
+</ul>
+<p>这些数据是来自报纸还是《圣经》，还是《尤利西斯》都无关紧要，曲线是一样的。笔者曾经在DNS Tunnel异常检测中，引入过<a href="https://www.cnblogs.com/LittleHann/p/8656621.html#_lab2_2_1" target="_blank">zipf统计</a>作为特征工程的一部分。</p>
+<p>在对数图上所作的关于等级与频率之间的、斜率近似为 1 的 直线所表达的规律就被称为【兹波夫定律】。</p>
+<hr />
+<p><span style="color: #ff6600;"><strong>笔者插入</strong></span>：</p>
+<p>注意所有观察到的现象都具有统计特征。</p>
+<ul>
+<li>古登堡&mdash;里特定律描述的是每种量级的地震的数目，而不是什么时候什么地点某个特定的地震会发生或确实已发生。</li>
+<li>兹波夫定律处理的是一个人口范围给定的城市的数目，而不是为什么某个特定的城市拥有 一定数量的居民。</li>
+
+
+
+
+
+</ul>
+<p><strong>不同的定律通过可测量的分布函数得以表达。因而，一个用来解释那些现象的理论必须也是统计性的</strong>。</p>
+<hr />
+<p>&nbsp;&nbsp;</p>
+
+
+
+
+
+</div>
+
+
+
+
+
+</div>
+
+
+
+
+
+</div>
+
+
+
+
+
+</div>
+
+
+
+
+
+</div>
+
+
+
+
+
+</div>
+<h1>10. 幂次定律与临界现象</h1>
+<div class="page" title="Page 43">
+<div class="layoutArea">
+<div class="column">
+<p>某种东西在双对数坐标上是一条直线意味着什么？数学上来说，那些直线被称为&ldquo;幂次定律&rdquo;，因为它们表明了某个量 N 能用 另外一个量 s 的幂次表示出来：</p>
+<p style="text-align: center;"><img src="https://img2020.cnblogs.com/blog/532548/202005/532548-20200507161953221-2099599283.png" alt="" width="129" height="37"></p>
+<div class="page" title="Page 43">
+<div class="layoutArea">
+<div class="column">
+<p>在这里，</p>
+<ul>
+<li>s可以是地震中释放出来的能量，而 N(s) 就是放出那个能量的地震的数目</li>
+<li>s可以是峡湾的长度，而 N(s) 就是具有那种长度的峡湾的数目。</li>
+
+
+
+
+</ul>
+<p>本质上，前面讨论的【古登堡 -- 里特定律】、【列维分布】、【兹波夫定律】、【分形几何】，其本质上都是幂次定律的一种特殊形式。</p>
+<p>前3个可能比较好理解，但是分形几何和幂次定律有什么内在联系呢？</p>
+<p>实际上，分形的特征就是幂次规律的分布赋予的。对上式两边都取对数我们会发现：</p>
+<p style="text-align: center;"><img src="https://img2020.cnblogs.com/blog/532548/202005/532548-20200507162405813-1524600791.png" alt="" width="233" height="41"></p>
+<div class="page" title="Page 44">
+<div class="layoutArea">
+<div class="column">
+<p>这表明 logN(s) 和 logs 的关系在图上表现出来是一条直线，幂次 &tau; 是直线的斜率。</p>
+<p>例如，在兹波夫定律中居民数超过 s 的城市的数目可表示为：</p>
+<p style="text-align: center;"><img src="https://img2020.cnblogs.com/blog/532548/202005/532548-20200507162704208-1329257539.png" alt="" width="167" height="53"></p>
+<p style="text-align: left;">它是幂次为 -1 的一个幂次定律。</p>
+<p style="text-align: left;">本文中讨论的现象基本上都可以用幂次定律表示出来。标度不变性可以从直线处处看起来都一样这个简单的事实中看出来。在某个标度上并没有什么特征使这个标度显得很特别，没有卷曲也没有波峰。</p>
+<p>因而，解释复杂系统中呈现的统计特性这个问题数学上就转化为解释潜在的幂次定律，并且要进一步转化为幂次的值这个问题。&nbsp;</p>
+
+
+
+
+</div>
+
+
+
+
+</div>
+
+
+
+
+</div>
+<p>&nbsp;</p>
+
+
+
+</div>
+
+
+
+</div>
+
+
+
+</div>
+
+
+
+</div>
+
+
+
+</div>
+
+
+
+</div>
+<h1>11. 相变系统中的复杂性</h1>
+<h2><span style="color: #888888;">0x1：处于平衡态的系统不是复杂的</span></h2>
+<p>除了自然界中已经存在的种种复杂性现象之外（它们一直存在），大部分时候，物理世界都处于平衡态中，而<strong>平衡态不是复杂的</strong>。</p>
+<div class="page" title="Page 44">
+<div class="layoutArea">
+<div class="column">
+<p>由原子组成的气体，以及平坦海滩上的沙滩都是处于平衡态的大系统，它们是&ldquo;处于平衡的&rdquo;。</p>
+<p>如果一个平衡系统受到微小的干扰，例如在某个位置上一粒沙被推了一下，并不会有什么发生。总的来说，处于平衡态的系统不会展现前面谈到的任何有趣的行为，例如巨大的灾变、1/f 噪声、以及分形等。&nbsp;</p>
+<p>除此之外，我们在生物学和经济学中发现的系统，像平坦的海滩上的沙一样，处于一种稳定的平衡。</p>
+<p>目前领导潮流的经济理论，普适的平衡理论，认为良好的市场、良好的理性等等因素，把经济系统带入一种稳定的纳什平衡。</p>
+<p>在这种状态下，没有任何人能通过任何行动改善他自身的处境。在平衡态中，微小的扰动或震动只会导致微小的变动。</p>
+<p>系统的反应和作用强度的大小成正比，对平衡系统来说这种比例关系是&ldquo;线性的&rdquo;，偶然性是无关紧要的，小的突发性事件永远不可能带来戏剧性的结果。<strong>平衡系统中大的波动只有在所有随机事件都偶然地往同一方向发展时才可能发生，而这种可能性几乎是没有的</strong>。</p>
+<p>平衡系统的这种性质，其实对达尔文的进化论提出了非常尖锐的挑战。</p>
+<div class="page" title="Page 45">
+<div class="layoutArea">
+<div class="column">
+<p>自然界被认为从原则上来说是守恒的，这种观点激励了环保学家。毫不奇怪，在人的寿命时限内自然环境几乎没有什么改变，因而平衡这个概念会显得非常自然或者很直觉。然而，如果自然界处于平衡，那么我们最初是如何来到这个世上的？</p>
+<p>如果自然界始终处于平衡，那么它是如何演化的？除非发生了什么重大的事情，导致自然系统进入相变状态，因为只有相变状态才具有复杂性。</p>
+<p>正如古尔德和爱德乔指出的那样，生物界中显而易见的平衡只不过是处于行为间歇爆发和旧物种灭亡新物种开始出现这两者之间的一段宁静或郁滞的时期。个别物种演化的进程，往往是通过零星的爆 发而进行。这种现象被称为【断续平衡】。</p>
+<p>断续平衡的概念是复杂系统动力学的核心。巨大的间歇性的爆发在平衡系统中无立足之地，但在历史学、生物学和经济学中它们无所不在。</p>
+
+
+
+</div>
+
+
+
+</div>
+
+
+
+</div>
+
+
+
+</div>
+
+
+
+</div>
+
+
+
+</div>
+<h2><span style="color: #888888;">0x2：相变系统中存在复杂性</span></h2>
+<p>自然界中每时每刻都在产生出很多新的复杂性系统和复杂现象。其中，孕育复杂性现象的一个最典型的前提条件就是【相变系统】。</p>
+<p>我们在之前的文章里曾经简单讨论过<a href="https://www.cnblogs.com/LittleHann/p/12674842.html#_label3_0_2_2" target="_blank">相变</a>。<strong>相变时，系统从无序状态变化到有序状态</strong>。</p>
+<p>例如当温度变化时，就在把两相分开的临界点（例如沸点）存在着由标度自由行为表征的复杂行为，这些行为处于各种大小的有序的范围中。为了达到临界点，温度必须调得非常精确，以便产生复杂行为。</p>
+<div class="page" title="Page 45">
+<div class="layoutArea">
+<div class="column">
+<h2><span style="color: #808080;">0x3：混沌不具有复杂性</span></h2>
+<p><span style="color: #000000;">需要明白的是，<strong>复杂性并不意味着毫无规律的混乱，隐藏在复杂性看似混乱的表面之下的内核，是遵循标度自由特性的幂律分布</strong>。</span></p>
+<p><span style="color: #000000;">但是，<strong>混沌系统却是一个完全无规律的噪声系统，尽管混沌系统也可以找到一些明确的动力学方程，但是因为内部多个动力方程之间形成的多体组合，导致混沌系统整体表现出了完全的无序性</strong>。</span></p>
+
+
+</div>
+
+
+</div>
+
+
+</div>
+<div class="page" title="Page 46">
+<div class="layoutArea">
+<div class="column">
+<p>在 19 世纪 80 年代，科学家对简单动力学系统的理解发生了一场革命。一段时间以来人们意识到有多个自由度的系统能够展现混沌的行为。无论我们对它们的初始状态知道得多清楚，甚至我们对控制它们运动的方程有足够的了解（例如<a href="https://www.cnblogs.com/LittleHann/p/12674842.html#_label3_3_0_1" target="_blank">马尔萨斯人口模型</a>），我们都无法预料它们将来的行为。</p>
+<div class="page" title="Page 47">
+<div class="layoutArea">
+<div class="column">
+<p>混沌信号具有白噪声谱, 而不是 1/f 谱。因而可以说混沌系统只不过是一部成熟的随机噪声产生器。<strong>混沌系统没有关于过去的记忆，因而无法演化</strong>。</p>
+<p>总体上说，混沌系统是不具有复杂性的，但是有一个例外，就是在临界点的位置上，也就是混沌相变发生的地方。</p>
+<p>在混沌相变发生的地方，存在类似 1/f 信号的复杂行为。复杂态位于可预测的周期行为和不可预测的混沌的分界面上。</p>
+<p>综上，<strong>混沌系统的复杂性只存在于某个非常特殊的点上，而在那些真正导致混沌的&lambda;值的点上并不存在。混沌系统的复杂性并不是稳固的</strong>。</p>
+<div class="page" title="Page 48">
+<div class="layoutArea">
+<div class="column">
+<p>因此，简单的混沌系统不能够产生像挪威海岸那样的一个空间分形结构。</p>
+
+
+</div>
+
+
+</div>
+
+
+</div>
+
+
+</div>
+
+
+</div>
+
+
+</div>
+<p>&nbsp;</p>
+
+
+</div>
+
+
+</div>
+
+
+</div>
+<h1>12. 自组织临界性 -- 关于产生复杂性原因的理论</h1>
+<p>文章前面讨论到的4种现象，</p>
+<ul>
+<li>灾变事件的分布规则性</li>
+<li>分形</li>
+<li>1/f 噪声</li>
+<li>兹波夫定律</li>
+
+</ul>
+<p>它们都有一个共同点，那就是在双对数坐标上它们都表现为一条直线，即符合幂律分布。</p>
+<div class="page" title="Page 48">
+<div class="layoutArea">
+<div class="column">
+<p>这就使得我们考虑它们是否只是同一个原则的不同表示而已。这些复杂的行为能够有一个类似牛顿定律（F=ma）这样的定律吗？也许【自组织临界性】就是那个潜在的原理。&nbsp;</p>
+<div class="page" title="Page 48">
+<div class="layoutArea">
+<div class="column">
+<p><strong>所谓自组织，是指自组织临界系统演化到复杂的临界态时没有受到任何外界作用的干预</strong>。</p>
+<p>另一方面，<strong>临界性并不是突然就进入的。自组织过程发生时经历了一个非常长的暂态时期</strong>。</p>
+<p>无论是地球物理，还是生物演化过程 , 总是由一个漫长的演化过程产生的。它不能通过在一个短周期时间内的研究系统而得以理解。</p>
+<ul>
+<li>地震的规律不能够仅仅通过研究在人的寿命时限内发生的地震得以理解，而必须考虑亿万年以来发生的地球物理过程，并且要把我们现在所观察到的考虑在内。</li>
+<li>生物进化不能通过在实验室里研究几代老鼠和细菌的进化得以理解。</li>
+<li>一个沙堆展示了断续平衡行为，其中郁滞期由于不断有沙滑下而被打断。沙的下滑或雪崩是由多米诺效应造成的，其中单个的沙粒推动一个或更多其他的沙粒从而导致它们下滑。那些倒下的沙粒又轮流地以链式反应的方式和其他沙粒相作用。大的雪崩，不是逐渐的改变，它把质的行为和量的行为连在一起了，从而形成了突发现象的基础。</li>
+</ul>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+<p><strong>如果自组织临界性真的就是世界复杂性产生的底层原因，而复杂性又是普遍存在的。那么我们必须接受生物学、历史学和经济学的观点 : 不稳定性和大的灾难是不可避免的</strong>。</p>
+<p>由于过去那些特定的不重要事件的结果是偶然的，因而我们也必须放弃详尽的长期决定主义或可预测性的观点。巨大的灾难性的事件和每天都发生的微小事件都遵从同样的动力学。这种发现和我们通常思考大事件的方式背道而驰。</p>
+<p>我们通常的思考方式，总是寻找特定的原因（例如一颗下落的陨石导致恐龙的灭绝）来解释巨大的灾难事件。但自组织临界性告诉我们，每一个小事都是大事，每一个大事都很普通。自组织临界性可以看作是灾难主义的理论判据。</p>
+<p>&nbsp;</p>
+<h1>13. 笔者脑洞&nbsp;</h1>
+<ul>
+<li>统计一下重大网络安全漏洞的出现分布，分析是否符合幂律分布。传统意义上，我们认为网络安全漏洞的产生是由于开发者缺乏成熟的IT框架、缺乏对应的安全编码知识、以及对应白帽子的主动漏洞挖掘行为所共同导致的，但是从宏观上，也许存在有规律的分布特征</li>
+</ul>
+<p>&nbsp;</p>
+</div>
+<div id="MySignature"></div>
+<div class="clear"></div>
+<div id="blog_post_info_block">
+    <div id="blog_post_info"></div>
+    <div class="clear"></div>
+    <div id="post_next_prev"></div>
+</div>
+            </div>
+            <div class="postDesc">posted @ 
+<span id="post-date">2020-05-07 21:11</span>&nbsp;
+<a href="https://www.cnblogs.com/LittleHann/">郑瀚Andrew.Hann</a>&nbsp;
+阅读(<span id="post_view_count">...</span>)&nbsp;
+评论(<span id="post_comment_count">...</span>)&nbsp;
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=12834149" rel="nofollow">编辑</a>&nbsp;
+<a href="javascript:void(0)" onclick="AddToWz(12834149);return false;">收藏</a></div>
+        </div>
+	    
+	    
+    </div><!--end: topics 文章、评论容器-->
+</div>
+<script src="https://common.cnblogs.com/highlight/9.12.0/highlight.min.js"></script>
+<script>markdown_highlight();</script>
+<script>
+    var allowComments = true, cb_blogId = 152568, cb_blogApp = 'LittleHann', cb_blogUserGuid = '8cb3dedf-4dc5-e211-8d02-90b11c0b17d6';
+    var cb_entryId = 12834149, cb_entryCreatedDate = '2020-05-07 21:11', cb_postType = 1; 
+    loadViewCount(cb_entryId);
+    loadSideColumnAd();
+</script><a name="!comments"></a>
+<div id="blog-comments-placeholder"></div>
+<script>
+    var commentManager = new blogCommentManager();
+    commentManager.renderComments(0);
+</script>
+
+<div id="comment_form" class="commentform">
+    <a name="commentform"></a>
+    <div id="divCommentShow"></div>
+    <div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="#" onclick="return RefreshPage();">刷新页面</a><a href="#top">返回顶部</a></div>
+    <div id="comment_form_container"></div>
+    <div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+    <div id="ad_t2"></div>
+    <div id="opt_under_post"></div>
+    <script async="async" src="https://www.googletagservices.com/tag/js/gpt.js"></script>
+    <script>
+        var googletag = googletag || {};
+        googletag.cmd = googletag.cmd || [];
+    </script>
+    <script>
+        googletag.cmd.push(function () {
+            googletag.defineSlot("/1090369/C1", [300, 250], "div-gpt-ad-1546353474406-0").addService(googletag.pubads());
+            googletag.defineSlot("/1090369/C2", [468, 60], "div-gpt-ad-1539008685004-0").addService(googletag.pubads());
+            googletag.pubads().enableSingleRequest();
+            googletag.enableServices();
+        });
+    </script>
+    <div id="cnblogs_c1" class="c_ad_block">
+        <div id="div-gpt-ad-1546353474406-0" style="height:250px; width:300px;"></div>
+    </div>
+    <div id="under_post_news"></div>
+    <div id="cnblogs_c2" class="c_ad_block">
+        <div id="div-gpt-ad-1539008685004-0" style="height:60px; width:468px;">
+            <script>
+                if (new Date() >= new Date(2018, 9, 13)) {
+                    googletag.cmd.push(function () { googletag.display("div-gpt-ad-1539008685004-0"); });
+                }
+            </script>
+        </div>
+    </div>
+    <div id="under_post_kb"></div>
+    <div id="HistoryToday" class="c_ad_block"></div>
+    <script type="text/javascript">
+        fixPostBody();
+        deliverBigBanner();
+setTimeout(function() { incrementViewCount(cb_entryId); }, 50);        deliverAdT2();
+        deliverAdC1();
+        deliverAdC2();
+        loadNewsAndKb();
+        loadBlogSignature();
+LoadPostCategoriesTags(cb_blogId, cb_entryId);        LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+        GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate, cb_postType);
+        loadOptUnderPost();
+        GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);
+    </script>
+</div>
+	</div><!--end: forFlow -->
+	</div><!--end: mainContent 主体内容容器-->
+
+	<div id="sideBar">
+		<div id="sideBarMain">
+			
+<div id="sidebar_news" class="newsItem">
+            <script>loadBlogNews();</script>
+</div>
+
+<div id="sidebar_ad"></div>
+			<div id="blog-calendar" style="display:none"></div><script>loadBlogDefaultCalendar();</script>
+			
+			<div id="leftcontentcontainer">
+				<div id="blog-sidecolumn"></div>
+                    <script>loadBlogSideColumn();</script>
+			</div>
+			
+		</div><!--end: sideBarMain -->
+	</div><!--end: sideBar 侧边栏容器 -->
+	<div class="clear"></div>
+	</div><!--end: main -->
+	<div class="clear"></div>
+	<div id="footer">
+		<!--done-->
+Copyright &copy; 2020 郑瀚Andrew.Hann
+<br /><span id="poweredby">Powered by .NET Core on Kubernetes</span>
+
+
+
+	</div><!--end: footer -->
+</div><!--end: home 自定义的最大容器 -->
+
+
+    <div id="page_end_html">
+        <div align="center">
+<script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1000401968'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "v1.cnzz.com/z_stat.php%3Fid%3D1000401968%26online%3D1%26show%3Dline' type='text/javascript'%3E%3C/script%3E"));
+</script>
+
+<script language="javascript" type="text/javascript">
+//生成目录索引列表
+function GenerateContentList()
+{
+    var jquery_h1_list = $('#cnblogs_post_body h1');
+    if (jquery_h1_list.length == 0) { return; }
+    if ($('#cnblogs_post_body').length == 0) { return; }
+
+    var content = '<a name="_labelTop"></a>';
+    content    += '<div id="navCategory">';
+    content    += '<p style="font-size:18px"><b>阅读目录(Content)</b></p>';
+    // 一级目录 start
+    content += '<ul class="first_class_ul">';
+
+    for (var i = 0; i < jquery_h1_list.length; i++)
+    {
+        var go_to_top = '<div style="text-align: right"><a href="#_labelTop">回到顶部(go to top)</a><a name="_label' + i + '"></a></div>';
+        $(jquery_h1_list[i]).before(go_to_top);
+
+        // 一级目录的一条
+        var li_content = '<li><a href="#_label' + i + '">' + $(jquery_h1_list[i]).text() + '</a></li>';
+
+        var nextH1Index = i + 1;
+        if (nextH1Index == jquery_h1_list.length) { nextH1Index = 0; }
+        var jquery_h2_list = $(jquery_h1_list[i]).nextUntil(jquery_h1_list[nextH1Index], "h2");
+        // 二级目录 start
+        if (jquery_h2_list.length > 0)
+        {
+            //li_content +='<ul style="list-style-type:none; text-align: left; margin:2px 2px;">';
+            li_content += '<ul class="second_class_ul">';
+        }
+        for (var j = 0; j < jquery_h2_list.length; j++)
+        {
+            var go_to_top2 = '<div style="text-align: right"><a name="_lab2_'+ i + '_' + j + '"></a></div>';
+            $(jquery_h2_list[j]).before(go_to_top2);
+            // 二级目录的一条
+            li_content +='<li><a href="#_lab2_'+ i +'_' + j + '">' + $(jquery_h2_list[j]).text() + '</a></li>';
+
+            var nextH2Index = j + 1;
+            var next;
+            if (nextH2Index == jquery_h2_list.length) 
+            {
+                if (i + 1 == jquery_h1_list.length)
+                {
+                    next = jquery_h1_list[0];
+                }
+                else
+                {
+                    next = jquery_h1_list[i + 1];
+                }
+            }
+            else
+            {
+                next = jquery_h2_list[nextH2Index];
+            }
+            var jquery_h3_list = $(jquery_h2_list[j]).nextUntil(next, "h3");
+            // 三级目录 start
+            if (jquery_h3_list.length > 0)
+            {
+                li_content += '<ul class="third_class_ul">';
+            }
+            
+            for (var k = 0; k < jquery_h3_list.length; k++)
+            {
+                var go_to_third_Content = '<div style="text-align: right"><a name="_label3_' + i + '_' + j + '_' + k + '"></a></div>';
+                $(jquery_h3_list[k]).before(go_to_third_Content);
+                // 三级目录的一条
+                li_content += '<li><a href="#_label3_' + i + '_' + j + '_' + k + '">' + $(jquery_h3_list[k]).text() + '</a></li>';
+            }
+            
+            if (jquery_h3_list.length > 0)
+            {
+                li_content += '</ul>';
+            }
+            li_content += '</li>';
+            // 三级目录 end
+        }
+        if (jquery_h2_list.length > 0)
+        {
+            li_content +='</ul>';
+        }
+        li_content +='</li>';
+        // 二级目录 end
+
+        content += li_content;
+    }
+    // 一级目录 end
+    content += '</ul>';
+    content += '</div>';
+
+    $($('#cnblogs_post_body')[0]).prepend(content);
+}
+
+GenerateContentList();
+</script>
+
+</div>
+    </div>
+</body>
+</html>

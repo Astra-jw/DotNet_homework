@@ -1,0 +1,565 @@
+﻿<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="referrer" content="never" />
+    <meta property="og:description" content="二分搜索树，有序性，AVL,LL,RR,LR,RL,2-3树，红黑树" />
+    <meta http-equiv="Cache-Control" content="no-transform" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>二分搜索树看这篇就足够了 - justisme - 博客园</title>
+    
+    <link rel="stylesheet" href="/css/blog-common.min.css?v=KCO3_f2W_TC__-jZ7phSnmoFkQuWMJH2yAgA16eE3eY" />
+    <link id="MainCss" rel="stylesheet" href="/skins/custom/bundle-custom.min.css?v=1ssrnY3Il79Ok472qeVrpxlSprSXcHhYPgZC5S3wtVM" />
+    <link type="text/css" rel="stylesheet" href="https://www.cnblogs.com/justisme/custom.css?v=7rnz5TtMcHt9VmgMA7H/K8T8fSI=" />
+    <link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="/skins/custom/bundle-custom-mobile.min.css?v=-Yh290MhQyDeXLmvKTSses9H6-49lqbpXFh55zvS0w8" />
+    
+    <link type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/justisme/rss" />
+    <link type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/justisme/rsd.xml" />
+    <link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/justisme/wlwmanifest.xml" />
+    <script src="https://common.cnblogs.com/scripts/jquery-2.2.0.min.js"></script>
+    <script src="/js/blog-common.min.js?v=98Fvfd6UZH20B_MF08daNaODjSu879MVR9RHmyvWAlg"></script>
+    <script>
+        var currentBlogId = 597589;
+        var currentBlogApp = 'justisme';
+        var cb_enable_mathjax = true;
+        var isLogined = false;
+        var skinName = 'Custom';
+    </script>
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+        tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']], processClass: 'math', processEscapes: true },
+        TeX: {
+        equationNumbers: { autoNumber: ['AMS'], useLabelIds: true },
+        extensions: ['extpfeil.js', 'mediawiki-texvc.js'],
+        Macros: {bm: "\\boldsymbol"}
+        },
+        'HTML-CSS': { linebreaks: { automatic: true } },
+        SVG: { linebreaks: { automatic: true } }
+        });
+    </script>
+    <script src="https://mathjax.cnblogs.com/2_7_5/MathJax.js?config=TeX-AMS-MML_HTMLorMML&amp;v=20200504"></script>
+    
+</head>
+<body>
+    <a name="top"></a>
+    
+    
+<!--done-->
+<div id="home">
+<div id="header">
+	<div id="blogTitle">
+        <a id="lnkBlogLogo" href="https://www.cnblogs.com/justisme/"><img id="blogLogo" src="/skins/custom/images/logo.gif" alt="返回主页" /></a>		
+		
+<!--done-->
+<h1><a id="Header1_HeaderTitle" class="headermaintitle HeaderMainTitle" href="https://www.cnblogs.com/justisme/">justisme</a>
+</h1>
+<h2>
+
+</h2>
+
+
+
+
+		
+	</div><!--end: blogTitle 博客的标题和副标题 -->
+	<div id="navigator">
+		
+<ul id="navList">
+<li><a id="blog_nav_sitehome" class="menu" href="https://www.cnblogs.com/">
+博客园</a>
+</li>
+<li>
+<a id="blog_nav_myhome" class="menu" href="https://www.cnblogs.com/justisme/">
+首页</a>
+</li>
+<li>
+
+<a id="blog_nav_newpost" class="menu" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">
+新随笔</a>
+</li>
+<li>
+<a id="blog_nav_contact" class="menu" href="https://msg.cnblogs.com/send/justisme">
+联系</a></li>
+<li>
+<a id="blog_nav_rss" class="menu" href="https://www.cnblogs.com/justisme/rss/">
+订阅</a>
+<!--<partial name="./Shared/_XmlLink.cshtml" model="Model" /></li>--></li>
+<li>
+<a id="blog_nav_admin" class="menu" href="https://i.cnblogs.com/">
+管理</a>
+</li>
+</ul>
+
+
+		<div class="blogStats">
+			
+			<span id="stats_post_count">随笔 - 
+9&nbsp; </span>
+<span id="stats_article_count">文章 - 
+0&nbsp; </span>
+<span id="stats-comment_count">评论 - 
+0</span>
+
+			
+		</div><!--end: blogStats -->
+	</div><!--end: navigator 博客导航栏 -->
+</div><!--end: header 头部 -->
+
+<div id="main">
+	<div id="mainContent">
+	<div class="forFlow">
+		<div id="post_detail">
+    <!--done-->
+    <div id="topics">
+        <div class="post">
+            <h1 class = "postTitle">
+                
+<a id="cb_post_title_url" class="postTitle2" href="https://www.cnblogs.com/justisme/p/12845395.html">二分搜索树看这篇就足够了</a>
+
+            </h1>
+            <div class="clear"></div>
+            <div class="postBody">
+                
+    <div id="cnblogs_post_description" style="display: none">
+        二分搜索树，有序性，AVL,LL,RR,LR,RL,2-3树，红黑树
+    </div>
+<div id="cnblogs_post_body" class="blogpost-body cnblogs-markdown">
+    <h3 id="二分搜索树bst中序遍历结果为递增序列">二分搜索树(BST):中序遍历结果为递增序列</h3>
+<p>BST是一种特殊的二叉树，其定义如下：</p>
+<blockquote>
+<p>BST ：在二叉树的基础上，<mark>任意一个节点</mark>满足大于左子树中的所有节点，小于右子树中的所有节点。</p>
+</blockquote>
+<p>注意点：</p>
+<ul>
+<li><strong>BST的定义中没有等号</strong>，后续代码中可以看到，在插入时，相等的元素会被忽略掉。</li>
+<li>BST的中序遍历结果为递增序列(应用很广)，证明：L&lt;node&lt;R;</li>
+<li><strong>BST是动态数据结构</strong>，即容量会自动扩缩(<mark>插入，删除</mark>)。</li>
+</ul>
+<h4 id="插入过程牢记bst的定义为null时才插入。">插入过程:牢记BST的定义,为null时才插入。</h4>
+<p><code>private Node add(Node node,E e)</code>：向以<code>node</code>为根节点的BST中插入新的元素<code>e</code>,并返回新的根节点。</p>
+<pre><code class="language-java">private Node add(Node node,E e){
+    if(node==null){
+        return new Node(e);
+    }
+    if(e.compareTo(node.e)&lt;0){//左边插入。其余不变
+        node.left=add(node.left,e);
+    }else if(e.compareTo(node.e)){
+        node.right=add(node.right,e);
+    }
+    //相等，忽略。
+    return node;
+}
+public void add(E e){//从根节点开始找。
+    
+    root=add(root,e);
+}
+</code></pre>
+<h4 id="删除过程最复杂：牢记bst的定义，找到时才删除。">删除过程(最复杂)：牢记BST的定义，找到时才删除。</h4>
+<ol>
+<li>BST的最小值：<strong>左子树的终点</strong>，不一定是叶子节点。</li>
+<li>BST的最大值：<strong>右子树的终点</strong>，不一定是叶子节点。</li>
+</ol>
+<h5 id="删除最小或者最大节点">删除最小或者最大节点</h5>
+<img src="https://img-blog.csdnimg.cn/20200507184818814.png">
+<p>最小值位于节点内部时，其后是一个右子树，此时删除节点后，将剩余子树接到删除节点父节点位置，作为他的左子树。(删除最大值同理)--满足BST性质。</p>
+<p><code>private Node removeMin(Node node)</code>删除已node为根节点的BST的最小节点，并返回删除节点后新的BST的根节点。</p>
+<pre><code class="language-java">public E removeMin(){
+    E min=getMin();
+    root=removeMin(root);
+    return min;
+}
+private Node removeMin(Node node){
+    //found it,左子树的终点
+    if(node.left==null){
+        Node rightNode=node.right;
+        size--;
+        return rightNode;
+    }
+    node.left=removeMin(node.left);
+    return node;    
+}
+    
+</code></pre>
+<h5 id="删除任意元素">删除任意元素</h5>
+<ul>
+<li>
+<p>删除的节点只有右孩子 :删除当前节点，然后把右子树放置到当前节点的位置，相当于delMin</p>
+</li>
+<li>
+<p>删除节点只有左孩子：删除当前节点，然后把左子树放置到当前节点的位置，相等于deMax</p>
+</li>
+<li>
+<p>待删除元素左右孩子都有：找到<strong>比待删除节点大的最小节点(BST性质)</strong>，用这个节点顶替代删除节点的位置。</p>
+<img src="https://img-blog.csdnimg.cn/20200507185044692.png">
+</li>
+</ul>
+<pre><code class="language-java">//删除已node为根的BST中值为e的节点，并返回删除之后新的BST的根。
+private Node remove(Node node,E e){
+    if(node==null)return null;
+    if(e.comapreTo(node.e)&lt;0){
+        node.left=remove(node.left,e);
+        return node;
+    }
+    else if(e.compareTo(node.e)&gt;0){
+        node.right=remove(node.right,e);
+        return node;
+    }
+    //找到待删除元素(e.compareTo(node.e)==0)，体会函数执行到这儿的含义。
+    else{
+        //待删除节点左子树为null
+        if(node.left==null){
+            Node rightNode=node.right;
+            node.right=null;
+            size--;
+            return rightNode;
+        }
+        if(node.right==null){
+            Node leftNode=node.left;
+            node.left=null;
+            size--;
+          return leftNode;      
+        }
+        //两边都不为null。
+        Node successor=minimum(node.right);
+        sussessor.right=removeMin(node.right);//右边最小的。
+        sussessor.left=node.right;
+        return sussessor;
+        
+    }
+    
+}
+
+public void remove(E e) {
+    root = remove(root, e);
+}
+
+</code></pre>
+<h3 id="查找元素：bst性质">查找元素：BST性质</h3>
+<pre><code class="language-java">private boolean contains(Node node,E e){
+    if(node==null) return false;
+    if(e.compareTo(node.e)&lt;0){
+        return contains(node.left,e);
+    }else if(e.compareTo(node.e)&gt;0){
+        return contains(node.right,e);
+    }else{//先找到，这点和删除的逻辑很像 
+        return true;
+    }
+}
+public boolean contains(E e){
+    return contains(root,e);
+}
+</code></pre>
+<p>BST的完整源码请<a href="https://github.com/yyqcs/PracticePreparation/blob/master/src/main/java/ds/bst/MyBST.java">点击这儿</a></p>
+<h4 id="bst缺点：">BST缺点：</h4>
+<ul>
+<li>当插入元素有序时，BST退化为单链表。</li>
+</ul>
+<h3 id="avl树：有序性平衡性">AVL树：有序性+平衡性</h3>
+<p>AVL树在BST的基础上增加了<strong>平衡性</strong>约束。新增的操作(<mark>旋转与高度更新)都是为了满足平衡性约束</mark></p>
+<h4 id="avl树中平衡性的定义：">AVL树中平衡性的定义：</h4>
+<p><strong>对于任意一个节点，左子树与右子树的高度差不能超过1</strong></p>
+<h4 id="平衡二叉树中平衡的意义：">平衡二叉树中平衡的意义：</h4>
+<p><strong>为了保证树的高度与与节点总数成<code>logN</code>的关系</strong>，而一般的操作(add,delete,contains)都与树的高度有关,例如，堆是完全二叉树也是平衡二叉树，对堆的各种操作，时间复杂度都是<code>log(N)</code></p>
+<h4 id="插入：关注第一个不平衡的节点，调整原则是有序性平衡性">插入：关注<mark>第一个不平衡的节点</mark>，调整原则是有序性+平衡性</h4>
+<p>插入就是在失败的查找的基础上再操作，插入过程中维持<code>有序性和平衡性</code>的核心操作：<strong><mark>旋转</mark></strong>。</p>
+<p>我们只需要关注<mark>第一个不平衡的节点</mark>，然后再递归检查就OK，此时，<strong>只需要考察该节点与其孩子节点，其孩子的孩子节点(三代)的关系</strong>，因为这是导致不平衡的最小单元。</p>
+<h5 id="不平衡情形之一：ll">不平衡情形之一：LL</h5>
+<p>在节点的左孩子的左侧，插入新节点，导致节点失衡，LL，<strong>此时通过右旋转来解决</strong>，以中间节点为中心，旋转，这样能够同时满足有顺序性和平衡性。</p>
+<img src="https://img-blog.csdnimg.cn/20200507185444930.png">
+<pre><code class="language-java">//y:第一个不平衡的节点，返回旋转后的根节点x
+private Node rotateRight(Node y ){
+    Node x=y.left;
+    Node T3=x.right;
+    x.right=y;
+    y.left=T3;
+    //对x和y的位置进行调整，相应的高度也需要更新！！
+    y.height=calHeight(y);
+    x.height=calHeight(x);
+    return x;
+}
+private Node add(Node node,K key, V va){
+    //LL:在node的左侧的左侧添加的节点导致node不平衡。
+    if(balance&gt;1&amp;&amp;calBalance(node,left)&gt;=0){//calBalance:left的高度-right高度
+ 		return rotateRight(node);       
+    }
+}
+</code></pre>
+<h5 id="不平衡情形之二：rr">不平衡情形之二：RR</h5>
+<p>在节点的右侧的右侧加入新节点，导致节点失衡，RR,<strong>采用左旋转解决</strong>，旋转中心为中间节点x.</p>
+<img src="https://img-blog.csdnimg.cn/20200507185512659.png">
+<pre><code class="language-java">//y是第一个失衡的节点，返回旋转后的根节点
+private Node rotateLeft(Node y){
+    Node x=y.right;
+    Node T3=x.left;
+    x.left=y;
+    y.right=T3;
+    //更新高度
+    x.height=calHeight(x);
+    y.height=calHeight(y);
+    return x;   
+}
+private Node add(Node node, K key,V val){
+    //....
+    if(balance&lt;-1&amp;&amp;calBalance(node.right)&lt;=0){//balance的定义L-R
+        return rotateLeft(node);
+    }
+}
+</code></pre>
+<h5 id="不平衡情形三：lr">不平衡情形三：LR</h5>
+<p>在节点左孩子的右侧加入新节点(LR),导致AVL树失衡，调整方式：<strong>先左旋转(LL)后右旋转</strong></p>
+<img src="https://img-blog.csdnimg.cn/20200507185544687.png">
+<pre><code class="language-java">private Node add(Node node,K key ,V val){//牢记要满足有序性+平衡性
+    //....
+    if(balance&gt;1&amp;&amp;calBalance(node.left)&lt;0){//以Z为中心。
+        node.left=rotateLeft(node.left);
+        return rotateRight(node);
+    }
+    //....
+}
+</code></pre>
+<h5 id="不平衡情形三：rl上一种情形的对称）">不平衡情形三：RL(上一种情形的对称）</h5>
+<p>在节点右孩子的左侧插入新节点导致树失衡，RL.调整方式：<strong>先右旋转(RR)后左选择</strong>.</p>
+<img src="https://img-blog.csdnimg.cn/20200507185615177.png">
+<pre><code class="language-java">private Node add(Node node,K key ,V val){
+    //*...
+    if(balance&lt;-1&amp;&amp;calBalance(Node.right)&gt;0){
+        node.right=rotateRight(node.right);//z为中心。
+        return rotateLeft(node);
+    }
+    //....
+}
+</code></pre>
+<h4 id="删除：在bst有序的基础上再加入旋转操作。">删除：在BST(有序)的基础上再加入旋转操作。</h4>
+<p>BST的删除操作已经保证有序性了，再此基础上还需要考虑<mark>LL,LR,RR,RL</mark>着四种不平衡状态。</p>
+<pre><code class="language-java">public V remove(K key){
+    Node node=getNode(root,key);
+    if(node!=null){
+        root=reomve(root,key);
+        return node.val;
+    }
+    return null;
+}
+private Node remove(Node node , K key){
+//代码与BST的删除逻辑完全一样，只是为了调整平衡性，用retNode来保存删除后的头结点。
+    
+    return rotateToReBalance(retNode);
+}
+
+//判断当前节点是否需要旋转，并执行相应的旋转操作。
+private Node rotateToReBalance(Node node){
+    if(node==null) return null;
+    node.height=calHeight(node);
+    int blc=calBalance(node);
+    if(blc&gt;1&amp;&amp;calBlanece(node.left)&gt;=0){
+        return rotateRight(node);
+    }
+    if(blc&lt;-1&amp;&amp;calBalance(node.right)&lt;=0){
+        return rotateLeft(node);
+    }
+    if(blc&gt;1&amp;&amp;calBalance(node.left)&lt;0){
+        node.left=rotateLeft(node.left);
+        return rotateRight(node);
+    }
+    if(blc&lt;-1&amp;&amp;calBalance(node.right)&gt;0){
+        node.right=rotateRight(node.right);
+        return rotateLeft(node);
+    }
+    //不需要维护平衡，
+    return node;
+}
+</code></pre>
+<p>AVL树的完整源码请<a href="https://github.com/yyqcs/PracticePreparation/blob/master/src/main/java/ds/avl/MyAVL.java">点击这儿</a></p>
+<h4 id="avl树缺点">AVL树缺点</h4>
+<ul>
+<li>平衡条件过于苛刻。</li>
+<li>插入和删除的过程都需要验证平衡性(LL,RR,LR,RL)</li>
+</ul>
+<h4 id="基于avl树的set和map。">基于AVL树的Set和Map。</h4>
+<h3 id="红黑树：与2-3树是等价的">红黑树：与2-3树是等价的</h3>
+<p>定义：</p>
+<ul>
+<li><strong>每个节点或者为红色、或者为黑色。</strong></li>
+<li><strong>根节点为黑色。</strong></li>
+<li><strong>每个叶子节点(最后的空节点)是黑色的</strong>，即null是黑色的，空树也是红黑树。</li>
+<li><strong>如果一个节点是红色的，那么他的孩子节点都是黑色的</strong>。</li>
+<li><strong>从任意一个节点到叶子节点，经过的黑色节点数相同</strong>。</li>
+</ul>
+<h4 id="2-3树一种特殊的b树，即m3">2-3树,一种特殊的B树，即m=3.</h4>
+<p>2-3树满足BST的基本性质(有序性)，<mark>节点可以存放一个元素(二节点)，也可以存放两个元素(三节点)</mark>。</p>
+<p><strong>性质：2-3树是一颗绝对平衡的树。从根节点到任意叶子节点之间具有相同的节点数。</strong></p>
+<img src="https://img-blog.csdnimg.cn/20200507185704568.png">
+<h5 id="2-3的插入：与最后找到的叶子节点进行融合。">2-3的插入：与最后找到的叶子节点进行融合。</h5>
+<p>2-3树的插入过程就是<mark>不断形成3节点(则原来是2节点)、4节点(有4个分叉，即3个元素)的过程，然后拆分4节点为三个2节点的过程</mark>。目的：满足2-3绝对平衡的性质。</p>
+<img src="https://img-blog.csdnimg.cn/20200507185741257.png">
+<h4 id="2-3树与红黑树的等价性">2-3树与红黑树的等价性</h4>
+<ul>
+<li><strong>用单个黑色节点表示2-3树中的2节点</strong></li>
+<li><strong>用红节点+父节点(颜色为黑)表表示2-3树的3节点</strong>，<mark>每个3节点会对应一个红节点</mark>,红色节点左倾。</li>
+</ul>
+<img src="https://img-blog.csdnimg.cn/20200507185858589.png">
+<h4 id="红黑树的插入与2-3树类比">红黑树的插入(与2-3树类比)</h4>
+<p>当向<mark>2节点</mark>插入时，带插入位置是左节点，则不调整，是右节点则需要<mark>左旋转+颜色翻转</mark>，以满足红黑树的定义。</p>
+<img src="https://img-blog.csdnimg.cn/20200507190043833.png">
+<p>左旋转过程如下</p>
+<img src="https://img-blog.csdnimg.cn/20200507190113975.png">
+<pre><code class="language-java">private Node rotateLeft(Node node) {
+    // 暂存节点
+    Node x = node.right;
+    // 左旋转
+    node.right = x.left;
+    x.left = node;
+    // 更新颜色
+    x.color = node.color;
+    node.color = RED;
+    return x;
+}
+</code></pre>
+<img src="https://img-blog.csdnimg.cn/20200507190140627.png">
+<pre><code class="language-java">private Node rotateRight(Node node) {
+    // 暂存节点
+    Node x = node.left;
+    Node T1 = x.right;
+    // 右旋转
+    node.left = T1;
+    x.right = node;
+    // 颜色更新
+    x.color = node.color;
+    node.color = RED;
+    return x;
+}
+</code></pre>
+<p>当向3节点插入时，需要依次经过<mark>左旋转，右旋转，颜色翻转</mark>等过程。<br>
+红黑树的源码请<a href="https://github.com/yyqcs/PracticePreparation/blob/master/src/main/java/ds/rbtree/MyRBTree.java">点击这儿</a></p>
+<img src="https://img-blog.csdnimg.cn/20200507190207623.png">
+<h4 id="红黑树的统计性能更优">红黑树的统计性能更优</h4>
+<p>综合<mark>增删改查</mark>所有的操作，红黑树是平均性能最好的。<mark>AVL树的插入和删除过于复杂</mark>，查询较多时，AVL树比较合适。<mark>普通的BST对于有序数据就退化为链表</mark>。</p>
+<h4 id="红黑树更多">红黑树更多</h4>
+<ul>
+<li>伸展树:考虑<strong>局部性原理</strong>的BST。</li>
+<li><strong>JDK中的TreeMap和TreeSet就是基于红黑树实现的</strong>。</li>
+</ul>
+
+</div>
+<div id="MySignature"></div>
+<div class="clear"></div>
+<div id="blog_post_info_block">
+    <div id="blog_post_info"></div>
+    <div class="clear"></div>
+    <div id="post_next_prev"></div>
+</div>
+            </div>
+            <div class="postDesc">posted @ 
+<span id="post-date">2020-05-07 20:24</span>&nbsp;
+<a href="https://www.cnblogs.com/justisme/">justisme</a>&nbsp;
+阅读(<span id="post_view_count">...</span>)&nbsp;
+评论(<span id="post_comment_count">...</span>)&nbsp;
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=12845395" rel="nofollow">编辑</a>&nbsp;
+<a href="javascript:void(0)" onclick="AddToWz(12845395);return false;">收藏</a></div>
+        </div>
+	    
+	    
+    </div><!--end: topics 文章、评论容器-->
+</div>
+<script src="https://common.cnblogs.com/highlight/9.12.0/highlight.min.js"></script>
+<script>markdown_highlight();</script>
+<script>
+    var allowComments = true, cb_blogId = 597589, cb_blogApp = 'justisme', cb_blogUserGuid = 'b9709611-61cd-4c98-b2ab-08d6076592e1';
+    var cb_entryId = 12845395, cb_entryCreatedDate = '2020-05-07 20:24', cb_postType = 1; 
+    loadViewCount(cb_entryId);
+    loadSideColumnAd();
+</script><a name="!comments"></a>
+<div id="blog-comments-placeholder"></div>
+<script>
+    var commentManager = new blogCommentManager();
+    commentManager.renderComments(0);
+</script>
+
+<div id="comment_form" class="commentform">
+    <a name="commentform"></a>
+    <div id="divCommentShow"></div>
+    <div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="#" onclick="return RefreshPage();">刷新页面</a><a href="#top">返回顶部</a></div>
+    <div id="comment_form_container"></div>
+    <div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+    <div id="ad_t2"></div>
+    <div id="opt_under_post"></div>
+    <script async="async" src="https://www.googletagservices.com/tag/js/gpt.js"></script>
+    <script>
+        var googletag = googletag || {};
+        googletag.cmd = googletag.cmd || [];
+    </script>
+    <script>
+        googletag.cmd.push(function () {
+            googletag.defineSlot("/1090369/C1", [300, 250], "div-gpt-ad-1546353474406-0").addService(googletag.pubads());
+            googletag.defineSlot("/1090369/C2", [468, 60], "div-gpt-ad-1539008685004-0").addService(googletag.pubads());
+            googletag.pubads().enableSingleRequest();
+            googletag.enableServices();
+        });
+    </script>
+    <div id="cnblogs_c1" class="c_ad_block">
+        <div id="div-gpt-ad-1546353474406-0" style="height:250px; width:300px;"></div>
+    </div>
+    <div id="under_post_news"></div>
+    <div id="cnblogs_c2" class="c_ad_block">
+        <div id="div-gpt-ad-1539008685004-0" style="height:60px; width:468px;">
+            <script>
+                if (new Date() >= new Date(2018, 9, 13)) {
+                    googletag.cmd.push(function () { googletag.display("div-gpt-ad-1539008685004-0"); });
+                }
+            </script>
+        </div>
+    </div>
+    <div id="under_post_kb"></div>
+    <div id="HistoryToday" class="c_ad_block"></div>
+    <script type="text/javascript">
+        fixPostBody();
+        deliverBigBanner();
+setTimeout(function() { incrementViewCount(cb_entryId); }, 50);        deliverAdT2();
+        deliverAdC1();
+        deliverAdC2();
+        loadNewsAndKb();
+        loadBlogSignature();
+LoadPostCategoriesTags(cb_blogId, cb_entryId);        LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+        GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate, cb_postType);
+        loadOptUnderPost();
+        GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);
+    </script>
+</div>
+	</div><!--end: forFlow -->
+	</div><!--end: mainContent 主体内容容器-->
+
+	<div id="sideBar">
+		<div id="sideBarMain">
+			
+<div id="sidebar_news" class="newsItem">
+            <script>loadBlogNews();</script>
+</div>
+
+<div id="sidebar_ad"></div>
+			<div id="blog-calendar" style="display:none"></div><script>loadBlogDefaultCalendar();</script>
+			
+			<div id="leftcontentcontainer">
+				<div id="blog-sidecolumn"></div>
+                    <script>loadBlogSideColumn();</script>
+			</div>
+			
+		</div><!--end: sideBarMain -->
+	</div><!--end: sideBar 侧边栏容器 -->
+	<div class="clear"></div>
+	</div><!--end: main -->
+	<div class="clear"></div>
+	<div id="footer">
+		<!--done-->
+Copyright &copy; 2020 justisme
+<br /><span id="poweredby">Powered by .NET Core on Kubernetes</span>
+
+
+
+	</div><!--end: footer -->
+</div><!--end: home 自定义的最大容器 -->
+
+
+    
+</body>
+</html>

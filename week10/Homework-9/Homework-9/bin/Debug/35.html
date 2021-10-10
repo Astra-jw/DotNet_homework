@@ -1,0 +1,335 @@
+﻿<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="referrer" content="origin" />
+    <meta property="og:description" content="对于错误，一般有两种： random: 错误以一定的概率发生在每个比特上（对这种问题的研究一般是信息论中，信道熵一类的问题） worst case: 错误发生在某个比特上，这也是纠错码襄阳解决的问题 " />
+    <meta http-equiv="Cache-Control" content="no-transform" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>量子纠错码——Stabilizer codes - 夏天喵 - 博客园</title>
+    
+    <link rel="stylesheet" href="/css/blog-common.min.css?v=KCO3_f2W_TC__-jZ7phSnmoFkQuWMJH2yAgA16eE3eY" />
+    <link id="MainCss" rel="stylesheet" href="/skins/simplememory/bundle-simplememory.min.css?v=OL4qeo1LNGlN1rKIhv5UctANvt0M6Nx6kLzr_ffx3Xk" />
+    
+    <link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="/skins/SimpleMemory/bundle-SimpleMemory-mobile.min.css" />
+    
+    <link type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/zmzzzz/rss" />
+    <link type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/zmzzzz/rsd.xml" />
+    <link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/zmzzzz/wlwmanifest.xml" />
+    <script src="https://common.cnblogs.com/scripts/jquery-2.2.0.min.js"></script>
+    <script src="/js/blog-common.min.js?v=98Fvfd6UZH20B_MF08daNaODjSu879MVR9RHmyvWAlg"></script>
+    <script>
+        var currentBlogId = 507319;
+        var currentBlogApp = 'zmzzzz';
+        var cb_enable_mathjax = true;
+        var isLogined = false;
+        var skinName = 'SimpleMemory';
+    </script>
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+        tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']], processClass: 'math', processEscapes: true },
+        TeX: {
+        equationNumbers: { autoNumber: ['AMS'], useLabelIds: true },
+        extensions: ['extpfeil.js', 'mediawiki-texvc.js'],
+        Macros: {bm: "\\boldsymbol"}
+        },
+        'HTML-CSS': { linebreaks: { automatic: true } },
+        SVG: { linebreaks: { automatic: true } }
+        });
+    </script>
+    <script src="https://mathjax.cnblogs.com/2_7_5/MathJax.js?config=TeX-AMS-MML_HTMLorMML&amp;v=20200504"></script>
+    
+</head>
+<body>
+    <a name="top"></a>
+    
+    
+<!--done-->
+<div id="home">
+<div id="header">
+	<div id="blogTitle">
+        <a id="lnkBlogLogo" href="https://www.cnblogs.com/zmzzzz/"><img id="blogLogo" src="/skins/custom/images/logo.gif" alt="返回主页" /></a>		
+		
+<!--done-->
+<h1><a id="Header1_HeaderTitle" class="headermaintitle HeaderMainTitle" href="https://www.cnblogs.com/zmzzzz/">夏天喵</a>
+</h1>
+<h2>
+
+</h2>
+
+
+
+
+		
+	</div><!--end: blogTitle 博客的标题和副标题 -->
+	<div id="navigator">
+		
+<ul id="navList">
+<li><a id="blog_nav_sitehome" class="menu" href="https://www.cnblogs.com/">
+博客园</a>
+</li>
+<li>
+<a id="blog_nav_myhome" class="menu" href="https://www.cnblogs.com/zmzzzz/">
+首页</a>
+</li>
+<li>
+
+<a id="blog_nav_newpost" class="menu" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">
+新随笔</a>
+</li>
+<li>
+<a id="blog_nav_contact" class="menu" href="https://msg.cnblogs.com/send/%E5%A4%8F%E5%A4%A9%E5%96%B5">
+联系</a></li>
+<li>
+<a id="blog_nav_rss" class="menu" href="https://www.cnblogs.com/zmzzzz/rss/">
+订阅</a>
+<!--<partial name="./Shared/_XmlLink.cshtml" model="Model" /></li>--></li>
+<li>
+<a id="blog_nav_admin" class="menu" href="https://i.cnblogs.com/">
+管理</a>
+</li>
+</ul>
+
+
+		<div class="blogStats">
+			
+			<span id="stats_post_count">随笔 - 
+14&nbsp; </span>
+<span id="stats_article_count">文章 - 
+0&nbsp; </span>
+<span id="stats-comment_count">评论 - 
+9</span>
+
+			
+		</div><!--end: blogStats -->
+	</div><!--end: navigator 博客导航栏 -->
+</div><!--end: header 头部 -->
+
+<div id="main">
+	<div id="mainContent">
+	<div class="forFlow">
+		<div id="post_detail">
+    <!--done-->
+    <div id="topics">
+        <div class="post">
+            <h1 class = "postTitle">
+                
+<a id="cb_post_title_url" class="postTitle2" href="https://www.cnblogs.com/zmzzzz/p/12845358.html">量子纠错码——Stabilizer codes</a>
+
+            </h1>
+            <div class="clear"></div>
+            <div class="postBody">
+                
+<div id="cnblogs_post_body" class="blogpost-body cnblogs-markdown">
+    <p>对于错误，一般有两种：</p>
+<ul>
+<li>random: 错误以一定的概率发生在每个比特上（对这种问题的研究一般是信息论中，信道熵一类的问题）</li>
+<li>worst case: 错误发生在某个比特上，这也是纠错码襄阳解决的问题</li>
+</ul>
+<h4 id="经典线性码：">经典线性码：</h4>
+<p>主要是利用了定义在有限域<span class="math inline">\(\mathbb{F}_{2}\)</span>上的线性代数，<span class="math inline">\(\mathbb{F}_{2}=\{0,1\}\)</span>，然后定义了两个操作，<span class="math inline">\(+\)</span> 和 <span class="math inline">\(\cdot\)</span>。</p>
+<p><span class="math inline">\(\cdot\)</span>和正常的乘法一样，只有在<span class="math inline">\(1 \cdot1\)</span>的时候结果为1，其余都为0，而<span class="math inline">\(+\)</span>则有一点小不同，因为这是一个封闭的有限域，所以<span class="math inline">\(1+1\)</span>不等于2而是等于0，计算结果模2。</p>
+<p>现在已经有了<span class="math inline">\(\mathbb{F}_{2}\)</span>，每一个比特都是这么的一个空间，如果我们有n比特，那么我们的空间就是<span class="math inline">\(\mathbb{F}_{2}^{n}\)</span>，在这个空间上我们可以定义向量。</p>
+<p>假定我有了线性独立向量<span class="math inline">\(g_1,...,g_k\)</span>我们把写着称之为generator of the code，由他们我们可以张成封闭子空间 <span class="math inline">\(C\)</span>，<span class="math inline">\(C \geq \mathbb{F}_{2}^{n}\)</span>，这个空间的中的向量都可以由<span class="math inline">\(a_1g_1+a_2g_2+...+a_kg_k\)</span>表达，其中<span class="math inline">\(a_1,...,a_k\)</span>也都属于<span class="math inline">\(\mathbb{F}_{2}\)</span>，这个空间的维度为k。</p>
+<p>这里我们定义一个矩阵G，他的每一列都由generator <span class="math inline">\(g_1,...,g_k\)</span>表示，所以这是一个<span class="math inline">\(n*k\)</span>的矩阵。如果用属于<span class="math inline">\(\mathbb{F}_{2}^{k}\)</span>的向量来表示<span class="math inline">\(a_1,...,a_k\)</span>，则上面的式子就可以变成<span class="math inline">\(Ga\)</span>，这相当于是一个映射，把空间<span class="math inline">\(\mathbb{F}_{2}^{k}\)</span>映射成了<span class="math inline">\(C\)</span>。</p>
+<p>这相当于就是一个编码方法了，把<span class="math inline">\(\mathbb{F}_{2}^{k}\)</span>空间里的k位向量，编码成<span class="math inline">\(C\)</span>空间里的n位向量，我们只需要做一个矩阵和向量的乘法即可。</p>
+<p>用一个例子来说明一下：</p>
+<p><strong>多数码</strong>：我们的码字空间就是<span class="math inline">\(C=\{0^n,1^n\}\)</span>，用n个0来表示0，n个1来表示1，G就是一个简单的全1的列向量。</p>
+<p>现在来看我们的编码结果，<span class="math inline">\(\begin{pmatrix} 1\\1\\...\\1\end{pmatrix}a=\begin{pmatrix} x_1\\x_2\\...\\x_n\end{pmatrix}\)</span>。</p>
+<p>对于向量x有什么是要满足的吗？</p>
+<p>如果我们的编码计算没有问题的话，我们的<span class="math inline">\(x_1=x_2\)</span>,<span class="math inline">\(x_2=x_3\)</span>，……，<span class="math inline">\(x_{n_1}=x_n\)</span>，这个永也可以用另一个种方式表达，<span class="math inline">\(x_1+x_2=0\)</span>因为只有在他们同时为1或者同时为0的时候才会加起来为0。</p>
+<p>为此，我们可以定义一个新的矩阵H，<span class="math inline">\(H= \begin{pmatrix} 1 &amp;1 &amp; 0&amp; ... &amp; 0 \\ 0 &amp; 1 &amp; 1 &amp; ... &amp; 0 \\ ... \\ 0 &amp; 0 &amp; ... &amp; 1&amp; 1 \end{pmatrix}\)</span>只有对角线上两个1，其他都是0.</p>
+<p>有这个矩阵有什么用呢？</p>
+<p>如果我们有了这个矩阵，我们可以用来验证我们的编码是不是对的，通过计算<span class="math inline">\(Hx=0\)</span>如果等于0，那么我们的编码就是对的，如果不等于0，那么我们的编码就发生了错误。</p>
+<p>H也就是我们的检测矩阵 check matrix，如果G是n*k 的矩阵的话，H就是(n-k)*n的矩阵。</p>
+<p>我们聊这么久的线性码的意义何在？</p>
+<p>因为我们可以把H 也就是 check matrix 拓展到量子的领域，也就是我们的Stabilzer code。</p>
+<p>经典线性码，有两种等价的描述，<span class="math inline">\(C_{c l}=\operatorname{Im}(G)=\operatorname{ker}(H) \leq \mathbb{F}_{2}^{n}\)</span></p>
+<p>对H来说，C空间里的任意一个向量都和H的每一个行向量的内积都是0，<span class="math inline">\(H x=0 \Longleftrightarrow\langle x, h\rangle = 0 \forall h \in \operatorname{Im}(H^{\dagger})\)</span></p>
+<p>从量子的角度来看，我们的量子码字空间<span class="math inline">\(C=span\{|x\rangle: x \in C_{cl}\}\)</span>和它对应的check aatrix H。</p>
+<p><span class="math inline">\(\forall h \in \operatorname{Im}(H^{\dagger})\)</span>我们选择这么一个操作<span class="math inline">\(Z^{h}=Z_{1}^{h_{1}} \ldots Z_{n}^{h_{n}}\)</span>作用在 $|x\rangle $ 上，得到<span class="math inline">\(Z^{h}|x\rangle=Z_{1}^{h_{1}}\left|x_{1}\right\rangle \otimes \ldots \otimes Z_{n}^{h_{n}}\left|x_{n}\right\rangle=(-1)^{\langle h, x\rangle}|x\rangle\)</span>。因为<span class="math inline">\(\langle h, x\rangle=0\)</span>，所以<span class="math inline">\(Z^h|x\rangle=|x\rangle\)</span>。</p>
+<p>也就是说，<span class="math inline">\(|x\rangle\)</span>是<span class="math inline">\(Z^h\)</span>特征值为1的特征向量。</p>
+<p><span class="math inline">\(C=\left\{|\psi\rangle: Z^{h}|\psi\rangle=|\psi\rangle \forall h \in \operatorname{Im} H\right\}\)</span>这个条件的另一种描述方法就是<span class="math inline">\(|\psi\rangle\)</span> is stabilized by<span class="math inline">\(Z^h\)</span>。</p>
+<h3 id="stabilizer是什么？">Stabilizer是什么？</h3>
+<h4 id="定义">定义</h4>
+<p>Stabilizer group(S)是什么？</p>
+<p>简单来说，stabilizer group(S)就是满足了以下两个条件的Pauli群的子群。</p>
+<p>Pauli群是什么？</p>
+<p><span class="math inline">\(\left\{\omega^{c} X_{j}^{a_{j}} Z_{j}^{b_{j}}\right\}_{j=1, \ldots, N}^{a_{j}, b_{j}, c=0, \ldots, d-1}\)</span>其中 <span class="math inline">\(w=e^{2\pi i/d}\)</span> ，并且这个群是封闭的。</p>
+<p>那么需要满足的两个条件是什么呢？</p>
+<ol>
+<li>S里面的所有的元素都是对易的，即可以交换，S is an abelian subgroup of <span class="math inline">\(P_n\)</span></li>
+<li>-I不在S里面</li>
+</ol>
+<p>这两个条件其实是统一的，可以相互推导，在S里没有-I很容易理解，如果有了-I，那么满足<span class="math inline">\(-I |x \rangle = |x\rangle\)</span>的<span class="math inline">\(|x\rangle\)</span>就只有0向量了。</p>
+<p>如果在S里面没有-I，那么反对易的元素也不在S里面，Pauli矩阵要么是对易要么反对易，如果它们是反对易的，则存在<span class="math inline">\(S \ni g h g h=-g h h g=-I\)</span>，与第二个要求矛盾。</p>
+<h4 id="stabilizer-子空间">Stabilizer 子空间</h4>
+<p>Stabilizer 子空间就是<span class="math inline">\(V_S=\{|\psi\rangle: g|\psi\rangle=|\psi\rangle, \forall g \in S\}\)</span>。</p>
+<p>一个stabilizer group(S)就有一个对应的stabilizer subspace，S里面的任意一个操作作用在这个子空间里都不会有什么变化。</p>
+<h5 id="例子">例子</h5>
+<ul>
+<li><span class="math inline">\(V_{S}=\operatorname{span}\{|00\rangle\}\)</span>，对于这个子空间，<span class="math inline">\(S=\{I I, I Z, Z I, Z Z\}=\langle I Z, Z I\rangle\)</span>，之所以后面还划出来了一个IZ和ZI，那么是因为II和ZZ可以通过这两个相乘得到，我们也说， S is generated by IZ,ZI。</li>
+<li><span class="math inline">\(V_{S}=\operatorname{span}\{|000\rangle,|111\rangle\}\)</span>这就是我们先前说的重复编码，对于这个子空间，他的S就是<span class="math inline">\(S=\langle Z Z I, I Z Z\rangle\)</span>前面的两个ZZ保证的是第一个比特和第二个比特是相同的，后面两个ZZ保证的是第二个比特和第三个比特是相同的。</li>
+<li><span class="math inline">\(V_{S}=\operatorname{span}\{|+++\rangle,|---\rangle\}\)</span>对于这种情况，找他的S也很容易，因为就是一个换基的过程<span class="math inline">\(S=\langle X X I, I X X\rangle\)</span>。</li>
+</ul>
+<h5 id="投影算子">投影算子</h5>
+<p>现在我们还可以来描述这个子空间的投影算子，我们可以先定义一个<span class="math inline">\(\Pi_{S}\)</span>使得<span class="math inline">\(\Pi_{S}=\frac{1}{|S|} \sum_{g \in S} g\)</span></p>
+<p>如果<span class="math inline">\(g \in S\)</span>，那么<span class="math inline">\(g \Pi_{S}=\Pi_{S}\)</span>，证明这一点很容易，因为：</p>
+<p><span class="math inline">\(g \sum_{h \in S} h=\sum_{h \in S} g h=\sum_{h^{\prime}=g h \in S} h^{\prime}\)</span></p>
+<p><span class="math inline">\(g \in S\)</span>同样也可以导出<span class="math inline">\(g^{\dagger} \in S\)</span>，因为S是一个封闭可逆的群，那么我们可以得出么<span class="math inline">\(g^{\dagger} \Pi_{S}=\Pi_{S}\)</span>，即么<span class="math inline">\(\Pi_{S}^{\dagger} \Pi_{S}=\Pi_{S}\)</span></p>
+<p>这说明了<span class="math inline">\(\Pi_{S}\)</span>是一个投影算子。</p>
+<p>接下来要说明<span class="math inline">\(\Pi_{S}\)</span>投影的子空间就是我们想要的<span class="math inline">\(V_S\)</span>，这个分为两方面：</p>
+<ol>
+<li>对任意的<span class="math inline">\(|\psi\rangle\)</span>和<span class="math inline">\(g \in S\)</span>来说，<span class="math inline">\(g \Pi_{S}|\psi\rangle=\Pi_{S}|\psi\rangle\)</span>，也就是<span class="math inline">\(\Pi_{S}|\psi\rangle \in V_{S}\)</span>。</li>
+<li>如果<span class="math inline">\(|\psi\rangle \in V_{S}\)</span>，则<span class="math inline">\(\Pi_{S}|\psi\rangle=|\psi\rangle\)</span>，即<span class="math inline">\(V_{S} \subseteq \Pi_{S}\)</span>。</li>
+</ol>
+<p>综上，我们可以说，<span class="math inline">\(\Pi_{S}=\operatorname{Proj}\left(V_{S}\right)\)</span>是子空间上的投影算子。</p>
+<p>我们现在可以来计算子空间的维度，让<span class="math inline">\(|S|=2^{\ell}\)</span>，generator <span class="math inline">\(S=\left\langle s_{1}, \ldots, s_{\ell}\right\rangle\)</span>，</p>
+<p>子空间的维度说起来简单，就是所有stabilizer特征值为1所对应的特征空间的交集，但是谁知道他们是怎么相交的呢？还好我们有投影算子。</p>
+<p>我们可以说，<span class="math inline">\(\operatorname{dim} V_{S}=\operatorname{tr} \Pi_{S}\)</span>，这里的特征值只有0和1，而trace会把1给累加起来。</p>
+<p><span class="math inline">\(\operatorname{tr} \Pi_{S}=\frac{1}{|S|} \sum_{g \in S} \operatorname{tr} g=\frac{1}{2^{\ell}} \sum_{g \in S} 2^{n} \delta_{g, I}=2^{n-\ell}\)</span></p>
+<p>只有<span class="math inline">\(g=I\)</span>的时候trace才有值，其他情况就是普通的Pauli，trace为0，而什么情况<span class="math inline">\(g=I\)</span>呢？事实上只有一种情况，那就是所有的a都为0，因为他们是线性独立的，所以我们子空间的维度是<span class="math inline">\(2^{n-l}\)</span></p>
+<h3 id="错误检测">错误检测</h3>
+<p>回顾我们经典的检测矩阵H，我们有<span class="math inline">\(x \in C_{c l} \Longleftrightarrow H x=0\)</span>，并不是所有的错误我们都能检测，如果这个错误是把一个可能的码字，变成另一个可能的码字，那么H怎么能知道这个是错误而不是一个正确的操作的？</p>
+<p>如果错误正好是<span class="math inline">\(H(x+e)=H e=0\)</span>，那么这种错误就是不可检测的错误。</p>
+<p>量子版本的stabilizer code也是如此。</p>
+<p>那么，哪些错误是不能检测的呢？</p>
+<p>那就是如果我犯了这个错误，但是我依旧在这组stabilizer的子空间里，这种错误就是不可检测的，因为我分不出来这究竟是错误还是操作。</p>
+<p>假设<span class="math inline">\(|\psi\rangle \in V_{S}\)</span>，<span class="math inline">\(E \in P_{n}\)</span>，则：<span class="math inline">\(E|\psi\rangle \in V_{S} \quad \Leftrightarrow \quad g E|\psi\rangle=E|\psi\rangle \forall g \in S\)</span></p>
+<p><span class="math inline">\(g E|\psi\rangle=E|\psi\rangle\)</span>意味着<span class="math inline">\(g E|\psi\rangle=Eg|\psi\rangle\)</span>，则Eg和gE是相等的，E和g对易。</p>
+<p>如果我们的错误和我们的stabilizer对易，那么这种错误就是我们不能检测出来的错误。</p>
+<p>问题接下来就变成了，如何判断Pauli算子是否对易。</p>
+<p>首先，所有的Pauli都可以写成<span class="math inline">\(p=(-1)^{a} X^{b} Z^{c}\)</span>的形式，对于<span class="math inline">\(a \in \mathbb{F}_{2}, b, c \in \mathbb{F}_{2}^{n}\)</span></p>
+<p>那么假定我们有另一个Pauli <span class="math inline">\(q=(-1)^{a^{\prime}} X^{b^{\prime}} Z^{c^{\prime}}\)</span></p>
+<p>则<span class="math inline">\(p q=(-1)^{a+a^{\prime}} X^{b} Z^{c} X^{b^{\prime}} Z^{c^{\prime}}\)</span></p>
+<p>对于中间的<span class="math inline">\(Z^{c} X^{b^{\prime}}=Z_{1}^{c_{1}} \cdots Z_{n}^{c_{n}} X_{1}^{b_{1}^{\prime}} \cdots X_{n}^{b_{n}^{\prime}}=X^{b^{\prime}} Z^{c}(-1)^{\left\langle b^{\prime}, c\right\rangle}\)</span>，即，如果Z和X在这一位上都有，那么就会有一个-1.</p>
+<p>那么现在pq就变成了，<span class="math inline">\(p q=(-1)^{a+a^{\prime}+\left\langle b^{\prime}, c\right\rangle} X^{b+b^{\prime}} Z^{c+c^{\prime}}\)</span></p>
+<p>同理，qp可以写成<span class="math inline">\(q p=(-1)^{a+a^{\prime}+\left\langle b, c^{\prime}\right\rangle} X^{b+b^{\prime}} Z^{c+c^{\prime}}\)</span></p>
+<p>很容易发现，<span class="math inline">\(p q=(-1)^{\left\langle c, b^{\prime}\right\rangle+\left\langle b, c^{\prime}\right\rangle} q p\)</span>，如果-1上面的指数是0，那么他们就对易，反之，如果上面的指数是1，那么他们就反对易。</p>
+<p>而这个，我们又可以写成这样的形式<span class="math inline">\(\left\langle c, b^{\prime}\right\rangle+\left\langle b, c^{\prime}\right\rangle=\left(\begin{array}{ll}b^{T} &amp; c^{T}\end{array}\right)\left(\begin{array}{cc}0_{n} &amp; I_{n} \\ I_{n} &amp; 0_{n}\end{array}\right)\left(\begin{array}{l}b^{\prime} \\ c^{\prime}\end{array}\right)=\left(\begin{array}{ll}b^{T} &amp; c^{T}\end{array}\right) \Lambda\left(\begin{array}{l}b^{\prime} \\ c^{\prime}\end{array}\right)\)</span></p>
+<p>所以泡利矩阵是否对易的关键记载于看<span class="math inline">\((b c)\)</span>和<span class="math inline">\((b' c')\)</span>之间是否垂直了，这里垂直的顶i的是定义是symplectic inner product</p>
+
+</div>
+<div id="MySignature"></div>
+<div class="clear"></div>
+<div id="blog_post_info_block">
+    <div id="blog_post_info"></div>
+    <div class="clear"></div>
+    <div id="post_next_prev"></div>
+</div>
+            </div>
+            <div class="postDesc">posted @ 
+<span id="post-date">2020-05-07 20:15</span>&nbsp;
+<a href="https://www.cnblogs.com/zmzzzz/">夏天喵</a>&nbsp;
+阅读(<span id="post_view_count">...</span>)&nbsp;
+评论(<span id="post_comment_count">...</span>)&nbsp;
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=12845358" rel="nofollow">编辑</a>&nbsp;
+<a href="javascript:void(0)" onclick="AddToWz(12845358);return false;">收藏</a></div>
+        </div>
+	    
+	    
+    </div><!--end: topics 文章、评论容器-->
+</div>
+<script src="https://common.cnblogs.com/highlight/9.12.0/highlight.min.js"></script>
+<script>markdown_highlight();</script>
+<script>
+    var allowComments = true, cb_blogId = 507319, cb_blogApp = 'zmzzzz', cb_blogUserGuid = 'c95d5958-a5de-4a10-eb21-08d6b9cefa37';
+    var cb_entryId = 12845358, cb_entryCreatedDate = '2020-05-07 20:15', cb_postType = 1; 
+    loadViewCount(cb_entryId);
+    loadSideColumnAd();
+</script><a name="!comments"></a>
+<div id="blog-comments-placeholder"></div>
+<script>
+    var commentManager = new blogCommentManager();
+    commentManager.renderComments(0);
+</script>
+
+<div id="comment_form" class="commentform">
+    <a name="commentform"></a>
+    <div id="divCommentShow"></div>
+    <div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="#" onclick="return RefreshPage();">刷新页面</a><a href="#top">返回顶部</a></div>
+    <div id="comment_form_container"></div>
+    <div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+    <div id="ad_t2"></div>
+    <div id="opt_under_post"></div>
+    <script async="async" src="https://www.googletagservices.com/tag/js/gpt.js"></script>
+    <script>
+        var googletag = googletag || {};
+        googletag.cmd = googletag.cmd || [];
+    </script>
+    <script>
+        googletag.cmd.push(function () {
+            googletag.defineSlot("/1090369/C1", [300, 250], "div-gpt-ad-1546353474406-0").addService(googletag.pubads());
+            googletag.defineSlot("/1090369/C2", [468, 60], "div-gpt-ad-1539008685004-0").addService(googletag.pubads());
+            googletag.pubads().enableSingleRequest();
+            googletag.enableServices();
+        });
+    </script>
+    <div id="cnblogs_c1" class="c_ad_block">
+        <div id="div-gpt-ad-1546353474406-0" style="height:250px; width:300px;"></div>
+    </div>
+    <div id="under_post_news"></div>
+    <div id="cnblogs_c2" class="c_ad_block">
+        <div id="div-gpt-ad-1539008685004-0" style="height:60px; width:468px;">
+            <script>
+                if (new Date() >= new Date(2018, 9, 13)) {
+                    googletag.cmd.push(function () { googletag.display("div-gpt-ad-1539008685004-0"); });
+                }
+            </script>
+        </div>
+    </div>
+    <div id="under_post_kb"></div>
+    <div id="HistoryToday" class="c_ad_block"></div>
+    <script type="text/javascript">
+        fixPostBody();
+        deliverBigBanner();
+setTimeout(function() { incrementViewCount(cb_entryId); }, 50);        deliverAdT2();
+        deliverAdC1();
+        deliverAdC2();
+        loadNewsAndKb();
+        loadBlogSignature();
+LoadPostCategoriesTags(cb_blogId, cb_entryId);        LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+        GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate, cb_postType);
+        loadOptUnderPost();
+        GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);
+    </script>
+</div>
+	</div><!--end: forFlow -->
+	</div><!--end: mainContent 主体内容容器-->
+
+	<div id="sideBar">
+		<div id="sideBarMain">
+			
+<div id="sidebar_news" class="newsItem">
+            <script>loadBlogNews();</script>
+</div>
+
+<div id="sidebar_ad"></div>
+			<div id="blog-calendar" style="display:none"></div><script>loadBlogDefaultCalendar();</script>
+			
+			<div id="leftcontentcontainer">
+				<div id="blog-sidecolumn"></div>
+                    <script>loadBlogSideColumn();</script>
+			</div>
+			
+		</div><!--end: sideBarMain -->
+	</div><!--end: sideBar 侧边栏容器 -->
+	<div class="clear"></div>
+	</div><!--end: main -->
+	<div class="clear"></div>
+	<div id="footer">
+		<!--done-->
+Copyright &copy; 2020 夏天喵
+<br /><span id="poweredby">Powered by .NET Core on Kubernetes</span>
+
+
+
+	</div><!--end: footer -->
+</div><!--end: home 自定义的最大容器 -->
+
+
+    
+</body>
+</html>
